@@ -1,0 +1,12 @@
+.app {
+  @apply pt-18 w-auto h-full flex justify-center items-start gap-4;
+}
+
+.sidebar {
+  @apply flex gap-4;
+}
+
+.sidebar__button {
+  @apply min-w-48 max-w-full py-2 rounded-lg text-xl font-bold border-2 border-transparent;
+  background: rgba(var(--bg-color-primary), 1);
+}

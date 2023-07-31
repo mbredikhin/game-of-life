@@ -1,0 +1,112 @@
+interface Cell {
+  isPopulated: boolean;
+  coords: {
+    x: number;
+    y: number;
+  };
+  updateState(isPopulated: boolean): void;
+}
+
+interface Field {
+  cells: Cell[];
+  updateState(cells: Cell[]): void;
+}
+
+interface Settings {
+  tick: number;
+  width: number;
+  height: number;
+}
+
+class Cell implements Cell {
+  coords!: Cell['coords'];
+  isPopulated!: boolean;
+
+  constructor(coords: Cell['coords'], isPopulated: Cell['isPopulated']) {
+    this.coords = coords;
+    this.isPopulated = isPopulated;
+  }
+
+  updateState(isPopulated: boolean) {
+    this.isPopulated = isPopulated;
+  }
+}
+
+class Field implements Field {
+  cells!: Cell[];
+
+  constructor() {}
+
+  updateState(cells: Cell[]) {
+    this.cells = cells;
+  }
+}
+
+const settings: Settings = {
+  tick: 0.25 * 1000,
+  width: 20,
+  height: 10,
+};
+const field = new Field();
+
+function init() {
+  field.updateState(
+    Array.from({ length: settings.height })
+      .map((_, y) =>
+        Array.from({ length: settings.width }).map(
+          (_, x) =>
+            new Cell(
+              {
+                x,
+                y,
+              },
+              (x === 2 && y === 1) ||
+                ([2].includes(y) && x === 3) ||
+                ([3].includes(y) && [1, 2, 3].includes(x))
+            )
+        )
+      )
+      .flat()
+  );
+}
+
+init();
+
+(function loop() {
+  console.clear();
+  for (let i = 0; i < settings.height; i++) {
+    const str = field.cells
+      .filter(({ coords }) => coords.y === i)
+      .map(({ isPopulated }) => (isPopulated ? '*' : '_'))
+      .join('');
+    console.log(str);
+  }
+  setTimeout(() => {
+    const cells = [...field.cells].map((cell) => {
+      const neighbours = field.cells.filter(
+        ({ coords }) =>
+          [cell.coords.x - 1, cell.coords.x, cell.coords.x + 1].includes(
+            coords.x
+          ) &&
+          [cell.coords.y - 1, cell.coords.y, cell.coords.y + 1].includes(
+            coords.y
+          ) &&
+          (cell.coords.x !== coords.x || cell.coords.y !== coords.y)
+      );
+
+      const populatedNeighbours = neighbours.filter(
+        ({ isPopulated }) => isPopulated
+      );
+      if (cell.isPopulated) {
+        return new Cell(
+          cell.coords,
+          [2, 3].includes(populatedNeighbours.length)
+        );
+      } else {
+        return new Cell(cell.coords, [3].includes(populatedNeighbours.length));
+      }
+    });
+    field.updateState(cells);
+    loop();
+  }, settings.tick);
+})();

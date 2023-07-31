@@ -1,0 +1,19 @@
+.cell {
+  @apply inline-block w-8 h-8;
+  background: rgba(var(--bg-color), 1);
+}
+.cell--filled {
+  background: rgba(var(--bg-color-secondary), 0.1);
+}
+.cell--rounded-lt {
+  @apply rounded-tl-2xl;
+}
+.cell--rounded-rt {
+  @apply rounded-tr-2xl;
+}
+.cell--rounded-lb {
+  @apply rounded-bl-2xl;
+}
+.cell--rounded-rb {
+  @apply rounded-br-2xl;
+}
