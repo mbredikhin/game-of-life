@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import type { GridProps, TGrid } from "@/features/grid/types";
 import { Cell } from "@/features/grid/components/Cell";
 import styles from "./Grid.module.css";
-import { GAME_STATUSES } from "@/App";
+import { GameStatus } from "@/utils/constants";
 
 type Coords = Record<"x" | "y", number>;
 
@@ -38,7 +38,7 @@ export function Grid({ settings, status }: GridProps) {
 
   function loop(status: GridProps["status"]) {
     return setInterval(() => {
-      if (status === GAME_STATUSES.PAUSED) {
+      if (status === GameStatus.PAUSED) {
         return;
       }
 
