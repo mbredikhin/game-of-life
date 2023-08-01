@@ -17,16 +17,13 @@ function App() {
 
   return (
     <div className={styles.app}>
-      <Grid status={gameStatus} settings={settings} />
-      <div className={styles["sidebar"]}>
-        <button
-          className={styles["sidebar__button"]}
-          onClick={() => toggleGameStatus()}
-        >
+      <div className={styles["header"]}>
+        <button className={styles["button"]} onClick={() => toggleGameStatus()}>
           {gameStatus === GameStatus.PAUSED ? `Start ▶️` : `Pause ⏸️`}
         </button>
         <Settings settings={settings} changeSettings={setSettings} />
       </div>
+      <Grid status={gameStatus} settings={settings} />
     </div>
   );
 }
