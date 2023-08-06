@@ -1,12 +1,12 @@
+import { useState } from "react";
 import { Settings } from "@/features/settings";
 import { Grid } from "@/features/grid";
-import { useState } from "react";
-import { DEFAULT_SETTINGS } from "./features/settings";
-import styles from "./App.module.css";
 import { GameStatus } from "@/utils/constants";
+import styles from "./App.module.css";
+import { Provider } from "react-redux";
+import { store } from "@/store";
 
 function App() {
-  const [settings, setSettings] = useState(DEFAULT_SETTINGS);
   const [gameStatus, setGameStatus] = useState<GameStatus>(GameStatus.PAUSED);
 
   function toggleGameStatus() {
@@ -16,15 +16,20 @@ function App() {
   }
 
   return (
-    <div className={styles.app}>
-      <div className={styles["header"]}>
-        <button className={styles["button"]} onClick={() => toggleGameStatus()}>
-          {gameStatus === GameStatus.PAUSED ? `Start ▶️` : `Pause ⏸️`}
-        </button>
-        <Settings settings={settings} changeSettings={setSettings} />
+    <Provider store={store}>
+      <div className={styles.app}>
+        <div className={styles["header"]}>
+          <button
+            className={styles["button"]}
+            onClick={() => toggleGameStatus()}
+          >
+            {gameStatus === GameStatus.PAUSED ? `Start ▶️` : `Pause ⏸️`}
+          </button>
+          <Settings />
+        </div>
+        <Grid status={gameStatus} />
       </div>
-      <Grid status={gameStatus} settings={settings} />
-    </div>
+    </Provider>
   );
 }
 

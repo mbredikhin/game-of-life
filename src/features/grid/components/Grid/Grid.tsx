@@ -1,22 +1,24 @@
-import type { TSettings } from "@/features/settings";
 import { useEffect, useState } from "react";
-import type { GridProps, TGrid } from "@/features/grid/types";
-import { Cell } from "@/features/grid/components/Cell";
-import styles from "./Grid.module.css";
+import { useAppSelector } from "@/hooks";
+import type { ISettings } from "@/features/settings";
 import { GameStatus } from "@/utils/constants";
+import type { GridProps, TGrid } from "../../types";
+import { Cell } from "../Cell";
+import styles from "./Grid.module.css";
 
 type Coords = Record<"x" | "y", number>;
 
-export function Grid({ settings, status }: GridProps) {
+export function Grid({ status }: GridProps) {
   const [grid, setGrid] = useState<TGrid>([]);
+  const settings = useAppSelector((state) => state.settings);
 
   useEffect(() => {
     init(settings.grid);
     const id = loop(status);
     window.clearInterval(id - 1);
-  }, [status]);
+  }, [status, settings.grid]);
 
-  function init(settings: TSettings["grid"]) {
+  function init(settings: ISettings["grid"]) {
     const grid: TGrid = Array.from({ length: settings.height }).map(() =>
       Array.from({ length: settings.width }).map(() => false)
     );
