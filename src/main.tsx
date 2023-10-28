@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
-import '@/assets/styles/index.css';
-import '@/assets/styles/tailwind.css';
+import '@/assets/styles/index.scss';
+import '@/assets/styles/tailwind.scss';
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>

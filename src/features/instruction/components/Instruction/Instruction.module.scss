@@ -1,0 +1,23 @@
+.container {
+  @apply relative;
+  &:hover {
+    .button {
+      @apply border-gray-light;
+    }
+  }
+}
+.button {
+  @apply flex h-12 w-12 items-center justify-center rounded-lg border border-transparent bg-gray outline-none;
+  &:hover {
+    @apply border-gray-light;
+  }
+}
+.button__icon {
+  @apply h-6 w-6 text-white;
+}
+.content {
+  @apply absolute right-0 top-12 z-10 flex w-max max-w-screen-lg flex-col rounded-xl border border-gray-light bg-gray px-6 py-6 text-white shadow-xl shadow-black;
+}
+.content__title {
+  @apply text-xl font-bold;
+}

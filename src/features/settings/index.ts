@@ -1,2 +1,2 @@
-export * from "./components/Settings";
-export * from "./slice";
+export * from './components/Settings';
+export * from './slice';

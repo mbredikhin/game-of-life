@@ -1,8 +1,8 @@
-import { useRef, useState } from "react";
-import { Cog6ToothIcon } from "@heroicons/react/24/solid";
-import { useOnClickOutside, useAppDispatch, useAppSelector } from "@/hooks";
-import { MAX_GRID_SIZE, updateSettings } from "../../slice";
-import styles from "./Settings.module.css";
+import { useRef, useState } from 'react';
+import { Cog6ToothIcon } from '@heroicons/react/24/solid';
+import { useAppDispatch, useAppSelector } from '@/hooks';
+import { MAX_GRID_SIZE, updateSettings } from '../../slice';
+import styles from './Settings.module.scss';
 
 export const Settings = () => {
   const [isDropdownExpanded, setIsDropdownExpanded] = useState(false);
@@ -10,25 +10,26 @@ export const Settings = () => {
   const settings = useAppSelector((state) => state.settings);
   const dispatch = useAppDispatch();
 
-  useOnClickOutside(dropdownRef, () => setIsDropdownExpanded(false));
-
   return (
-    <div className={styles.container}>
-      <button
-        className={styles.button}
-        onClick={() => setIsDropdownExpanded((value) => !value)}
-      >
-        <Cog6ToothIcon className="h-6 w-6 text-white-500" />
+    <div
+      className={styles.container}
+      onMouseOver={() => setIsDropdownExpanded(true)}
+      onMouseOut={() => setIsDropdownExpanded(false)}
+    >
+      <button className={styles.button}>
+        <Cog6ToothIcon className={styles['button__icon']} />
       </button>
 
       {isDropdownExpanded ? (
         <div ref={dropdownRef} className={styles.form}>
-          <label className="flex flex-col py-2">
-            <span className={styles.label}>Grid height</span>
+          <label className={styles['field']}>
+            <span className={styles['field__name']}>
+              Grid height (1-{MAX_GRID_SIZE.height - 1})
+            </span>
             <input
-              className={styles.input}
+              className={styles['field__input']}
               type="number"
-              min={0}
+              min={1}
               max={MAX_GRID_SIZE.height}
               value={settings.grid.height}
               onChange={(event) =>
@@ -36,19 +37,21 @@ export const Settings = () => {
                   updateSettings({
                     grid: {
                       ...settings.grid,
-                      height: +event.target.value,
+                      ...(+event.target.value < MAX_GRID_SIZE.height && {
+                        height: +event.target.value,
+                      }),
                     },
-                  })
+                  }),
                 )
               }
             />
           </label>
-          <label className="flex flex-col py-2">
-            <span className={styles.label}>Grid width</span>
+          <label className={styles['field']}>
+            <span className={styles['field__name']}>Grid width (1-{MAX_GRID_SIZE.width - 1})</span>
             <input
-              className={styles.input}
+              className={styles['field__input']}
               type="number"
-              min={0}
+              min={1}
               max={MAX_GRID_SIZE.width}
               value={settings.grid.width}
               onChange={(event) =>
@@ -56,17 +59,19 @@ export const Settings = () => {
                   updateSettings({
                     grid: {
                       ...settings.grid,
-                      width: +event.target.value,
+                      ...(+event.target.value < MAX_GRID_SIZE.width && {
+                        width: +event.target.value,
+                      }),
                     },
-                  })
+                  }),
                 )
               }
             />
           </label>
-          <label className="flex flex-col py-2">
-            <span className={styles.label}>Tick time</span>
+          <label className={styles['field']}>
+            <span className={styles['field__name']}>Tick duration (ms)</span>
             <input
-              className={styles.input}
+              className={styles['field__input']}
               type="number"
               min={0}
               value={settings.tick}
@@ -74,7 +79,7 @@ export const Settings = () => {
                 dispatch(
                   updateSettings({
                     tick: +event.target.value,
-                  })
+                  }),
                 )
               }
             />

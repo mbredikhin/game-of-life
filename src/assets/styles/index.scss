@@ -1,0 +1,25 @@
+:root {
+  @apply text-base font-normal leading-6 text-white;
+  color-scheme: light dark;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+}
+
+@font-face {
+  font-family: 'Minecraft';
+  src: url('../fonts/Minecraft-Regular.woff2') format('woff2');
+}
+
+ol {
+  @apply pl-2;
+}
+p {
+  @apply py-2;
+}
+
+body {
+  @apply bg-black;
+}

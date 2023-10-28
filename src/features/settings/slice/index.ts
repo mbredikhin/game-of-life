@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 export interface ISettings {
   tick: number;
@@ -9,20 +9,20 @@ export interface ISettings {
 }
 
 const initialState: ISettings = {
-  tick: 1 * 1000,
+  tick: 1 * 250,
   grid: {
-    width: 32,
-    height: 24,
+    width: 64,
+    height: 40,
   },
 };
 
-export const MAX_GRID_SIZE: ISettings["grid"] = {
-  height: 64,
-  width: 64,
+export const MAX_GRID_SIZE: ISettings['grid'] = {
+  height: 256,
+  width: 256,
 } as const;
 
 export const SettingsSlice = createSlice({
-  name: "settings",
+  name: 'settings',
   initialState,
   reducers: {
     updateSettings: (state, action: PayloadAction<Partial<ISettings>>) => {

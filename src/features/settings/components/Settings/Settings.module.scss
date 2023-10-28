@@ -1,0 +1,32 @@
+.container {
+  @apply relative;
+  &:hover {
+    .button {
+      @apply border-gray-light;
+    }
+  }
+}
+.button {
+  @apply flex h-12 w-12 items-center justify-center rounded-lg border border-transparent bg-gray outline-none;
+  &:hover {
+    @apply border-gray-light;
+  }
+}
+.button__icon {
+  @apply h-6 w-6 text-white;
+}
+.form {
+  @apply absolute right-0 top-12 z-10 flex flex-col rounded-xl border border-gray-light bg-gray px-6 py-6 shadow-xl shadow-black;
+}
+.field {
+  @apply flex items-center justify-between gap-2 py-2;
+}
+.field__name {
+  @apply whitespace-nowrap font-display;
+}
+.field__input {
+  @apply w-16 rounded-md border border-transparent bg-transparent px-2 py-0 font-display;
+  &:hover {
+    @apply border-gray-light;
+  }
+}

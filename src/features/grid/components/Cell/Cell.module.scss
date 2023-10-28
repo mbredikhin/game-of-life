@@ -1,0 +1,13 @@
+.cell {
+  @apply inline-block h-4 w-4 border border-transparent bg-gray transition-all ease-out;
+  &:hover {
+    @apply border-gray-light;
+  }
+}
+.cell--filled {
+  @apply relative border-2 border-orange bg-orange;
+  &:after {
+    content: '';
+    @apply absolute left-0 top-0 h-4 w-4 rounded-full shadow-cell;
+  }
+}

@@ -1,20 +1,22 @@
-import clsx from "clsx";
-import styles from "./Cell.module.css";
+import clsx from 'clsx';
+import styles from './Cell.module.scss';
+import type { Brush } from '../../types';
 
 type CellProps = {
   isPopulated: boolean;
-  corner?: "lt" | "rt" | "lb" | "rb";
+  brush: Brush;
   changeState: (isPopulated: boolean) => void;
+  onMouseDown: () => void;
+  onMouseUp: () => void;
 };
 
-export const Cell = ({ isPopulated, corner, changeState }: CellProps) => {
+export const Cell = ({ isPopulated, brush, changeState, onMouseDown, onMouseUp }: CellProps) => {
   return (
     <div
-      className={clsx([
-        styles.cell,
-        isPopulated && styles["cell--filled"],
-        corner !== null && styles[`cell--rounded-${corner}`],
-      ])}
+      onMouseDown={onMouseDown}
+      onMouseUp={onMouseUp}
+      className={clsx([styles.cell, isPopulated && styles['cell--filled']])}
+      onMouseEnter={() => brush.active && changeState(brush.fill)}
       onClick={() => changeState(!isPopulated)}
     ></div>
   );
