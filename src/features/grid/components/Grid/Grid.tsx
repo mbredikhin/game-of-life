@@ -8,7 +8,6 @@ import styles from './Grid.module.scss';
 
 export function Grid({ status, toggleGameStatus }: GridProps) {
   const [grid, setGrid] = useState<TGrid>([]);
-  const [loopIntervalID, setLoopIntervalID] = useState(0);
   const [brush, setBrush] = useState<Brush>({
     active: false,
     fill: false,
@@ -20,11 +19,16 @@ export function Grid({ status, toggleGameStatus }: GridProps) {
   }, [settings.grid]);
 
   useEffect(() => {
-    window.clearInterval(loopIntervalID);
     if (status === GameStatus.PLAY) {
-      setLoopIntervalID(loop(status));
+      setTimeout(() => {
+        const [newGrid, gridHasChanged] = getNewGrid();
+        if (!gridHasChanged) {
+          toggleGameStatus();
+        }
+        setGrid(newGrid);
+      }, settings.tick);
     }
-  }, [status]);
+  }, [grid, status]);
 
   function init(settings: ISettings['grid']) {
     const grid: TGrid = Array.from({ length: settings.height }).map(() =>
@@ -49,37 +53,34 @@ export function Grid({ status, toggleGameStatus }: GridProps) {
     setGrid((grid) => [...grid.slice(0, index), row, ...grid.slice(index + 1)]);
   }
 
-  function loop(status: GridProps['status']) {
-    return setInterval(() => {
-      if (status === GameStatus.PAUSED) {
-        return;
-      }
-      setGrid((grid: TGrid) => {
-        return grid.map((row, y) => {
-          return row.map((cell, x) => {
-            const neighboursCoords: Coords[] = [
-              { x: x - 1, y: y + 1 },
-              { x, y: y + 1 },
-              { x: x + 1, y: y + 1 },
-              { x: x - 1, y },
-              { x: x + 1, y },
-              { x: x - 1, y: y - 1 },
-              { x, y: y - 1 },
-              { x: x + 1, y: y - 1 },
-            ];
-            const populatedNeighbours = neighboursCoords.reduce(
-              (acc, { x, y }) => (grid[y] && grid[y][x] ? [...acc, { x, y }] : acc),
-              [] as Coords[],
-            );
-            if (cell) {
-              return populatedNeighbours.length > 1 && populatedNeighbours.length < 4;
-            } else {
-              return populatedNeighbours.length === 3;
-            }
-          });
-        });
-      });
-    }, settings.tick);
+  function getNewGrid(): [TGrid, boolean] {
+    let gridHasChanged = false;
+    const newGrid = grid.map((row, y) =>
+      row.map((cell, x) => {
+        const neighboursCoords: Coords[] = [
+          { x: x - 1, y: y + 1 },
+          { x, y: y + 1 },
+          { x: x + 1, y: y + 1 },
+          { x: x - 1, y },
+          { x: x + 1, y },
+          { x: x - 1, y: y - 1 },
+          { x, y: y - 1 },
+          { x: x + 1, y: y - 1 },
+        ];
+        const populatedNeighbours = neighboursCoords.reduce(
+          (acc, { x, y }) => (grid[y] && grid[y][x] ? [...acc, { x, y }] : acc),
+          [] as Coords[],
+        );
+        const result = cell
+          ? populatedNeighbours.length > 1 && populatedNeighbours.length < 4
+          : populatedNeighbours.length === 3;
+        if (result !== cell) {
+          gridHasChanged = true;
+        }
+        return result;
+      }),
+    );
+    return [newGrid, gridHasChanged];
   }
 
   return (
