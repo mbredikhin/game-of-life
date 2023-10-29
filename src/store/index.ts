@@ -1,9 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
 import settingsReducer from '@/features/settings/slice';
+import gridReducer from '@/features/grid/slice';
 
 export const store = configureStore({
   reducer: {
     settings: settingsReducer,
+    gridState: gridReducer,
   },
 });
 
