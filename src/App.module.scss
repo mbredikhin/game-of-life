@@ -20,7 +20,7 @@
   @apply mt-0.5 h-5 w-5;
 }
 .grid-container {
-  @apply animate-fadeIn mx-auto flex items-start justify-center overflow-x-scroll;
+  @apply animate-fadeIn mx-auto flex items-start justify-center;
   max-width: calc(100vw - 50px);
   max-height: calc(100vh - 150px);
 }
