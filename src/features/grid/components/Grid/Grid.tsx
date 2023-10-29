@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '@/hooks';
-import type { ISettings } from '@/features/settings';
 import { GameStatus } from '@/utils/constants';
 import type { GridProps, TGrid, Brush, Coords } from '../../types';
 import { Cell } from '../Cell';
@@ -24,10 +23,6 @@ export function Grid({
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    init(settings.grid);
-  }, [settings.grid]);
-
-  useEffect(() => {
     if (status === GameStatus.PLAY) {
       setTimeout(() => {
         const [newGrid, gridHasChanged] = getNewGrid();
@@ -39,16 +34,6 @@ export function Grid({
       }, settings.tick);
     }
   }, [gridState.grid, status]);
-
-  function init(settings: ISettings['grid']) {
-    dispatch(
-      updateGrid({
-        grid: Array.from({ length: settings.height }).map(() =>
-          Array.from({ length: settings.width }).map(() => false),
-        ),
-      }),
-    );
-  }
 
   function changeCell(value: boolean, coords: Coords) {
     if (status === GameStatus.PLAY) {

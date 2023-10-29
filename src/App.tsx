@@ -1,17 +1,24 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Settings } from '@/features/settings';
 import { Grid } from '@/features/grid';
 import { Instruction } from '@/features/instruction';
 import { GameStatus } from '@/utils/constants';
 import styles from './App.module.scss';
-import { Provider } from 'react-redux';
-import { store } from '@/store';
+
 import PlayIcon from '@/assets/images/play.svg';
 import PauseIcon from '@/assets/images/pause.svg';
+import { useAppDispatch, useAppSelector } from '@/hooks';
+import { resetGrid } from './features/grid/slice';
 
 function App() {
   const [gameStatus, setGameStatus] = useState<GameStatus>(GameStatus.PAUSED);
   const [iterationsCount, setIterationsCount] = useState(0);
+  const settings = useAppSelector((state) => state.settings);
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(resetGrid(settings.grid));
+  }, []);
 
   function toggleGameStatus() {
     const newStatus = gameStatus === GameStatus.PAUSED ? GameStatus.PLAY : GameStatus.PAUSED;
@@ -26,7 +33,7 @@ function App() {
   }
 
   return (
-    <Provider store={store}>
+    <>
       <div className={styles['app-header']}>
         <span className={styles['app-header__title']}>Conway's Game of Life</span>
         <div className={styles['app-header-controls']}>
@@ -51,7 +58,7 @@ function App() {
           changeIterationsCount={changeIterationsCount}
         />
       </div>
-    </Provider>
+    </>
   );
 }
 

@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Coords, TGrid } from '../types';
+import { ISettings } from '@/features/settings';
 
 interface IGridState {
   grid: TGrid;
@@ -34,8 +35,18 @@ export const GridSlice = createSlice({
         grid,
       };
     },
+    resetGrid: (state, action: PayloadAction<ISettings['grid']>) => {
+      const { height, width } = action.payload;
+      const grid = Array.from({ length: height }).map(() =>
+        Array.from({ length: width }).map(() => false),
+      );
+      return {
+        ...state,
+        grid,
+      };
+    },
   },
 });
 
-export const { updateGrid, updateGridCell } = GridSlice.actions;
+export const { updateGrid, updateGridCell, resetGrid } = GridSlice.actions;
 export default GridSlice.reducer;

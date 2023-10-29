@@ -1,14 +1,20 @@
 import { useRef, useState } from 'react';
 import { Cog6ToothIcon } from '@heroicons/react/24/solid';
 import { useAppDispatch, useAppSelector } from '@/hooks';
-import { MAX_GRID_SIZE, updateSettings } from '../../slice';
+import { ISettings, MAX_GRID_SIZE, updateSettings } from '../../slice';
 import styles from './Settings.module.scss';
+import { resetGrid } from '@/features/grid/slice';
 
 export const Settings = () => {
   const [isDropdownExpanded, setIsDropdownExpanded] = useState(false);
   const dropdownRef = useRef<HTMLInputElement>(null);
   const settings = useAppSelector((state) => state.settings);
   const dispatch = useAppDispatch();
+
+  function changeSettings(payload: Partial<ISettings>) {
+    dispatch(updateSettings(payload));
+    dispatch(resetGrid(settings.grid));
+  }
 
   return (
     <div
@@ -33,16 +39,14 @@ export const Settings = () => {
               max={MAX_GRID_SIZE.height}
               value={settings.grid.height}
               onChange={(event) =>
-                dispatch(
-                  updateSettings({
-                    grid: {
-                      ...settings.grid,
-                      ...(+event.target.value < MAX_GRID_SIZE.height && {
-                        height: +event.target.value,
-                      }),
-                    },
-                  }),
-                )
+                changeSettings({
+                  grid: {
+                    ...settings.grid,
+                    ...(+event.target.value < MAX_GRID_SIZE.height && {
+                      height: +event.target.value,
+                    }),
+                  },
+                })
               }
             />
           </label>
@@ -55,16 +59,14 @@ export const Settings = () => {
               max={MAX_GRID_SIZE.width}
               value={settings.grid.width}
               onChange={(event) =>
-                dispatch(
-                  updateSettings({
-                    grid: {
-                      ...settings.grid,
-                      ...(+event.target.value < MAX_GRID_SIZE.width && {
-                        width: +event.target.value,
-                      }),
-                    },
-                  }),
-                )
+                changeSettings({
+                  grid: {
+                    ...settings.grid,
+                    ...(+event.target.value < MAX_GRID_SIZE.width && {
+                      width: +event.target.value,
+                    }),
+                  },
+                })
               }
             />
           </label>
@@ -75,13 +77,7 @@ export const Settings = () => {
               type="number"
               min={0}
               value={settings.tick}
-              onChange={(event) =>
-                dispatch(
-                  updateSettings({
-                    tick: +event.target.value,
-                  }),
-                )
-              }
+              onChange={(event) => changeSettings({ tick: +event.target.value })}
             />
           </label>
         </div>
