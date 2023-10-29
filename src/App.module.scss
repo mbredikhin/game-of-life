@@ -1,11 +1,14 @@
 .app-header {
-  @apply animate-fadeIn mx-auto flex w-3/4 max-w-[1285px] justify-between gap-4 px-1 pb-6 pt-12;
+  @apply animate-fadeIn mx-auto flex w-3/4 max-w-[1285px] items-center justify-between gap-4 px-1 pb-6 pt-12;
 }
 .app-header__title {
   @apply font-display text-2xl;
 }
+.app-header__text {
+  @apply font-display;
+}
 .app-header-controls {
-  @apply flex gap-4;
+  @apply flex items-center gap-4;
 }
 .app-header-controls__button {
   @apply flex w-64 items-center justify-center gap-2 rounded-lg border border-transparent bg-gray py-2 font-display text-xl;

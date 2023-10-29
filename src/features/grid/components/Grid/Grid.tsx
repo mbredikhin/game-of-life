@@ -6,7 +6,12 @@ import type { GridProps, TGrid, Brush, Coords } from '../../types';
 import { Cell } from '../Cell';
 import styles from './Grid.module.scss';
 
-export function Grid({ status, toggleGameStatus }: GridProps) {
+export function Grid({
+  status,
+  iterationsCount,
+  toggleGameStatus,
+  changeIterationsCount,
+}: GridProps) {
   const [grid, setGrid] = useState<TGrid>([]);
   const [brush, setBrush] = useState<Brush>({
     active: false,
@@ -26,6 +31,7 @@ export function Grid({ status, toggleGameStatus }: GridProps) {
           toggleGameStatus();
         }
         setGrid(newGrid);
+        changeIterationsCount(iterationsCount + 1);
       }, settings.tick);
     }
   }, [grid, status]);
@@ -40,6 +46,7 @@ export function Grid({ status, toggleGameStatus }: GridProps) {
   function changeCell(isPopulated: boolean, coords: Coords) {
     if (status === GameStatus.PLAY) {
       toggleGameStatus();
+      return;
     }
     const row = [
       ...grid[coords.y].slice(0, coords.x),
