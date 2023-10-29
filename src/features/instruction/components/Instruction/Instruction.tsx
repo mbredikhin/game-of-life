@@ -12,8 +12,8 @@ export const Instruction = () => {
       onMouseOver={() => setIsDropdownExpanded(true)}
       onMouseOut={() => setIsDropdownExpanded(false)}
     >
-      <button className={styles.button}>
-        <InformationCircleIcon className={styles['button__icon']} />
+      <button className="button">
+        <InformationCircleIcon className="button__icon" />
       </button>
 
       {isDropdownExpanded ? (

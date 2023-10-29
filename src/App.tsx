@@ -9,6 +9,8 @@ import PlayIcon from '@/assets/images/play.svg';
 import PauseIcon from '@/assets/images/pause.svg';
 import { useAppDispatch, useAppSelector } from '@/hooks';
 import { resetGrid } from './features/grid/slice';
+import { ArrowPathIcon } from '@heroicons/react/24/solid';
+import clsx from 'clsx';
 
 function App() {
   const [gameStatus, setGameStatus] = useState<GameStatus>(GameStatus.PAUSED);
@@ -17,7 +19,7 @@ function App() {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(resetGrid(settings.grid));
+    reset();
   }, []);
 
   function toggleGameStatus() {
@@ -32,19 +34,27 @@ function App() {
     setIterationsCount(count);
   }
 
+  function reset() {
+    changeIterationsCount(0);
+    dispatch(resetGrid(settings.grid));
+  }
+
   return (
     <>
       <div className={styles['app-header']}>
         <span className={styles['app-header__title']}>Conway's Game of Life</span>
         <div className={styles['app-header-controls']}>
           <span className={styles['app-header__text']}>Iteration: {iterationsCount}</span>
-          <button className={styles['app-header-controls__button']} onClick={toggleGameStatus}>
+          <button className={clsx(['button', 'button--lg'])} onClick={toggleGameStatus}>
             <span>{gameStatus === GameStatus.PAUSED ? 'Start' : 'Pause'}</span>
             <img
-              className={styles['app-header-controls__button-icon']}
+              className="button__icon"
               src={gameStatus === GameStatus.PAUSED ? PlayIcon : PauseIcon}
               alt=""
             />
+          </button>
+          <button className="button" onClick={() => reset()}>
+            <ArrowPathIcon className="button__icon" />
           </button>
           <Settings />
           <Instruction />

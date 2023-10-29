@@ -22,8 +22,8 @@ export const Settings = () => {
       onMouseOver={() => setIsDropdownExpanded(true)}
       onMouseOut={() => setIsDropdownExpanded(false)}
     >
-      <button className={styles.button}>
-        <Cog6ToothIcon className={styles['button__icon']} />
+      <button className="button">
+        <Cog6ToothIcon className="button__icon" />
       </button>
 
       {isDropdownExpanded ? (
