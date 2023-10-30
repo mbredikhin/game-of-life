@@ -1,14 +1,3 @@
-.container {
-  @apply relative;
-  &:hover {
-    .button {
-      @apply border-gray-light;
-    }
-  }
-}
-.content {
-  @apply absolute right-0 top-12 z-10 flex w-max max-w-screen-lg flex-col rounded-xl border border-gray-light bg-gray px-6 py-6 text-white shadow-xl shadow-black;
-}
-.content__title {
+.instruction__title {
   @apply text-xl font-bold;
 }
