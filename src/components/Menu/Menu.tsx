@@ -1,5 +1,6 @@
 import { useRef, useState } from 'react';
 import styles from './Menu.module.scss';
+import clsx from 'clsx';
 
 type MenuProps = {
   activator: JSX.Element;
@@ -17,11 +18,15 @@ export const Menu = ({ activator, content }: MenuProps) => {
       onMouseOut={() => setIsExpanded(false)}
     >
       {activator}
-      {isExpanded ? (
-        <div className={styles['menu__content']} ref={contentRef}>
-          {content}
-        </div>
-      ) : null}
+      <div
+        className={clsx(
+          styles['menu__content'],
+          ...(isExpanded ? [styles['menu__content--show']] : [styles['menu__content--hidden']]),
+        )}
+        ref={contentRef}
+      >
+        {content}
+      </div>
     </div>
   );
 };
