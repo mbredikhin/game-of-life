@@ -1,15 +1,18 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Coords, TGrid } from '../types';
 import { ISettings } from '@/features/settings';
+import { IPreset } from '@/features/presets';
 
-interface IGridState {
+export interface IGridState {
   grid: TGrid;
   gridHasChanged: boolean;
+  selectedPreset: IPreset | null;
 }
 
 const initialState: IGridState = {
   grid: [],
   gridHasChanged: false,
+  selectedPreset: null,
 };
 
 export const GridSlice = createSlice({
@@ -45,8 +48,33 @@ export const GridSlice = createSlice({
         grid,
       };
     },
+    selectPreset: (state, action: PayloadAction<IGridState['selectedPreset']>) => {
+      return {
+        ...state,
+        selectedPreset: action.payload,
+      };
+    },
+    applyPreset: (state, action: PayloadAction<{ preset: IPreset; coords: Coords }>) => {
+      const { preset, coords } = action.payload;
+      const grid = [
+        ...state.grid.slice(0, coords.y),
+        ...state.grid
+          .slice(coords.y, coords.y + preset.grid.length)
+          .map((row, y) => [
+            ...row.slice(0, coords.x),
+            ...preset.grid[y],
+            ...row.slice(coords.x + preset.grid[y].length),
+          ]),
+        ...state.grid.slice(coords.y + preset.grid.length),
+      ];
+      return {
+        ...state,
+        grid,
+      };
+    },
   },
 });
 
-export const { updateGrid, updateGridCell, resetGrid } = GridSlice.actions;
+export const { updateGrid, updateGridCell, resetGrid, selectPreset, applyPreset } =
+  GridSlice.actions;
 export default GridSlice.reducer;

@@ -1,26 +1,24 @@
 import { useEffect, useState } from 'react';
-import { useAppDispatch, useAppSelector } from '@/hooks';
 import { GameStatus } from '@/utils/constants';
 import type { GridProps, TGrid, Brush, Coords } from '../../types';
 import { Cell } from '../Cell';
 import styles from './Grid.module.scss';
-import { updateGrid, updateGridCell } from '../../slice';
 
 export function Grid({
   status,
   iterationsCount,
+  settings,
+  gridState,
   toggleGameStatus,
   changeIterationsCount,
+  updateGrid,
+  updateGridCell,
+  applyPreset,
 }: GridProps) {
   const [brush, setBrush] = useState<Brush>({
     active: false,
     fill: false,
   });
-  const { settings, gridState } = useAppSelector((state) => ({
-    settings: state.settings,
-    gridState: state.gridState,
-  }));
-  const dispatch = useAppDispatch();
 
   useEffect(() => {
     if (status === GameStatus.PLAY) {
@@ -29,7 +27,7 @@ export function Grid({
         if (!gridHasChanged) {
           toggleGameStatus();
         }
-        dispatch(updateGrid({ grid: newGrid, gridHasChanged }));
+        updateGrid({ grid: newGrid, gridHasChanged });
         changeIterationsCount(iterationsCount + 1);
       }, settings.tick);
     }
@@ -40,7 +38,7 @@ export function Grid({
       toggleGameStatus();
       return;
     }
-    dispatch(updateGridCell({ value, coords }));
+    updateGridCell({ value, coords });
   }
 
   function getNewGrid(): [TGrid, boolean] {
@@ -85,7 +83,11 @@ export function Grid({
                 onMouseUp={() => setBrush((brush) => ({ ...brush, active: false }))}
                 brush={brush}
                 isPopulated={cell}
-                changeState={(value) => changeCell(value, { x, y })}
+                changeState={(value) =>
+                  gridState.selectedPreset
+                    ? applyPreset({ preset: gridState.selectedPreset, coords: { x, y } })
+                    : changeCell(value, { x, y })
+                }
               />
             ))}
           </div>

@@ -2,20 +2,30 @@ import { useEffect, useState } from 'react';
 import { Settings } from '@/features/settings';
 import { Grid } from '@/features/grid';
 import { Instruction } from '@/features/instruction';
+import { PresetsMenu } from '@/features/presets';
 import { GameStatus } from '@/utils/constants';
 import styles from './App.module.scss';
 
 import PlayIcon from '@/assets/images/play.svg';
 import PauseIcon from '@/assets/images/pause.svg';
 import { useAppDispatch, useAppSelector } from '@/hooks';
-import { resetGrid } from './features/grid/slice';
+import {
+  resetGrid,
+  updateGrid,
+  updateGridCell,
+  applyPreset,
+  selectPreset,
+} from './features/grid/slice';
 import { ArrowPathIcon } from '@heroicons/react/24/solid';
 import clsx from 'clsx';
 
 function App() {
   const [gameStatus, setGameStatus] = useState<GameStatus>(GameStatus.PAUSED);
   const [iterationsCount, setIterationsCount] = useState(0);
-  const settings = useAppSelector((state) => state.settings);
+  const { settings, gridState } = useAppSelector((state) => ({
+    settings: state.settings,
+    gridState: state.gridState,
+  }));
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -56,6 +66,7 @@ function App() {
           <button className="button" onClick={() => reset()}>
             <ArrowPathIcon className="button__icon" />
           </button>
+          <PresetsMenu />
           <Settings />
           <Instruction />
         </div>
@@ -64,8 +75,16 @@ function App() {
         <Grid
           status={gameStatus}
           iterationsCount={iterationsCount}
+          settings={settings}
+          gridState={gridState}
           toggleGameStatus={toggleGameStatus}
           changeIterationsCount={changeIterationsCount}
+          updateGrid={(payload) => dispatch(updateGrid(payload))}
+          updateGridCell={(payload) => dispatch(updateGridCell(payload))}
+          applyPreset={(payload) => {
+            dispatch(applyPreset(payload));
+            dispatch(selectPreset(null));
+          }}
         />
       </div>
     </>

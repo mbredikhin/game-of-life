@@ -37,8 +37,14 @@ body {
 
 .button {
   @apply flex h-12 items-center justify-center gap-2 rounded-lg border border-transparent bg-gray px-4 font-display text-xl;
+  &--sm {
+    @apply h-8 rounded-md px-2 text-base;
+  }
   &--lg {
     @apply w-64;
+  }
+  &--outlined {
+    @apply border-gray-light;
   }
   &:hover {
     @apply border-gray-light;
