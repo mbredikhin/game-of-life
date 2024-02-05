@@ -14,8 +14,8 @@ import { PresetsMenu } from '@/features/presets';
 import { SettingsMenu } from '@/entities/settings';
 import { Instruction } from '@/widgets/instruction';
 import './styles/index.scss';
-import PlayIcon from './assets/play.svg';
-import PauseIcon from './assets/pause.svg';
+import PlayIcon from './assets/images/play.svg';
+import PauseIcon from './assets/images/pause.svg';
 import styles from './App.module.scss';
 import { ArrowPathIcon } from '@heroicons/react/24/solid';
 
