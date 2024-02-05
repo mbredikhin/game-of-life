@@ -1,12 +1,18 @@
 import clsx from 'clsx';
 import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '@/shared/hooks';
-import { GameStatus } from '@/entities/grid';
+import {
+  GameStatus,
+  resetGrid,
+  updateGrid,
+  updateGridCell,
+  applyPreset,
+  selectPreset,
+} from '@/entities/grid';
 import { Grid } from '@/features/grid';
 import { PresetsMenu } from '@/features/presets';
 import { SettingsMenu } from '@/entities/settings';
 import { Instruction } from '@/widgets/instruction';
-import { resetGrid, updateGrid, updateGridCell, applyPreset, selectPreset } from '@/entities/grid';
 import './styles/index.scss';
 import PlayIcon from './assets/play.svg';
 import PauseIcon from './assets/pause.svg';
@@ -16,10 +22,8 @@ import { ArrowPathIcon } from '@heroicons/react/24/solid';
 export function App() {
   const [gameStatus, setGameStatus] = useState<GameStatus>(GameStatus.PAUSED);
   const [iterationsCount, setIterationsCount] = useState(0);
-  const { settings, gridState } = useAppSelector((state) => ({
-    settings: state.settings,
-    gridState: state.gridState,
-  }));
+  const settings = useAppSelector((state) => state.settings);
+  const gridState = useAppSelector((state) => state.gridState);
   const dispatch = useAppDispatch();
 
   useEffect(() => {

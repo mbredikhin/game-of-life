@@ -7,7 +7,7 @@ import { Menu } from '@/shared/ui';
 import styles from './PresetsMenu.module.scss';
 
 export function PresetsMenu() {
-  const { selectedPreset } = useAppSelector((state) => state.gridState);
+  const selectedPreset = useAppSelector((state) => state.gridState.selectedPreset);
   const dispatch = useAppDispatch();
 
   const presets: IPreset[] = [
