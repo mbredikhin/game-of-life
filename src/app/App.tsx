@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '@/shared/hooks';
 import {
   GameStatus,
@@ -26,9 +26,14 @@ export function App() {
   const gridState = useAppSelector((state) => state.gridState);
   const dispatch = useAppDispatch();
 
+  const reset = useCallback(() => {
+    changeIterationsCount(0);
+    dispatch(resetGrid(settings.grid));
+  }, [settings.grid, dispatch]);
+
   useEffect(() => {
     reset();
-  }, []);
+  }, [reset]);
 
   function toggleGameStatus() {
     const newStatus = gameStatus === GameStatus.PAUSED ? GameStatus.PLAY : GameStatus.PAUSED;
@@ -42,15 +47,10 @@ export function App() {
     setIterationsCount(count);
   }
 
-  function reset() {
-    changeIterationsCount(0);
-    dispatch(resetGrid(settings.grid));
-  }
-
   return (
     <>
       <div className={styles['app-header']}>
-        <span className={styles['app-header__title']}>Conway's Game of Life</span>
+        <span className={styles['app-header__title']}>Conway&apos;s Game of Life</span>
         <div className={styles['app-header-controls']}>
           <span className={styles['app-header__text']}>Iteration: {iterationsCount}</span>
           <button className={clsx(['button', 'button--lg'])} onClick={toggleGameStatus}>

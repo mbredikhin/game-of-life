@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import type { GridProps, Grid as TGrid, Brush, Coords } from '@/entities/grid';
-import { GameStatus } from '@/entities/grid';
-import { Cell } from '@/entities/grid';
+import { Cell, GameStatus } from '@/entities/grid';
 import styles from './Grid.module.scss';
 
 export function Grid({
@@ -21,6 +20,37 @@ export function Grid({
   });
 
   useEffect(() => {
+    function getNewGrid(): [TGrid, boolean] {
+      let gridHasChanged = false;
+      const newGrid = gridState.grid.map((row, y) =>
+        row.map((cell, x) => {
+          const neighboursCoords: Coords[] = [
+            { x: x - 1, y: y + 1 },
+            { x, y: y + 1 },
+            { x: x + 1, y: y + 1 },
+            { x: x - 1, y },
+            { x: x + 1, y },
+            { x: x - 1, y: y - 1 },
+            { x, y: y - 1 },
+            { x: x + 1, y: y - 1 },
+          ];
+          const populatedNeighbours = neighboursCoords.reduce(
+            (acc, { x, y }) =>
+              gridState.grid[y] && gridState.grid[y][x] ? [...acc, { x, y }] : acc,
+            [] as Coords[],
+          );
+          const result = cell
+            ? populatedNeighbours.length > 1 && populatedNeighbours.length < 4
+            : populatedNeighbours.length === 3;
+          if (result !== cell) {
+            gridHasChanged = true;
+          }
+          return result;
+        }),
+      );
+      return [newGrid, gridHasChanged];
+    }
+
     if (status === GameStatus.PLAY) {
       setTimeout(() => {
         const [newGrid, gridHasChanged] = getNewGrid();
@@ -31,7 +61,15 @@ export function Grid({
         changeIterationsCount(iterationsCount + 1);
       }, settings.tick);
     }
-  }, [gridState.grid, status]);
+  }, [
+    gridState.grid,
+    status,
+    changeIterationsCount,
+    iterationsCount,
+    settings.tick,
+    toggleGameStatus,
+    updateGrid,
+  ]);
 
   function changeCell(value: boolean, coords: Coords) {
     if (status === GameStatus.PLAY) {
@@ -39,36 +77,6 @@ export function Grid({
       return;
     }
     updateGridCell({ value, coords });
-  }
-
-  function getNewGrid(): [TGrid, boolean] {
-    let gridHasChanged = false;
-    const newGrid = gridState.grid.map((row, y) =>
-      row.map((cell, x) => {
-        const neighboursCoords: Coords[] = [
-          { x: x - 1, y: y + 1 },
-          { x, y: y + 1 },
-          { x: x + 1, y: y + 1 },
-          { x: x - 1, y },
-          { x: x + 1, y },
-          { x: x - 1, y: y - 1 },
-          { x, y: y - 1 },
-          { x: x + 1, y: y - 1 },
-        ];
-        const populatedNeighbours = neighboursCoords.reduce(
-          (acc, { x, y }) => (gridState.grid[y] && gridState.grid[y][x] ? [...acc, { x, y }] : acc),
-          [] as Coords[],
-        );
-        const result = cell
-          ? populatedNeighbours.length > 1 && populatedNeighbours.length < 4
-          : populatedNeighbours.length === 3;
-        if (result !== cell) {
-          gridHasChanged = true;
-        }
-        return result;
-      }),
-    );
-    return [newGrid, gridHasChanged];
   }
 
   return (
