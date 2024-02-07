@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import type { Preset } from '@/entities/preset';
 import type { Settings } from '@/entities/settings';
-import type { GridState, Coords } from './types';
+import { GridState, Coords, GameStatus } from './types';
 
 export const GridSlice = createSlice({
   name: 'grid',
@@ -10,6 +10,8 @@ export const GridSlice = createSlice({
     grid: [],
     gridHasChanged: false,
     selectedPreset: null,
+    iterationsCount: 0,
+    gameStatus: GameStatus.PAUSED,
   } as GridState,
   reducers: {
     updateGrid: (state, action: PayloadAction<Partial<GridState>>) => {
@@ -25,7 +27,11 @@ export const GridSlice = createSlice({
         value,
         ...state.grid[coords.y].slice(coords.x + 1),
       ];
-      const grid = [...state.grid.slice(0, coords.y), row, ...state.grid.slice(coords.y + 1)];
+      const grid: GridState['grid'] = [
+        ...state.grid.slice(0, coords.y),
+        row,
+        ...state.grid.slice(coords.y + 1),
+      ];
       return {
         ...state,
         grid,
@@ -65,9 +71,28 @@ export const GridSlice = createSlice({
         grid,
       };
     },
+    updateIterationsCount: (state, action: PayloadAction<number>) => {
+      return {
+        ...state,
+        iterationsCount: action.payload,
+      };
+    },
+    updateGameStatus: (state, action: PayloadAction<GameStatus>) => {
+      return {
+        ...state,
+        gameStatus: action.payload,
+      };
+    },
   },
 });
 
 export const { reducer: gridReducer } = GridSlice;
-export const { updateGrid, updateGridCell, resetGrid, selectPreset, applyPreset } =
-  GridSlice.actions;
+export const {
+  updateGrid,
+  updateGridCell,
+  resetGrid,
+  selectPreset,
+  applyPreset,
+  updateIterationsCount,
+  updateGameStatus,
+} = GridSlice.actions;

@@ -1,15 +1,7 @@
 import clsx from 'clsx';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '@/shared/hooks';
-import {
-  GameStatus,
-  resetGrid,
-  updateGrid,
-  updateGridCell,
-  applyPreset,
-  selectPreset,
-} from '@/entities/grid';
-import { Grid } from '@/features/grid';
+import { GameStatus, resetGrid, updateGameStatus, updateIterationsCount } from '@/entities/grid';
 import { PresetsMenu } from '@/features/presets';
 import { SettingsMenu } from '@/entities/settings';
 import { Instruction } from '@/widgets/instruction';
@@ -18,16 +10,17 @@ import PlayIcon from './assets/images/play.svg';
 import PauseIcon from './assets/images/pause.svg';
 import styles from './App.module.scss';
 import { ArrowPathIcon } from '@heroicons/react/24/solid';
+import { AppRouter } from '@/app/router/AppRouter';
+import { withProviders } from '@/app/providers';
 
-export function App() {
-  const [gameStatus, setGameStatus] = useState<GameStatus>(GameStatus.PAUSED);
-  const [iterationsCount, setIterationsCount] = useState(0);
+function App() {
   const settings = useAppSelector((state) => state.settings);
-  const gridState = useAppSelector((state) => state.gridState);
+  const gameStatus = useAppSelector((state) => state.gridState.gameStatus);
+  const iterationsCount = useAppSelector((state) => state.gridState.iterationsCount);
   const dispatch = useAppDispatch();
 
   const reset = useCallback(() => {
-    changeIterationsCount(0);
+    dispatch(updateIterationsCount(0));
     dispatch(resetGrid(settings.grid));
   }, [settings.grid, dispatch]);
 
@@ -37,14 +30,10 @@ export function App() {
 
   function toggleGameStatus() {
     const newStatus = gameStatus === GameStatus.PAUSED ? GameStatus.PLAY : GameStatus.PAUSED;
-    setGameStatus(newStatus);
+    dispatch(updateGameStatus(newStatus));
     if (newStatus === GameStatus.PLAY) {
-      changeIterationsCount(0);
+      dispatch(updateIterationsCount(0));
     }
-  }
-
-  function changeIterationsCount(count: number) {
-    setIterationsCount(count);
   }
 
   return (
@@ -69,22 +58,9 @@ export function App() {
           <Instruction />
         </div>
       </div>
-      <div className={styles['grid-container']}>
-        <Grid
-          status={gameStatus}
-          iterationsCount={iterationsCount}
-          settings={settings}
-          gridState={gridState}
-          toggleGameStatus={toggleGameStatus}
-          changeIterationsCount={changeIterationsCount}
-          updateGrid={(payload) => dispatch(updateGrid(payload))}
-          updateGridCell={(payload) => dispatch(updateGridCell(payload))}
-          applyPreset={(payload) => {
-            dispatch(applyPreset(payload));
-            dispatch(selectPreset(null));
-          }}
-        />
-      </div>
+      <AppRouter />
     </>
   );
 }
+
+export default withProviders(App);

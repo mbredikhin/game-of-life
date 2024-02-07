@@ -1,5 +1,6 @@
 import clsx from 'clsx';
 import type { Preset as IPreset } from '@/entities/preset';
+import type { GridState } from '@/entities/grid';
 import { GameStatus } from '@/entities/grid';
 import { Grid } from '@/features/grid';
 import styles from './Preset.module.scss';
@@ -17,10 +18,12 @@ export function Preset({ name, grid, isSelected, select }: PresetProps) {
       height: grid.length,
     },
   };
-  const gridState = {
+  const gridState: GridState = {
     grid,
     gridHasChanged: false,
     selectedPreset: null,
+    gameStatus: GameStatus.PAUSED,
+    iterationsCount: 0,
   };
   return (
     <div className={styles['preset']}>

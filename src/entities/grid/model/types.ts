@@ -12,6 +12,8 @@ export interface GridState {
   grid: Grid;
   gridHasChanged: boolean;
   selectedPreset: Preset | null;
+  iterationsCount: number;
+  gameStatus: GameStatus;
 }
 export type GridProps = {
   status: GameStatus;
