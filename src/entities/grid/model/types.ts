@@ -1,5 +1,5 @@
 import type { Settings } from '@/entities/settings';
-import { Preset } from '@/entities/preset';
+import type { IPreset } from '@/entities/preset';
 
 export enum GameStatus {
   PLAY,
@@ -11,7 +11,7 @@ export type Brush = Record<'active' | 'fill', boolean>;
 export interface GridState {
   grid: Grid;
   gridHasChanged: boolean;
-  selectedPreset: Preset | null;
+  selectedPreset: IPreset | null;
   iterationsCount: number;
   gameStatus: GameStatus;
 }
@@ -24,5 +24,5 @@ export type GridProps = {
   updateGridCell: (payload: { value: boolean; coords: Coords }) => void;
   toggleGameStatus: () => void;
   changeIterationsCount: (count: number) => void;
-  applyPreset: (payload: { preset: Preset; coords: Coords }) => void;
+  applyPreset: (payload: { preset: IPreset; coords: Coords }) => void;
 };

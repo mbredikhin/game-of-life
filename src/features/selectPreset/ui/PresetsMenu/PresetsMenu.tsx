@@ -1,7 +1,7 @@
 import { InformationCircleIcon } from '@heroicons/react/24/solid';
 import { useAppDispatch, useAppSelector } from '@/shared/hooks';
-import { Preset as IPreset } from '@/entities/preset';
-import { Preset } from '@/features/presets';
+import type { IPreset } from '@/entities/preset';
+import { Preset } from '@/entities/preset';
 import { selectPreset } from '@/entities/grid';
 import { Menu } from '@/shared/ui';
 import styles from './PresetsMenu.module.scss';

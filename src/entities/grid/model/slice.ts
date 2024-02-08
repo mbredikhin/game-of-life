@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import type { Preset } from '@/entities/preset';
+import type { IPreset } from '@/entities/preset';
 import type { Settings } from '@/entities/settings';
 import { GridState, Coords, GameStatus } from './types';
 
@@ -53,7 +53,7 @@ export const GridSlice = createSlice({
         selectedPreset: action.payload,
       };
     },
-    applyPreset: (state, action: PayloadAction<{ preset: Preset; coords: Coords }>) => {
+    applyPreset: (state, action: PayloadAction<{ preset: IPreset; coords: Coords }>) => {
       const { preset, coords } = action.payload;
       const grid = [
         ...state.grid.slice(0, coords.y),

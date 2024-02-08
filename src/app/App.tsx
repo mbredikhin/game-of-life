@@ -2,7 +2,7 @@ import clsx from 'clsx';
 import { useCallback, useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '@/shared/hooks';
 import { GameStatus, resetGrid, updateGameStatus, updateIterationsCount } from '@/entities/grid';
-import { PresetsMenu } from '@/features/presets';
+import { PresetsMenu } from '@/features/selectPreset';
 import { SettingsMenu } from '@/entities/settings';
 import { Instruction } from '@/widgets/instruction';
 import './styles/index.scss';
