@@ -31,9 +31,6 @@ function App() {
   function toggleGameStatus() {
     const newStatus = gameStatus === GameStatus.PAUSED ? GameStatus.PLAY : GameStatus.PAUSED;
     dispatch(updateGameStatus(newStatus));
-    if (newStatus === GameStatus.PLAY) {
-      dispatch(updateIterationsCount(0));
-    }
   }
 
   return (

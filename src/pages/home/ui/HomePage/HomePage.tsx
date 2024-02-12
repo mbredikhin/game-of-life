@@ -20,9 +20,6 @@ export function HomePage() {
     const newStatus =
       gridState.gameStatus === GameStatus.PAUSED ? GameStatus.PLAY : GameStatus.PAUSED;
     dispatch(updateGameStatus(newStatus));
-    if (newStatus === GameStatus.PLAY) {
-      dispatch(updateIterationsCount(0));
-    }
   }
 
   return (

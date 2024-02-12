@@ -1,7 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import type { GridProps, Grid as TGrid, Brush, Coords } from '@/entities/grid';
 import { Cell, GameStatus } from '@/entities/grid';
 import styles from './Grid.module.scss';
+
+let timeoutID: number | undefined;
 
 export function Grid({
   status,
@@ -19,57 +21,61 @@ export function Grid({
     fill: false,
   });
 
-  useEffect(() => {
-    function getNewGrid(): [TGrid, boolean] {
-      let gridHasChanged = false;
-      const newGrid = gridState.grid.map((row, y) =>
-        row.map((cell, x) => {
-          const neighboursCoords: Coords[] = [
-            { x: x - 1, y: y + 1 },
-            { x, y: y + 1 },
-            { x: x + 1, y: y + 1 },
-            { x: x - 1, y },
-            { x: x + 1, y },
-            { x: x - 1, y: y - 1 },
-            { x, y: y - 1 },
-            { x: x + 1, y: y - 1 },
-          ];
-          const populatedNeighbours = neighboursCoords.reduce(
-            (acc, { x, y }) =>
-              gridState.grid[y] && gridState.grid[y][x] ? [...acc, { x, y }] : acc,
-            [] as Coords[],
-          );
-          const result = cell
-            ? populatedNeighbours.length > 1 && populatedNeighbours.length < 4
-            : populatedNeighbours.length === 3;
-          if (result !== cell) {
-            gridHasChanged = true;
-          }
-          return result;
-        }),
-      );
-      return [newGrid, gridHasChanged];
-    }
+  const getNewGrid = useCallback<() => [TGrid, boolean]>(() => {
+    let gridHasChanged = false;
+    const newGrid = gridState.grid.map((row, y) =>
+      row.map((cell, x) => {
+        const neighboursCoords: Coords[] = [
+          { x: x - 1, y: y + 1 },
+          { x, y: y + 1 },
+          { x: x + 1, y: y + 1 },
+          { x: x - 1, y },
+          { x: x + 1, y },
+          { x: x - 1, y: y - 1 },
+          { x, y: y - 1 },
+          { x: x + 1, y: y - 1 },
+        ];
+        const populatedNeighbours = neighboursCoords.reduce(
+          (acc, { x, y }) => (gridState.grid[y] && gridState.grid[y][x] ? [...acc, { x, y }] : acc),
+          [] as Coords[],
+        );
+        const result = cell
+          ? populatedNeighbours.length > 1 && populatedNeighbours.length < 4
+          : populatedNeighbours.length === 3;
+        if (result !== cell) {
+          gridHasChanged = true;
+        }
+        return result;
+      }),
+    );
+    return [newGrid, gridHasChanged];
+  }, [gridState.grid]);
 
-    if (status === GameStatus.PLAY) {
-      setTimeout(() => {
+  const setupLoop = useCallback(
+    (tick: number) => {
+      timeoutID = setTimeout(() => {
         const [newGrid, gridHasChanged] = getNewGrid();
         if (!gridHasChanged) {
           toggleGameStatus();
+          return;
         }
         updateGrid({ grid: newGrid, gridHasChanged });
         changeIterationsCount(iterationsCount + 1);
-      }, settings.tick);
+      }, tick);
+    },
+    [iterationsCount, changeIterationsCount, updateGrid, toggleGameStatus, getNewGrid],
+  );
+
+  useEffect(() => {
+    if (status === GameStatus.PLAY) {
+      setupLoop(settings.tick);
+    } else {
+      clearTimeout(timeoutID);
     }
-  }, [
-    gridState.grid,
-    status,
-    changeIterationsCount,
-    iterationsCount,
-    settings.tick,
-    toggleGameStatus,
-    updateGrid,
-  ]);
+    return () => {
+      clearTimeout(timeoutID);
+    };
+  }, [status, settings.tick, setupLoop]);
 
   function changeCell(value: boolean, coords: Coords) {
     if (status === GameStatus.PLAY) {
