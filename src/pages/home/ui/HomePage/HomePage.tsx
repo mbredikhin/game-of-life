@@ -3,8 +3,8 @@ import {
   GameStatus,
   updateGrid,
   updateGridCell,
-  applyPreset,
-  selectPreset,
+  applyPattern,
+  selectPattern,
   updateIterationsCount,
   updateGameStatus,
 } from '@/entities/grid';
@@ -33,9 +33,9 @@ export function HomePage() {
         changeIterationsCount={(payload) => dispatch(updateIterationsCount(payload))}
         updateGrid={(payload) => dispatch(updateGrid(payload))}
         updateGridCell={(payload) => dispatch(updateGridCell(payload))}
-        applyPreset={(payload) => {
-          dispatch(applyPreset(payload));
-          dispatch(selectPreset(null));
+        applyPattern={(payload) => {
+          dispatch(applyPattern(payload));
+          dispatch(selectPattern(null));
         }}
       />
     </div>

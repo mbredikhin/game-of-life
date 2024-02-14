@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import type { IPreset } from '@/entities/preset';
+import type { IPattern } from '@/entities/pattern';
 import type { Settings } from '@/entities/settings';
 import { GridState, Coords, GameStatus } from './types';
 
@@ -9,7 +9,7 @@ export const GridSlice = createSlice({
   initialState: {
     grid: [],
     gridHasChanged: false,
-    selectedPreset: null,
+    selectedPattern: null,
     iterationsCount: 0,
     gameStatus: GameStatus.PAUSED,
   } as GridState,
@@ -47,24 +47,24 @@ export const GridSlice = createSlice({
         grid,
       };
     },
-    selectPreset: (state, action: PayloadAction<GridState['selectedPreset']>) => {
+    selectPattern: (state, action: PayloadAction<GridState['selectedPattern']>) => {
       return {
         ...state,
-        selectedPreset: action.payload,
+        selectedPattern: action.payload,
       };
     },
-    applyPreset: (state, action: PayloadAction<{ preset: IPreset; coords: Coords }>) => {
-      const { preset, coords } = action.payload;
+    applyPattern: (state, action: PayloadAction<{ pattern: IPattern; coords: Coords }>) => {
+      const { pattern, coords } = action.payload;
       const grid = [
         ...state.grid.slice(0, coords.y),
         ...state.grid
-          .slice(coords.y, coords.y + preset.grid.length)
+          .slice(coords.y, coords.y + pattern.grid.length)
           .map((row, y) => [
             ...row.slice(0, coords.x),
-            ...preset.grid[y],
-            ...row.slice(coords.x + preset.grid[y].length),
+            ...pattern.grid[y],
+            ...row.slice(coords.x + pattern.grid[y].length),
           ]),
-        ...state.grid.slice(coords.y + preset.grid.length),
+        ...state.grid.slice(coords.y + pattern.grid.length),
       ];
       return {
         ...state,
@@ -91,8 +91,8 @@ export const {
   updateGrid,
   updateGridCell,
   resetGrid,
-  selectPreset,
-  applyPreset,
+  selectPattern,
+  applyPattern,
   updateIterationsCount,
   updateGameStatus,
 } = GridSlice.actions;

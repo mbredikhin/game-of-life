@@ -1,0 +1,50 @@
+.pattern-grid {
+  @apply mx-auto inline-flex flex-col items-center justify-center gap-1 overflow-auto border-2 border-gray-light bg-black p-2;
+}
+
+.pattern-grid__row {
+  @apply flex gap-1;
+}
+
+.pattern-grid__cell {
+  @apply inline-block h-4 w-4 border border-transparent bg-gray transition-all ease-out;
+  &--filled {
+    @apply relative border-2 border-orange bg-orange;
+    &:after {
+      content: '';
+      @apply absolute left-0 top-0 h-4 w-4 rounded-full shadow-cell;
+    }
+  }
+  &--sm {
+    @apply h-3 w-3;
+    &--filled {
+      @apply relative border-2 border-orange bg-orange;
+      &:after {
+        content: '';
+        @apply absolute left-0 top-0 h-3 w-3 rounded-full shadow-cell;
+      }
+    }
+  }
+  &--xs {
+    @apply h-2 w-2;
+    &--filled {
+      @apply relative border-2 border-orange bg-orange;
+      &:after {
+        content: '';
+        @apply absolute left-0 top-0 h-2 w-2 rounded-full shadow-cell;
+      }
+    }
+  }
+}
+.pattern-grid__cell--sm.pattern-grid__cell--filled {
+  &:after {
+    content: '';
+    @apply absolute left-0 top-0 h-3 w-3 rounded-full shadow-cell;
+  }
+}
+.pattern-grid__cell--xs.pattern-grid__cell--filled {
+  &:after {
+    content: '';
+    @apply absolute left-0 top-0 h-2 w-2 rounded-full shadow-cell;
+  }
+}

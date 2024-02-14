@@ -14,7 +14,7 @@ export function Grid({
   changeIterationsCount,
   updateGrid,
   updateGridCell,
-  applyPreset,
+  applyPattern,
 }: GridProps) {
   const [brush, setBrush] = useState<Brush>({
     active: false,
@@ -98,8 +98,8 @@ export function Grid({
                 brush={brush}
                 isPopulated={cell}
                 changeState={(value) =>
-                  gridState.selectedPreset
-                    ? applyPreset({ preset: gridState.selectedPreset, coords: { x, y } })
+                  gridState.selectedPattern
+                    ? applyPattern({ pattern: gridState.selectedPattern, coords: { x, y } })
                     : changeCell(value, { x, y })
                 }
               />

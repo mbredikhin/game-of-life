@@ -2,7 +2,7 @@ import clsx from 'clsx';
 import { useCallback, useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '@/shared/hooks';
 import { GameStatus, resetGrid, updateGameStatus, updateIterationsCount } from '@/entities/grid';
-import { PresetsMenu } from '@/features/selectPreset';
+import { PatternsMenu } from '@/features/selectPattern';
 import { SettingsMenu } from '@/entities/settings';
 import { Instruction } from '@/widgets/instruction';
 import PlayIcon from '@/app/assets/images/play.svg';
@@ -46,7 +46,7 @@ export function AppHeader() {
         <button className="button" onClick={() => reset()}>
           <ArrowPathIcon className="button__icon" />
         </button>
-        <PresetsMenu />
+        <PatternsMenu />
         <SettingsMenu />
         <Instruction />
       </div>

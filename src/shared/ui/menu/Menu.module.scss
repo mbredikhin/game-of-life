@@ -2,7 +2,7 @@
   @apply relative;
 }
 .menu__content {
-  @apply absolute right-0 top-12 z-10 flex w-max max-w-screen-lg flex-col rounded-xl border border-gray-light bg-gray p-6 text-white shadow-xl shadow-black transition-opacity duration-300 ease-in-out;
+  @apply absolute right-0 top-12 z-10 flex w-max max-w-screen-md flex-col rounded-xl border border-gray-light bg-gray p-6 text-white shadow-xl shadow-black transition-opacity duration-300 ease-in-out;
   &--show {
     visibility: visible;
     opacity: 100%;
