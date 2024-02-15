@@ -1,23 +1,22 @@
+import type { Coords } from '../../model';
 import clsx from 'clsx';
-import type { Brush } from '@/entities/grid';
 import styles from './Cell.module.scss';
 
 interface CellProps {
   isPopulated: boolean;
-  brush: Brush;
+  coords: Coords;
   changeState: (isPopulated: boolean) => void;
-  onMouseDown: () => void;
-  onMouseUp: () => void;
+  onMouseEnter: (coords: Coords) => void;
 }
 
-export function Cell({ isPopulated, brush, changeState, onMouseDown, onMouseUp }: CellProps) {
+export function Cell({ isPopulated, coords, changeState, onMouseEnter }: CellProps) {
   return (
     <div
-      onMouseDown={onMouseDown}
-      onMouseUp={onMouseUp}
+      data-x={coords.x}
+      data-y={coords.y}
       className={clsx([styles.cell, isPopulated && styles['cell--filled']])}
-      onMouseEnter={() => brush.active && changeState(brush.fill)}
       onClick={() => changeState(!isPopulated)}
+      onMouseEnter={() => onMouseEnter(coords)}
     ></div>
   );
 }

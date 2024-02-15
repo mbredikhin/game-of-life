@@ -85,18 +85,36 @@ export function Grid({
     updateGridCell({ value, coords });
   }
 
+  function onGridMouseDown(target: EventTarget) {
+    const { x, y } = (target as HTMLDivElement).dataset;
+    if (x !== undefined && y !== undefined) {
+      setBrush({ active: true, fill: !gridState.grid[+y][+x] });
+    }
+  }
+
+  function onGridMouseUp() {
+    setBrush({ active: false, fill: false });
+  }
+
+  function onCellMouseEnter(coords: Coords) {
+    changeCell(brush.fill, coords);
+  }
+
   return (
     <div className={styles['container']}>
-      <div className={styles['grid']}>
+      <div
+        className={styles['grid']}
+        onMouseDown={({ target }) => onGridMouseDown(target)}
+        onMouseUp={onGridMouseUp}
+      >
         {gridState.grid.map((row, y) => (
           <div key={y} className={styles.row}>
             {row.map((cell, x) => (
               <Cell
                 key={`${y}:${x}`}
-                onMouseDown={() => setBrush({ active: true, fill: !cell })}
-                onMouseUp={() => setBrush((brush) => ({ ...brush, active: false }))}
-                brush={brush}
+                coords={{ x, y }}
                 isPopulated={cell}
+                onMouseEnter={brush.active ? onCellMouseEnter : () => {}}
                 changeState={(value) =>
                   gridState.selectedPattern
                     ? applyPattern({ pattern: gridState.selectedPattern, coords: { x, y } })
