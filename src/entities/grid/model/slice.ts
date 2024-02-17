@@ -45,6 +45,47 @@ export const GridSlice = createSlice({
       return {
         ...state,
         grid,
+        iterationsCount: 0,
+      };
+    },
+    evolve: (state) => {
+      let gridHasChanged = false;
+      const grid = state.grid.map((row, y) =>
+        row.map((cell, x) => {
+          const neighboursCoords: Coords[] = [
+            { x: x - 1, y: y + 1 },
+            { x, y: y + 1 },
+            { x: x + 1, y: y + 1 },
+            { x: x - 1, y },
+            { x: x + 1, y },
+            { x: x - 1, y: y - 1 },
+            { x, y: y - 1 },
+            { x: x + 1, y: y - 1 },
+          ];
+          const populatedNeighbours = neighboursCoords.reduce(
+            (acc, { x, y }) => (state.grid[y] && state.grid[y][x] ? [...acc, { x, y }] : acc),
+            [] as Coords[],
+          );
+          const result = cell
+            ? populatedNeighbours.length > 1 && populatedNeighbours.length < 4
+            : populatedNeighbours.length === 3;
+          if (result !== cell) {
+            gridHasChanged = true;
+          }
+          return result;
+        }),
+      );
+      if (!gridHasChanged) {
+        return {
+          ...state,
+          gameStatus: GameStatus.PAUSED,
+        };
+      }
+      return {
+        ...state,
+        grid,
+        gridHasChanged,
+        iterationsCount: state.iterationsCount + 1,
       };
     },
     selectPattern: (state, action: PayloadAction<GridState['selectedPattern']>) => {
@@ -69,6 +110,7 @@ export const GridSlice = createSlice({
       return {
         ...state,
         grid,
+        selectedPattern: null,
       };
     },
     updateIterationsCount: (state, action: PayloadAction<number>) => {
@@ -95,4 +137,5 @@ export const {
   applyPattern,
   updateIterationsCount,
   updateGameStatus,
+  evolve,
 } = GridSlice.actions;

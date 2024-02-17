@@ -1,7 +1,7 @@
 import clsx from 'clsx';
-import { useCallback, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '@/shared/hooks';
-import { GameStatus, resetGrid, updateGameStatus, updateIterationsCount } from '@/entities/grid';
+import { GameStatus, resetGrid, updateGameStatus } from '@/entities/grid';
 import { PatternsMenu } from '@/features/selectPattern';
 import { SettingsMenu } from '@/entities/settings';
 import { Instruction } from '@/widgets/instruction';
@@ -16,14 +16,9 @@ export function AppHeader() {
   const iterationsCount = useAppSelector((state) => state.gridState.iterationsCount);
   const dispatch = useAppDispatch();
 
-  const reset = useCallback(() => {
-    dispatch(updateIterationsCount(0));
+  useEffect(() => {
     dispatch(resetGrid(settings.grid));
   }, [settings.grid, dispatch]);
-
-  useEffect(() => {
-    reset();
-  }, [reset]);
 
   function toggleGameStatus() {
     const newStatus = gameStatus === GameStatus.PAUSED ? GameStatus.PLAY : GameStatus.PAUSED;
@@ -43,7 +38,7 @@ export function AppHeader() {
             alt=""
           />
         </button>
-        <button className="button" onClick={() => reset()}>
+        <button className="button" onClick={() => dispatch(resetGrid(settings.grid))}>
           <ArrowPathIcon className="button__icon" />
         </button>
         <PatternsMenu />

@@ -15,14 +15,3 @@ export interface GridState {
   iterationsCount: number;
   gameStatus: GameStatus;
 }
-export type GridProps = {
-  status: GameStatus;
-  gridState: GridState;
-  settings: Settings;
-  iterationsCount: number;
-  updateGrid: (payload: Partial<GridState>) => void;
-  updateGridCell: (payload: { value: boolean; coords: Coords }) => void;
-  toggleGameStatus: () => void;
-  changeIterationsCount: (count: number) => void;
-  applyPattern: (payload: { pattern: IPattern; coords: Coords }) => void;
-};
