@@ -7,17 +7,20 @@ https://game-of-life-smoky-seven.vercel.app/
 
 ## Getting started
 
+> [!TIP]
+> You must use pnpm (`npm i -g pnpm`) and run NodeJS >= 16
+
 ```bash
 git clone git@github.com:mbredikhin/game-of-life.git
 cd game-of-life
-npm install
-npm run dev
+pnpm install
+pnpm run dev
 ```
 
 ## Production build
 
 ```
-npm run build
+pnpm run build
 ```
 
 ## Author
