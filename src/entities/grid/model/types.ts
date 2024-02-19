@@ -1,4 +1,3 @@
-import type { Settings } from '@/entities/settings';
 import type { IPattern } from '@/entities/pattern';
 
 export enum GameStatus {

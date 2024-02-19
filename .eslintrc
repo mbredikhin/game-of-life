@@ -5,28 +5,34 @@
     "plugin:react-hooks/recommended",
     "plugin:import/recommended",
     "plugin:@typescript-eslint/recommended",
-    "eslint-config-prettier"
+    "eslint-config-prettier",
   ],
-  "plugins": ["import"],
+  "plugins": ["import", "simple-import-sort"],
   "settings": {
     "react": {
-      "version": "detect"
+      "version": "detect",
     },
     "import/resolver": {
       "node": {
         "paths": ["src"],
-        "extensions": [".js", ".jsx", ".ts", ".tsx"]
+        "extensions": [".js", ".jsx", ".ts", ".tsx"],
       },
       "typescript": {
-        "alwaysTryTypes": true
-      }
+        "alwaysTryTypes": true,
+      },
     },
     "import/parsers": {
-      "@typescript-eslint/parser": [".ts", ".tsx"]
-    }
+      "@typescript-eslint/parser": [".ts", ".tsx"],
+    },
   },
   "rules": {
     "@typescript-eslint/no-unused-vars": 0,
-    "react/react-in-jsx-scope": "off"
-  }
+    "react/react-in-jsx-scope": "off",
+    "simple-import-sort/imports": "error",
+    "simple-import-sort/exports": "error",
+  },
+  "parserOptions": {
+    "sourceType": "module",
+    "ecmaVersion": "latest",
+  },
 }

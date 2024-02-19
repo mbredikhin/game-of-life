@@ -1,7 +1,9 @@
-import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import type { Settings } from './types';
+import { createSlice } from '@reduxjs/toolkit';
+
 import { MAX_GRID_SIZE } from '@/entities/settings/model/constants';
+
+import type { Settings } from './types';
 
 export const SettingsSlice = createSlice({
   name: 'settings',

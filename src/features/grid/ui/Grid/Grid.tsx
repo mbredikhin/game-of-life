@@ -1,16 +1,18 @@
 import { useEffect, useState } from 'react';
+
 import {
-  Brush,
-  Coords,
-  Cell,
-  updateGridCell,
-  GameStatus,
   applyPattern,
-  updateGameStatus,
+  Brush,
+  Cell,
+  Coords,
   evolve,
+  GameStatus,
+  updateGameStatus,
+  updateGridCell,
 } from '@/entities/grid';
-import styles from './Grid.module.scss';
 import { useAppDispatch, useAppSelector } from '@/shared/hooks';
+
+import styles from './Grid.module.scss';
 
 let timeoutID: number | undefined;
 

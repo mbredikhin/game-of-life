@@ -1,7 +1,9 @@
 import clsx from 'clsx';
+
 import type { IPattern } from '@/entities/pattern';
-import styles from './Pattern.module.scss';
+
 import { PatternGrid } from '../PatternGrid/PatternGrid';
+import styles from './Pattern.module.scss';
 
 interface PatternProps extends IPattern {
   isSelected: boolean;

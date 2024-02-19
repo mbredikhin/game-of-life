@@ -1,4 +1,5 @@
 import { Grid } from '@/features/grid';
+
 import styles from './HomePage.module.scss';
 
 export function HomePage() {

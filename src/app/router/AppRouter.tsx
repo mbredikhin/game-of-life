@@ -1,7 +1,8 @@
-import { HomePage } from '@/pages/home';
 import { Route, Routes } from 'react-router-dom';
-import { RouteName } from '@/shared/config';
+
+import { HomePage } from '@/pages/home';
 import type { RouteDescription } from '@/shared/config';
+import { RouteName } from '@/shared/config';
 
 const routes: RouteDescription[] = [
   {

@@ -1,6 +1,7 @@
-import { useRef, useState } from 'react';
-import styles from './Menu.module.scss';
 import clsx from 'clsx';
+import { useRef, useState } from 'react';
+
+import styles from './Menu.module.scss';
 
 type MenuProps = {
   activator: JSX.Element;

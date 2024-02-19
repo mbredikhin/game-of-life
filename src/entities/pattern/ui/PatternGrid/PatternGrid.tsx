@@ -1,5 +1,7 @@
 import clsx from 'clsx';
+
 import type { IPattern } from '@/entities/pattern';
+
 import styles from './PatternGrid.module.scss';
 
 interface PatternGridProps {

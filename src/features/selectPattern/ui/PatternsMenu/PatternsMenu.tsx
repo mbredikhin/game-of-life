@@ -1,10 +1,12 @@
 import { BookOpenIcon } from '@heroicons/react/24/solid';
-import { useAppDispatch, useAppSelector } from '@/shared/hooks';
-import { Pattern } from '@/entities/pattern';
+
 import { selectPattern } from '@/entities/grid';
+import { Pattern } from '@/entities/pattern';
+import { useAppDispatch, useAppSelector } from '@/shared/hooks';
 import { Menu } from '@/shared/ui';
+
+import { decodeRLE, patternsRLE } from '../../lib';
 import styles from './PatternsMenu.module.scss';
-import { patternsRLE, decodeRLE } from '../../lib';
 
 const patterns = patternsRLE.map((pattern) => ({ ...pattern, grid: decodeRLE(pattern.data) }));
 

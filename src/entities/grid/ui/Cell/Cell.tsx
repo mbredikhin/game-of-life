@@ -1,5 +1,6 @@
-import type { Coords } from '../../model';
 import clsx from 'clsx';
+
+import type { Coords } from '../../model';
 import styles from './Cell.module.scss';
 
 interface CellProps {

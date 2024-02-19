@@ -1,8 +1,10 @@
-import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
+
 import type { IPattern } from '@/entities/pattern';
 import type { Settings } from '@/entities/settings';
-import { GridState, Coords, GameStatus } from './types';
+
+import { Coords, GameStatus, GridState } from './types';
 
 export const GridSlice = createSlice({
   name: 'grid',

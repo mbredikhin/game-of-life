@@ -1,6 +1,8 @@
 import { InformationCircleIcon } from '@heroicons/react/24/solid';
-import styles from './Instruction.module.scss';
+
 import { Menu } from '@/shared/ui';
+
+import styles from './Instruction.module.scss';
 
 export function Instruction() {
   const activator = (

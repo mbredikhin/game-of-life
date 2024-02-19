@@ -1,9 +1,11 @@
 import { Cog6ToothIcon } from '@heroicons/react/24/solid';
-import { useAppDispatch, useAppSelector } from '@/shared/hooks';
-import { MAX_GRID_SIZE, updateTickSettings, updateGridSettings } from '@/entities/settings';
-import type { Settings as ISettings } from '@/entities/settings';
+
 import { resetGrid } from '@/entities/grid';
+import type { Settings as ISettings } from '@/entities/settings';
+import { MAX_GRID_SIZE, updateGridSettings, updateTickSettings } from '@/entities/settings';
+import { useAppDispatch, useAppSelector } from '@/shared/hooks';
 import { Menu } from '@/shared/ui';
+
 import styles from './SettingsMenu.module.scss';
 
 export function SettingsMenu() {

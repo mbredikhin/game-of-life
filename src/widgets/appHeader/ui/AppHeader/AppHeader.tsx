@@ -1,14 +1,16 @@
+import { ArrowPathIcon } from '@heroicons/react/24/solid';
 import clsx from 'clsx';
 import { useEffect } from 'react';
-import { useAppDispatch, useAppSelector } from '@/shared/hooks';
-import { GameStatus, resetGrid, updateGameStatus } from '@/entities/grid';
-import { PatternsMenu } from '@/features/selectPattern';
-import { SettingsMenu } from '@/entities/settings';
-import { Instruction } from '@/widgets/instruction';
-import PlayIcon from '@/app/assets/images/play.svg';
+
 import PauseIcon from '@/app/assets/images/pause.svg';
+import PlayIcon from '@/app/assets/images/play.svg';
+import { GameStatus, resetGrid, updateGameStatus } from '@/entities/grid';
+import { SettingsMenu } from '@/entities/settings';
+import { PatternsMenu } from '@/features/selectPattern';
+import { useAppDispatch, useAppSelector } from '@/shared/hooks';
+import { Instruction } from '@/widgets/instruction';
+
 import styles from './AppHeader.module.scss';
-import { ArrowPathIcon } from '@heroicons/react/24/solid';
 
 export function AppHeader() {
   const settings = useAppSelector((state) => state.settings);

@@ -1,6 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { settingsReducer } from '@/entities/settings';
+
 import { gridReducer } from '@/entities/grid';
+import { settingsReducer } from '@/entities/settings';
 
 export const store = configureStore({
   reducer: {
