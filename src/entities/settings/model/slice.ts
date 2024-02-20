@@ -8,6 +8,7 @@ import type { Settings } from './types';
 export const SettingsSlice = createSlice({
   name: 'settings',
   initialState: {
+    darkMode: true,
     tick: 1 * 75,
     grid: {
       width: 80,
@@ -39,8 +40,15 @@ export const SettingsSlice = createSlice({
         },
       };
     },
+    updateDarkModeSettings: (state, action: PayloadAction<Settings['darkMode']>) => {
+      return {
+        ...state,
+        darkMode: action.payload,
+      };
+    },
   },
 });
 
 export const { reducer: settingsReducer } = SettingsSlice;
-export const { updateTickSettings, updateGridSettings } = SettingsSlice.actions;
+export const { updateTickSettings, updateGridSettings, updateDarkModeSettings } =
+  SettingsSlice.actions;

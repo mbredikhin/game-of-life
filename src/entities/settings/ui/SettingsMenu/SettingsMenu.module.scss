@@ -15,6 +15,6 @@
 .field__input {
   @apply w-16 rounded-md border border-transparent bg-transparent px-2 py-0 font-display;
   &:hover {
-    @apply border-gray-light;
+    @apply border-gray-light dark:border-gray;
   }
 }

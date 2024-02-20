@@ -1,5 +1,5 @@
 .pattern-grid {
-  @apply mx-auto inline-flex flex-col items-center justify-center gap-1 overflow-auto border-2 border-gray-light bg-black p-2;
+  @apply mx-auto inline-flex flex-col items-center justify-center gap-1 overflow-auto border-2 border-gray-light bg-white p-2 dark:border-gray dark:bg-black;
 }
 
 .pattern-grid__row {
@@ -7,44 +7,24 @@
 }
 
 .pattern-grid__cell {
-  @apply inline-block h-4 w-4 border border-transparent bg-gray transition-all ease-out;
+  @apply inline-block h-4 w-4 border border-transparent bg-gray-light transition-all ease-out dark:bg-gray;
   &--filled {
-    @apply relative border-2 border-orange bg-orange;
+    @apply relative border-2 border-orange bg-orange dark:bg-orange;
     &:after {
       content: '';
-      @apply absolute left-0 top-0 h-4 w-4 rounded-full shadow-cell;
+      @apply absolute left-0 top-0 h-2 w-2 rounded-full shadow-cell dark:h-3 dark:w-3;
     }
   }
   &--sm {
     @apply h-3 w-3;
-    &--filled {
-      @apply relative border-2 border-orange bg-orange;
-      &:after {
-        content: '';
-        @apply absolute left-0 top-0 h-3 w-3 rounded-full shadow-cell;
-      }
+    &:after {
+      @apply dark:h-3 dark:w-3;
     }
   }
   &--xs {
     @apply h-2 w-2;
-    &--filled {
-      @apply relative border-2 border-orange bg-orange;
-      &:after {
-        content: '';
-        @apply absolute left-0 top-0 h-2 w-2 rounded-full shadow-cell;
-      }
+    &:after {
+      @apply dark:h-2 dark:w-2;
     }
-  }
-}
-.pattern-grid__cell--sm.pattern-grid__cell--filled {
-  &:after {
-    content: '';
-    @apply absolute left-0 top-0 h-3 w-3 rounded-full shadow-cell;
-  }
-}
-.pattern-grid__cell--xs.pattern-grid__cell--filled {
-  &:after {
-    content: '';
-    @apply absolute left-0 top-0 h-2 w-2 rounded-full shadow-cell;
   }
 }

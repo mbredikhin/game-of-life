@@ -2,8 +2,8 @@ import { ArrowPathIcon } from '@heroicons/react/24/solid';
 import clsx from 'clsx';
 import { useEffect } from 'react';
 
-import PauseIcon from '@/app/assets/images/pause.svg';
-import PlayIcon from '@/app/assets/images/play.svg';
+import PauseIcon from '@/app/assets/images/pause.svg?react';
+import PlayIcon from '@/app/assets/images/play.svg?react';
 import { GameStatus, resetGrid, updateGameStatus } from '@/entities/grid';
 import { SettingsMenu } from '@/entities/settings';
 import { PatternsMenu } from '@/features/selectPattern';
@@ -34,11 +34,11 @@ export function AppHeader() {
         <span className={styles['app-header__text']}>Iteration: {iterationsCount}</span>
         <button className={clsx(['button', 'button--lg'])} onClick={toggleGameStatus}>
           <span>{gameStatus === GameStatus.PAUSED ? 'Start' : 'Pause'}</span>
-          <img
-            className="button__icon"
-            src={gameStatus === GameStatus.PAUSED ? PlayIcon : PauseIcon}
-            alt=""
-          />
+          {gameStatus === GameStatus.PAUSED ? (
+            <PlayIcon className="button__icon" fill="currentColor" />
+          ) : (
+            <PauseIcon className="button__icon" fill="currentColor" />
+          )}
         </button>
         <button className="button" onClick={() => dispatch(resetGrid(settings.grid))}>
           <ArrowPathIcon className="button__icon" />

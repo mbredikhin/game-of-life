@@ -8,7 +8,7 @@ module.exports = {
         black: '#0a0a0a',
         gray: {
           DEFAULT: '#1b1716',
-          light: '#333333',
+          light: '#EFEFEF',
         },
         orange: '#ff9665',
         violet: {
@@ -35,4 +35,5 @@ module.exports = {
       },
     },
   },
+  darkMode: ['class', '[data-theme="dark"]'],
 };
