@@ -10,15 +10,15 @@ import styles from './PatternsMenu.module.scss';
 
 const patterns = patternsRLE.map((pattern) => ({ ...pattern, grid: decodeRLE(pattern.data) }));
 
+const activator = (
+  <button className="button">
+    <BookOpenIcon className="button__icon" />
+  </button>
+);
 export function PatternsMenu() {
   const selectedPattern = useAppSelector((state) => state.gridState.selectedPattern);
   const dispatch = useAppDispatch();
 
-  const activator = (
-    <button className="button">
-      <BookOpenIcon className="button__icon" />
-    </button>
-  );
   const content = (
     <>
       <span className={styles['title']}>You can select any pattern and place it on board</span>
