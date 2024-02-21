@@ -1,23 +1,28 @@
 import clsx from 'clsx';
 
-import type { Coords } from '../../model';
+import { useAppSelector } from '@/shared/hooks';
+
+import { Coords, selectGridCell } from '../../model';
 import styles from './Cell.module.scss';
 
 interface CellProps {
-  isPopulated: boolean;
   coords: Coords;
-  onClick: () => void;
-  onMouseEnter: (coords: Coords) => void;
+  onMouseDown: (coords: Coords, isPopulated: boolean) => void;
+  onMouseUp: (coords: Coords, isPopulated: boolean) => void;
+  onMouseEnter: (coords: Coords, isPopulated: boolean) => void;
+  onClick: (coords: Coords, isPopulated: boolean) => void;
 }
 
-export function Cell({ isPopulated, coords, onClick, onMouseEnter }: CellProps) {
+export function Cell({ coords, onMouseDown, onMouseUp, onMouseEnter, onClick }: CellProps) {
+  const isPopulated = useAppSelector((state) => selectGridCell(state.gridState, coords));
+
   return (
     <div
-      data-x={coords.x}
-      data-y={coords.y}
       className={clsx([styles.cell, isPopulated && styles['cell--filled']])}
-      onClick={() => onClick()}
-      onMouseEnter={() => onMouseEnter(coords)}
+      onMouseDown={() => onMouseDown(coords, isPopulated)}
+      onMouseUp={() => onMouseUp(coords, isPopulated)}
+      onMouseEnter={() => onMouseEnter(coords, isPopulated)}
+      onClick={() => onClick(coords, isPopulated)}
     ></div>
   );
 }

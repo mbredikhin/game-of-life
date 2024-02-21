@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 import {
   applyPattern,
@@ -15,76 +15,71 @@ import { useAppDispatch, useAppSelector } from '@/shared/hooks';
 import styles from './Grid.module.scss';
 
 let timeoutID: number | undefined;
+let brush: Brush = {
+  active: false,
+  fill: false,
+};
 
 export function Grid() {
   const tick = useAppSelector((state) => state.settings.tick);
-  const grid = useAppSelector((state) => state.gridState.grid);
+  const gridSettings = useAppSelector((state) => state.settings.grid);
   const selectedPattern = useAppSelector((state) => state.gridState.selectedPattern);
   const gameStatus = useAppSelector((state) => state.gridState.gameStatus);
   const dispatch = useAppDispatch();
-  const [brush, setBrush] = useState<Brush>({
-    active: false,
-    fill: false,
-  });
 
   useEffect(() => {
     if (gameStatus === GameStatus.PLAY) {
-      timeoutID = setTimeout(() => dispatch(evolve()), tick);
+      timeoutID = setInterval(() => dispatch(evolve()), tick);
     } else {
-      clearTimeout(timeoutID);
+      clearInterval(timeoutID);
     }
     return () => {
-      clearTimeout(timeoutID);
+      clearInterval(timeoutID);
     };
-  }, [grid, gameStatus, tick, dispatch]);
+  }, [gameStatus, tick, dispatch]);
 
-  function changeCell(value: boolean, coords: Coords) {
+  function changeCell(coords: Coords, isPopulated: boolean) {
     if (gameStatus === GameStatus.PLAY) {
       dispatch(updateGameStatus(GameStatus.PAUSED));
-    } else {
-      dispatch(updateGridCell({ value, coords }));
     }
+    dispatch(updateGridCell({ coords, value: isPopulated }));
   }
 
-  function onCellClick(value: boolean, coords: Coords) {
+  function onCellClick(coords: Coords, isPopulated: boolean) {
     if (selectedPattern) {
       dispatch(applyPattern({ pattern: selectedPattern, coords }));
     } else {
-      changeCell(value, coords);
+      changeCell(coords, !isPopulated);
     }
   }
 
-  function onGridMouseDown(target: EventTarget) {
-    const { x, y } = (target as HTMLDivElement).dataset;
-    if (x !== undefined && y !== undefined) {
-      setBrush({ active: true, fill: !grid[+y][+x] });
+  function onCellMouseEnter(coords: Coords, isPopulated: boolean) {
+    if (brush.active) {
+      changeCell(coords, brush.fill);
     }
   }
 
-  function onGridMouseUp() {
-    setBrush({ active: false, fill: false });
+  function onCellMouseDown(coords: Coords, isPopulated: boolean) {
+    brush = { active: true, fill: !isPopulated };
   }
 
-  function onCellMouseEnter(coords: Coords) {
-    changeCell(brush.fill, coords);
+  function onCellMouseUp(coords: Coords, isPopulated: boolean) {
+    brush = { active: false, fill: false };
   }
 
   return (
     <div className={styles['container']}>
-      <div
-        className={styles['grid']}
-        onMouseDown={({ target }) => onGridMouseDown(target)}
-        onMouseUp={onGridMouseUp}
-      >
-        {grid.map((row, y) => (
+      <div className={styles['grid']}>
+        {Array.from({ length: gridSettings.height }).map((_, y) => (
           <div key={y} className={styles.row}>
-            {row.map((cell, x) => (
+            {Array.from({ length: gridSettings.width }).map((_, x) => (
               <Cell
                 key={`${y}:${x}`}
                 coords={{ x, y }}
-                isPopulated={cell}
-                onMouseEnter={brush.active ? onCellMouseEnter : () => {}}
-                onClick={() => onCellClick(!cell, { x, y })}
+                onMouseDown={onCellMouseDown}
+                onMouseUp={onCellMouseUp}
+                onMouseEnter={onCellMouseEnter}
+                onClick={onCellClick}
               />
             ))}
           </div>

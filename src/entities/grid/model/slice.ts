@@ -1,5 +1,4 @@
-import type { PayloadAction } from '@reduxjs/toolkit';
-import { createSlice } from '@reduxjs/toolkit';
+import { createSelector, createSlice, type PayloadAction } from '@reduxjs/toolkit';
 
 import type { IPattern } from '@/entities/pattern';
 import type { Settings } from '@/entities/settings';
@@ -77,17 +76,15 @@ export const GridSlice = createSlice({
           return result;
         }),
       );
-      if (!gridHasChanged) {
-        return {
-          ...state,
-          gameStatus: GameStatus.PAUSED,
-        };
-      }
       return {
         ...state,
         grid,
-        gridHasChanged,
-        iterationsCount: state.iterationsCount + 1,
+        ...(gridHasChanged
+          ? {
+              gridHasChanged,
+              iterationsCount: state.iterationsCount + 1,
+            }
+          : { gameStatus: GameStatus.PAUSED }),
       };
     },
     selectPattern: (state, action: PayloadAction<GridState['selectedPattern']>) => {
@@ -130,6 +127,11 @@ export const GridSlice = createSlice({
   },
 });
 
+const selectGridCell = createSelector(
+  [(state: GridState) => state.grid, (_: GridState, coords: Coords) => coords],
+  (grid, coords) => grid.at(coords.y)?.at(coords.x) ?? false,
+);
+
 export const { reducer: gridReducer } = GridSlice;
 export const {
   updateGrid,
@@ -141,3 +143,4 @@ export const {
   updateGameStatus,
   evolve,
 } = GridSlice.actions;
+export { selectGridCell };
