@@ -1,9 +1,6 @@
-.container {
-  @apply flex items-start gap-12;
-}
 .grid {
-  @apply inline-flex flex-col items-center justify-center gap-1 overflow-auto border-2 border-gray-light bg-white p-2 dark:border-gray dark:bg-black;
+  @apply flex flex-col items-center justify-center gap-1 overflow-auto border-2 border-gray-light bg-white p-2 dark:border-gray dark:bg-black;
 }
-.row {
+.grid__row {
   @apply flex gap-1;
 }

@@ -76,15 +76,12 @@ export const GridSlice = createSlice({
           return result;
         }),
       );
+
       return {
         ...state,
         grid,
-        ...(gridHasChanged
-          ? {
-              gridHasChanged,
-              iterationsCount: state.iterationsCount + 1,
-            }
-          : { gameStatus: GameStatus.PAUSED }),
+        gridHasChanged,
+        ...(gridHasChanged ? { iterationsCount: state.iterationsCount + 1 } : {}),
       };
     },
     selectPattern: (state, action: PayloadAction<GridState['selectedPattern']>) => {
