@@ -1,13 +1,31 @@
 .cell {
-  @apply inline-block h-4 w-4 border border-transparent bg-gray-light transition-all ease-out dark:bg-gray;
+  @apply inline-block  border border-transparent bg-gray-light transition-all ease-out dark:bg-gray;
   &:hover {
     @apply border-gray-light dark:border-gray;
+  }
+  &--sm {
+    @apply h-3 w-3;
+    &:after {
+      @apply h-3 w-3;
+    }
+  }
+  &--md {
+    @apply h-4 w-4;
+    &:after {
+      @apply h-4 w-4;
+    }
+  }
+  &--lg {
+    @apply h-5 w-5;
+    &:after {
+      @apply h-5 w-5;
+    }
   }
   &--filled {
     @apply relative border-2 border-orange bg-orange dark:bg-orange;
     &:after {
       content: '';
-      @apply absolute left-0 top-0 h-4 w-4 rounded-full shadow-cell;
+      @apply absolute left-0 top-0 rounded-full shadow-cell;
     }
   }
 }

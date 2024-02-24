@@ -48,10 +48,10 @@ body {
     @apply w-64;
   }
   &--outlined {
-    @apply border-gray-light dark:border-gray;
+    @apply border-gray-light dark:border-gray-700;
   }
   &:hover {
-    @apply border-gray-light dark:border-gray;
+    @apply border-gray-light dark:border-gray-700;
   }
 }
 .button__icon {

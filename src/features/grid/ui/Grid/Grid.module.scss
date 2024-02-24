@@ -1,6 +1,12 @@
 .grid {
-  @apply flex flex-col items-center justify-center gap-1 overflow-auto border-2 border-gray-light bg-white p-2 dark:border-gray dark:bg-black;
+  @apply relative flex flex-col items-center justify-center gap-1 overflow-auto border-2 border-gray-light bg-white p-2 dark:border-gray dark:bg-black;
 }
 .grid__row {
   @apply flex gap-1;
+}
+.zoom-controls {
+  @apply fixed bottom-0 right-0 flex gap-2 p-6 font-display opacity-50 transition-opacity ease-out;
+  &:hover {
+    @apply opacity-100;
+  }
 }
