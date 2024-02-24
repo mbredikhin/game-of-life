@@ -1,4 +1,4 @@
-# game-of-life
+# <img src="public/favicon.ico" alt="Logo" style="height: 16px; width: 16px;"/> game-of-life
 
 [Conway's Game of Life](https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life) React+TS implementation
 
