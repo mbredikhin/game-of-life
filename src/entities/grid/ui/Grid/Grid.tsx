@@ -1,20 +1,20 @@
-import { useState } from 'react';
-
 import { applyPattern, Brush, Cell, Coords, updateGridCell } from '@/entities/grid';
 import { useAppDispatch, useAppSelector } from '@/shared/hooks';
 
 import styles from './Grid.module.scss';
 
+interface GridProps {
+  zoom: 'sm' | 'md' | 'lg';
+}
+
 let brush: Brush = {
   active: false,
   fill: false,
 };
-const zoomLevels = ['sm', 'md', 'lg'] as const;
 
-export function Grid() {
+export function Grid({ zoom }: GridProps) {
   const gridSettings = useAppSelector((state) => state.settings.grid);
   const selectedPattern = useAppSelector((state) => state.gridState.selectedPattern);
-  const [zoom, setZoom] = useState<'sm' | 'md' | 'lg'>('md');
   const dispatch = useAppDispatch();
 
   function changeCell(coords: Coords, isPopulated: boolean) {
@@ -43,14 +43,6 @@ export function Grid() {
     brush = { active: false, fill: false };
   }
 
-  function changeZoom(delta: -1 | 1) {
-    const currentZoomLevel = zoomLevels.findIndex((level) => level === zoom);
-    const value = zoomLevels[currentZoomLevel + delta];
-    if (value) {
-      setZoom(value);
-    }
-  }
-
   return (
     <div className={styles['grid']}>
       {Array.from({ length: gridSettings.height }).map((_, y) => (
@@ -68,14 +60,6 @@ export function Grid() {
           ))}
         </div>
       ))}
-      <div className={styles['zoom-controls']}>
-        <button className="button" onClick={() => changeZoom(-1)}>
-          -
-        </button>
-        <button className="button" onClick={() => changeZoom(1)}>
-          +
-        </button>
-      </div>
     </div>
   );
 }

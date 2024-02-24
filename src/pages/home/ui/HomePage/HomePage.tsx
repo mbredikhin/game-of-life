@@ -1,11 +1,11 @@
-import { Grid } from '@/features/grid';
+import { Board } from '@/widgets/board';
 
 import styles from './HomePage.module.scss';
 
 export function HomePage() {
   return (
     <div className={styles['container']}>
-      <Grid />
+      <Board />
     </div>
   );
 }

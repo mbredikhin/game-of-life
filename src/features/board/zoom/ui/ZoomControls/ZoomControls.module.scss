@@ -1,0 +1,6 @@
+.zoom-controls {
+  @apply absolute bottom-0 right-0 flex flex-col gap-2 p-4 font-display opacity-50 transition-opacity ease-out;
+  &:hover {
+    @apply opacity-100;
+  }
+}
