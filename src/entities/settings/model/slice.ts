@@ -9,9 +9,9 @@ export const SettingsSlice = createSlice({
   name: 'settings',
   initialState: {
     darkMode: true,
-    tick: 1 * 75,
+    tick: 1 * 200,
     grid: {
-      width: 80,
+      width: 75,
       height: 40,
     },
   } as Settings,
