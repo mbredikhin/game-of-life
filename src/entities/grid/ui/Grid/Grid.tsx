@@ -39,12 +39,12 @@ export function Grid({ zoom }: GridProps) {
     brush = { active: true, fill: !isPopulated };
   }
 
-  function onCellMouseUp(coords: Coords, isPopulated: boolean) {
+  function resetBrush() {
     brush = { active: false, fill: false };
   }
 
   return (
-    <div className={styles['grid']}>
+    <div className={styles['grid']} onMouseUp={resetBrush} onMouseLeave={resetBrush}>
       {Array.from({ length: gridSettings.height }).map((_, y) => (
         <div key={y} className={styles['grid__row']}>
           {Array.from({ length: gridSettings.width }).map((_, x) => (
@@ -53,7 +53,6 @@ export function Grid({ zoom }: GridProps) {
               size={zoom}
               coords={{ x, y }}
               onMouseDown={onCellMouseDown}
-              onMouseUp={onCellMouseUp}
               onMouseEnter={onCellMouseEnter}
               onClick={onCellClick}
             />

@@ -9,12 +9,11 @@ interface CellProps {
   coords: Coords;
   size: 'sm' | 'md' | 'lg';
   onMouseDown: (coords: Coords, isPopulated: boolean) => void;
-  onMouseUp: (coords: Coords, isPopulated: boolean) => void;
   onMouseEnter: (coords: Coords, isPopulated: boolean) => void;
   onClick: (coords: Coords, isPopulated: boolean) => void;
 }
 
-export function Cell({ coords, size, onMouseDown, onMouseUp, onMouseEnter, onClick }: CellProps) {
+export function Cell({ coords, size, onMouseDown, onMouseEnter, onClick }: CellProps) {
   const isPopulated = useAppSelector((state) => selectGridCell(state.gridState, coords));
 
   return (
@@ -25,7 +24,6 @@ export function Cell({ coords, size, onMouseDown, onMouseUp, onMouseEnter, onCli
         isPopulated && styles['cell--filled'],
       ])}
       onMouseDown={() => onMouseDown(coords, isPopulated)}
-      onMouseUp={() => onMouseUp(coords, isPopulated)}
       onMouseEnter={() => onMouseEnter(coords, isPopulated)}
       onClick={() => onClick(coords, isPopulated)}
     ></div>
