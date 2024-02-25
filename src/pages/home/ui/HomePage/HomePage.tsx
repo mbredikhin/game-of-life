@@ -4,7 +4,7 @@ import styles from './HomePage.module.scss';
 
 export function HomePage() {
   return (
-    <div className={styles['container']}>
+    <div className={styles['home-page']}>
       <Board />
     </div>
   );

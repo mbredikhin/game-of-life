@@ -28,7 +28,6 @@ body {
 }
 /* Scrollar customization */
 *::-webkit-scrollbar-track {
-  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
   @apply rounded-xl bg-white dark:bg-black;
 }
 *::-webkit-scrollbar {
@@ -36,7 +35,10 @@ body {
 }
 *::-webkit-scrollbar-thumb {
   -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-  @apply rounded-xl bg-gray;
+  @apply rounded-xl bg-gray-light dark:bg-gray;
+}
+*::-webkit-scrollbar-corner {
+  @apply bg-white dark:bg-black;
 }
 
 .button {

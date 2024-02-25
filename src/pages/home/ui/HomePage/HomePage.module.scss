@@ -1,5 +1,4 @@
-.container {
+.home-page {
   @apply mx-auto flex animate-fadeIn items-start justify-center;
-  max-width: calc(100vw - 50px);
-  max-height: calc(100vh - 150px);
+  height: calc(100vh - 112px);
 }
