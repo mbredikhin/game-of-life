@@ -3,12 +3,13 @@ import { createSlice } from '@reduxjs/toolkit';
 
 import { MAX_GRID_SIZE } from '@/entities/settings/model/constants';
 
+import { Theme } from '../lib';
 import type { Settings } from './types';
 
 export const SettingsSlice = createSlice({
   name: 'settings',
   initialState: {
-    darkMode: true,
+    theme: Theme.Dark,
     tick: 1 * 200,
     grid: {
       width: 75,
@@ -16,7 +17,7 @@ export const SettingsSlice = createSlice({
     },
   } as Settings,
   reducers: {
-    updateTickSettings: (state, action: PayloadAction<Settings['tick']>) => {
+    updateTick: (state, action: PayloadAction<Settings['tick']>) => {
       return {
         ...state,
         tick: action.payload,
@@ -40,15 +41,14 @@ export const SettingsSlice = createSlice({
         },
       };
     },
-    updateDarkModeSettings: (state, action: PayloadAction<Settings['darkMode']>) => {
+    updateTheme: (state, action: PayloadAction<Settings['theme']>) => {
       return {
         ...state,
-        darkMode: action.payload,
+        theme: action.payload,
       };
     },
   },
 });
 
 export const { reducer: settingsReducer } = SettingsSlice;
-export const { updateTickSettings, updateGridSettings, updateDarkModeSettings } =
-  SettingsSlice.actions;
+export const { updateTick, updateGridSettings, updateTheme } = SettingsSlice.actions;

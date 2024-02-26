@@ -1,44 +1,72 @@
 import { Cog6ToothIcon } from '@heroicons/react/24/solid';
 import clsx from 'clsx';
+import { useCallback, useEffect } from 'react';
 
 import { resetGrid } from '@/entities/grid';
-import type { Settings as ISettings } from '@/entities/settings';
 import {
   MAX_GRID_SIZE,
-  updateDarkModeSettings,
+  Settings as ISettings,
   updateGridSettings,
-  updateTickSettings,
+  updateTheme,
+  updateTick,
 } from '@/entities/settings';
-import { useAppDispatch, useAppSelector } from '@/shared/hooks';
+import { useAppDispatch, useAppSelector, useStorage } from '@/shared/hooks';
 import { Menu, Switch } from '@/shared/ui';
 
+import { SettingsStorageKey, Theme } from '../../lib';
 import styles from './SettingsMenu.module.scss';
 
 export function SettingsMenu() {
   const tickSettings = useAppSelector((state) => state.settings.tick);
   const gridSettings = useAppSelector((state) => state.settings.grid);
-  const darkMode = useAppSelector((state) => state.settings.darkMode);
+  const theme = useAppSelector((state) => state.settings.theme);
   const dispatch = useAppDispatch();
+  const { getFromStorage, setToStorage } = useStorage<SettingsStorageKey>(window.localStorage);
 
-  function changeGridSettings(settings: Partial<ISettings['grid']>) {
-    dispatch(updateGridSettings(settings));
-    dispatch(resetGrid(gridSettings));
-  }
+  const changeGridSettings = useCallback(
+    (settings: ISettings['grid']) => {
+      dispatch(updateGridSettings(settings));
+      dispatch(resetGrid(settings));
+      setToStorage(SettingsStorageKey.Grid, settings);
+    },
+    [setToStorage, dispatch],
+  );
 
-  function changeTickSettings(settings: ISettings['tick']) {
-    dispatch(updateTickSettings(settings));
-  }
+  const changeTick = useCallback(
+    (tick: ISettings['tick']) => {
+      dispatch(updateTick(tick));
+      setToStorage(SettingsStorageKey.Tick, tick);
+    },
+    [setToStorage, dispatch],
+  );
 
-  function changeTheme(isDarkMode: ISettings['darkMode']) {
-    if (isDarkMode) {
-      document.documentElement.dataset.theme = 'dark';
-      localStorage.setItem('theme', 'dark');
-    } else {
-      document.documentElement.dataset.theme = 'light';
-      localStorage.setItem('theme', 'light');
+  const changeTheme = useCallback(
+    (theme: Theme) => {
+      document.documentElement.dataset.theme = theme;
+      dispatch(updateTheme(theme));
+      setToStorage(SettingsStorageKey.DarkMode, theme);
+    },
+    [setToStorage, dispatch],
+  );
+
+  useEffect(() => {
+    const theme: ISettings['theme'] | null = getFromStorage(SettingsStorageKey.DarkMode);
+    if (theme === Theme.Light) {
+      changeTheme(theme);
     }
-    dispatch(updateDarkModeSettings(isDarkMode));
-  }
+
+    const preservedGridSettings: ISettings['grid'] | null = getFromStorage(SettingsStorageKey.Grid);
+    if (preservedGridSettings) {
+      changeGridSettings({ ...gridSettings, ...preservedGridSettings });
+    }
+
+    const tick: ISettings['tick'] | null = getFromStorage(SettingsStorageKey.Tick);
+    if (tick) {
+      changeTick(tick);
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [changeGridSettings, changeTick, changeTheme]);
 
   const activator = (
     <button className="button">
@@ -56,7 +84,7 @@ export function SettingsMenu() {
           min={1}
           max={MAX_GRID_SIZE.height}
           value={gridSettings.height}
-          onChange={(event) => changeGridSettings({ height: +event.target.value })}
+          onChange={(event) => changeGridSettings({ ...gridSettings, height: +event.target.value })}
         />
       </label>
       <label className={styles['field']}>
@@ -67,7 +95,7 @@ export function SettingsMenu() {
           min={1}
           max={MAX_GRID_SIZE.width}
           value={gridSettings.width}
-          onChange={(event) => changeGridSettings({ width: +event.target.value })}
+          onChange={(event) => changeGridSettings({ ...gridSettings, width: +event.target.value })}
         />
       </label>
       <label className={styles['field']}>
@@ -78,12 +106,15 @@ export function SettingsMenu() {
           min={0}
           step={25}
           value={tickSettings}
-          onChange={(event) => changeTickSettings(+event.target.value)}
+          onChange={(event) => changeTick(+event.target.value)}
         />
       </label>
       <label className={clsx([styles['field'], 'pr-4'])}>
         <span className={styles['field__name']}>Dark mode</span>
-        <Switch checked={darkMode} onChange={changeTheme} />
+        <Switch
+          checked={theme === Theme.Dark}
+          onChange={(value) => changeTheme(value ? Theme.Dark : Theme.Light)}
+        />
       </label>
     </>
   );
