@@ -1,5 +1,6 @@
 import { applyPattern, Brush, Cell, Coords, updateGridCell } from '@/entities/grid';
 import { useAppDispatch, useAppSelector } from '@/shared/hooks';
+import { fitNumber } from '@/shared/lib';
 
 import styles from './Grid.module.scss';
 
@@ -23,7 +24,15 @@ export function Grid({ zoom }: GridProps) {
 
   function onCellClick(coords: Coords, isPopulated: boolean) {
     if (selectedPattern) {
-      dispatch(applyPattern({ pattern: selectedPattern, coords }));
+      dispatch(
+        applyPattern({
+          pattern: selectedPattern,
+          coords: {
+            x: coords.x - Math.floor(selectedPattern.grid[0].length / 2),
+            y: coords.y - Math.floor(selectedPattern.grid.length / 2),
+          },
+        }),
+      );
     } else {
       changeCell(coords, !isPopulated);
     }

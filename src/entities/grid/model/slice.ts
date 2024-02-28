@@ -2,6 +2,7 @@ import { createSelector, createSlice, type PayloadAction } from '@reduxjs/toolki
 
 import type { IPattern } from '@/entities/pattern';
 import type { Settings } from '@/entities/settings';
+import { cropMatrix, fitNumber } from '@/shared/lib';
 
 import { Coords, GameStatus, GridState } from './types';
 
@@ -92,16 +93,33 @@ export const GridSlice = createSlice({
     },
     applyPattern: (state, action: PayloadAction<{ pattern: IPattern; coords: Coords }>) => {
       const { pattern, coords } = action.payload;
+      const croppedPatternGrid = cropMatrix<boolean>(
+        pattern.grid,
+        [
+          coords.y < 0 ? Math.abs(coords.y) : 0,
+          coords.y > state.grid.length - 1
+            ? state.grid.length - 1 - coords.y
+            : state.grid.length - 1,
+        ],
+        [
+          coords.x < 0 ? Math.abs(coords.x) : 0,
+          coords.y > state.grid[0].length - 1
+            ? state.grid[0].length - 1 - coords.x
+            : state.grid[0].length - 1,
+        ],
+      );
+      const y = fitNumber(coords.y, [0, state.grid.length - 1]);
+      const x = fitNumber(coords.x, [0, state.grid[0].length - 1]);
       const grid = [
-        ...state.grid.slice(0, coords.y),
+        ...state.grid.slice(0, y),
         ...state.grid
-          .slice(coords.y, coords.y + pattern.grid.length)
+          .slice(y, y + croppedPatternGrid.length)
           .map((row, y) => [
-            ...row.slice(0, coords.x),
-            ...pattern.grid[y],
-            ...row.slice(coords.x + pattern.grid[y].length),
+            ...row.slice(0, x),
+            ...croppedPatternGrid[y],
+            ...row.slice(x + croppedPatternGrid[y].length),
           ]),
-        ...state.grid.slice(coords.y + pattern.grid.length),
+        ...state.grid.slice(y + croppedPatternGrid.length),
       ];
       return {
         ...state,
