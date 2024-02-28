@@ -1,4 +1,4 @@
-import { ZoomLevel, zoomLevels } from '../../lib';
+import { ZoomDirection, ZoomLevel, zoomLevels } from '../../lib';
 import styles from './ZoomControls.module.scss';
 
 interface ZoomControls {
@@ -7,9 +7,9 @@ interface ZoomControls {
 }
 
 export function ZoomControls({ zoom, onChangeZoom }: ZoomControls) {
-  function changeZoom(delta: -1 | 1) {
+  function changeZoom(direction: ZoomDirection) {
     const currentZoomLevel = zoomLevels.findIndex((level) => level === zoom);
-    const value = zoomLevels[currentZoomLevel + delta];
+    const value = zoomLevels[currentZoomLevel + direction];
     if (value) {
       onChangeZoom(value);
     }
@@ -17,10 +17,10 @@ export function ZoomControls({ zoom, onChangeZoom }: ZoomControls) {
 
   return (
     <div className={styles['zoom-controls']}>
-      <button className="button" onClick={() => changeZoom(1)}>
+      <button className="button" onClick={() => changeZoom(ZoomDirection.Up)}>
         +
       </button>
-      <button className="button" onClick={() => changeZoom(-1)}>
+      <button className="button" onClick={() => changeZoom(ZoomDirection.Down)}>
         -
       </button>
     </div>
