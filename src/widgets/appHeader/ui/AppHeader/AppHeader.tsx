@@ -8,6 +8,7 @@ import { useAppDispatch, useAppSelector } from '@/shared/hooks';
 import { Instruction } from '@/widgets/instruction';
 
 import { GameStatusButton } from '../GameStatusButton/GameStatusButton';
+import { InitRandomlyButton } from '../InitRandomlyButton/InitRandomlyButton';
 import { IterationsCounter } from '../IterationsCounter/IterationsCounter';
 import styles from './AppHeader.module.scss';
 
@@ -25,6 +26,7 @@ export function AppHeader() {
       <div className={styles['app-header-controls']}>
         <IterationsCounter />
         <GameStatusButton />
+        <InitRandomlyButton />
         <button className="button" onClick={() => dispatch(resetGrid(gridSettings))}>
           <ArrowPathIcon className="button__icon" />
         </button>
