@@ -12,7 +12,7 @@ export const GridSlice = createSlice({
     grid: [],
     gridHasChanged: false,
     selectedPattern: null,
-    iterationsCount: 0,
+    generation: 0,
     gameStatus: GameStatus.PAUSED,
   } as GridState,
   reducers: {
@@ -47,7 +47,7 @@ export const GridSlice = createSlice({
       return {
         ...state,
         grid,
-        iterationsCount: 0,
+        generation: 0,
       };
     },
     evolve: (state) => {
@@ -82,7 +82,7 @@ export const GridSlice = createSlice({
         ...state,
         grid,
         gridHasChanged,
-        ...(gridHasChanged ? { iterationsCount: state.iterationsCount + 1 } : {}),
+        ...(gridHasChanged ? { generation: state.generation + 1 } : {}),
       };
     },
     selectPattern: (state, action: PayloadAction<GridState['selectedPattern']>) => {
@@ -127,10 +127,10 @@ export const GridSlice = createSlice({
         selectedPattern: null,
       };
     },
-    updateIterationsCount: (state, action: PayloadAction<number>) => {
+    updateGenerationsCount: (state, action: PayloadAction<number>) => {
       return {
         ...state,
-        iterationsCount: action.payload,
+        generation: action.payload,
       };
     },
     updateGameStatus: (state, action: PayloadAction<GameStatus>) => {
@@ -146,7 +146,7 @@ export const GridSlice = createSlice({
       return {
         ...state,
         grid,
-        iterationsCount: 0,
+        generation: 0,
       };
     },
   },
@@ -164,7 +164,7 @@ export const {
   resetGrid,
   selectPattern,
   applyPattern,
-  updateIterationsCount,
+  updateGenerationsCount,
   updateGameStatus,
   evolve,
   initGridRandomly,

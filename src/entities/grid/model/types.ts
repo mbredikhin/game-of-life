@@ -11,6 +11,6 @@ export interface GridState {
   grid: TGrid;
   gridHasChanged: boolean;
   selectedPattern: IPattern | null;
-  iterationsCount: number;
+  generation: number;
   gameStatus: GameStatus;
 }

@@ -8,8 +8,8 @@ import { useAppDispatch, useAppSelector } from '@/shared/hooks';
 import { Instruction } from '@/widgets/instruction';
 
 import { GameStatusButton } from '../GameStatusButton/GameStatusButton';
+import { GenerationsCounter } from '../GenerationsCounter/GenerationsCounter';
 import { InitRandomlyButton } from '../InitRandomlyButton/InitRandomlyButton';
-import { IterationsCounter } from '../IterationsCounter/IterationsCounter';
 import styles from './AppHeader.module.scss';
 
 export function AppHeader() {
@@ -24,7 +24,7 @@ export function AppHeader() {
     <div className={styles['app-header']}>
       <span className={styles['app-header__title']}>Conway&apos;s Game of Life</span>
       <div className={styles['app-header-controls']}>
-        <IterationsCounter />
+        <GenerationsCounter />
         <GameStatusButton />
         <InitRandomlyButton />
         <button className="button" onClick={() => dispatch(resetGrid(gridSettings))}>
