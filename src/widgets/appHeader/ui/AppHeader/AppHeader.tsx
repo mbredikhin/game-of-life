@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 
 import { resetGrid } from '@/entities/grid';
 import { SettingsMenu } from '@/entities/settings';
-import { PatternsMenu } from '@/features/selectPattern';
+import { PatternsDrawer } from '@/features/selectPattern';
 import { useAppDispatch, useAppSelector } from '@/shared/hooks';
 import { Instruction } from '@/widgets/instruction';
 
@@ -30,7 +30,7 @@ export function AppHeader() {
         <button className="button" onClick={() => dispatch(resetGrid(gridSettings))}>
           <ArrowPathIcon className="button__icon" />
         </button>
-        <PatternsMenu />
+        <PatternsDrawer />
         <SettingsMenu />
         <Instruction />
       </div>

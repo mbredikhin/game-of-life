@@ -58,4 +58,7 @@ body {
 }
 .button__icon {
   @apply h-5 w-5;
+  &--lg {
+    @apply h-7 w-7;
+  }
 }

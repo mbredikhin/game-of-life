@@ -1,1 +1,1 @@
-export * from './PatternsMenu/PatternsMenu';
+export * from './PatternsDrawer/PatternsDrawer';

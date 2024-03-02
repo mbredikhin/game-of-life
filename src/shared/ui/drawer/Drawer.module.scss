@@ -1,0 +1,15 @@
+.drawer {
+  @apply fixed right-0 top-0 z-10 flex h-screen w-full animate-slideLeft items-stretch justify-between rounded-l-xl;
+  &--show {
+    @apply flex;
+  }
+  &--hidden {
+    @apply hidden;
+  }
+}
+.drawer__content {
+  @apply h-full grow bg-white p-12 dark:bg-black;
+}
+.drawer__button {
+  @apply ml-32 flex h-full cursor-pointer items-center rounded-l-xl border border-gray-light bg-white p-6 shadow-2xl dark:border-gray dark:bg-black;
+}

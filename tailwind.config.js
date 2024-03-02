@@ -29,9 +29,17 @@ module.exports = {
           '75%': { opacity: '70%' },
           '100%': { opacity: '100%' },
         },
+        slideLeft: {
+          '0%': { left: '100vw' },
+          '25%': { left: '80vw' },
+          '50%': { left: '50vw' },
+          '75%': { left: '30vw' },
+          '100%': { left: '0vw' },
+        },
       },
       animation: {
         fadeIn: 'fadeIn 1s linear',
+        slideLeft: 'slideLeft 0.3s linear',
       },
     },
   },

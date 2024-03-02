@@ -3,10 +3,10 @@ import { BookOpenIcon } from '@heroicons/react/24/solid';
 import { selectPattern } from '@/entities/grid';
 import { Pattern } from '@/entities/pattern';
 import { useAppDispatch, useAppSelector } from '@/shared/hooks';
-import { Menu } from '@/shared/ui';
+import { Drawer } from '@/shared/ui';
 
 import { decodeRLE, patternsRLE } from '../../lib';
-import styles from './PatternsMenu.module.scss';
+import styles from './PatternsDrawer.module.scss';
 
 const patterns = patternsRLE.map((pattern) => ({ ...pattern, grid: decodeRLE(pattern.data) }));
 
@@ -15,7 +15,7 @@ const activator = (
     <BookOpenIcon className="button__icon" />
   </button>
 );
-export function PatternsMenu() {
+export function PatternsDrawer() {
   const selectedPattern = useAppSelector((state) => state.gridState.selectedPattern);
   const dispatch = useAppDispatch();
 
@@ -34,5 +34,5 @@ export function PatternsMenu() {
       </div>
     </>
   );
-  return <Menu activator={activator} content={content}></Menu>;
+  return <Drawer activator={activator} content={content}></Drawer>;
 }

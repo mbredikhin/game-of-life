@@ -18,7 +18,7 @@ export function Pattern({ name, grid, isSelected, select }: PatternProps) {
           {name}
           <button
             onClick={select}
-            className={clsx(['button button--sm', ...(isSelected ? [] : ['button--outlined'])])}
+            className={clsx(['button button--sm', isSelected && 'button--outlined', 'w-20'])}
           >
             {isSelected ? 'Selected' : 'Select'}
           </button>
