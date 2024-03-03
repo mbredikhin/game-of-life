@@ -1,4 +1,5 @@
 import { BookOpenIcon } from '@heroicons/react/24/solid';
+import classnames from 'classnames/bind';
 
 import { selectPattern } from '@/entities/grid';
 import { Pattern } from '@/entities/pattern';
@@ -7,6 +8,7 @@ import { Drawer } from '@/shared/ui';
 
 import { decodeRLE, patternsRLE } from '../../lib';
 import styles from './PatternsDrawer.module.scss';
+const cx = classnames.bind(styles);
 
 const patterns = patternsRLE.map((pattern) => ({ ...pattern, grid: decodeRLE(pattern.data) }));
 
@@ -21,8 +23,8 @@ export function PatternsDrawer() {
 
   const content = (
     <>
-      <span className={styles['title']}>You can select any pattern and place it on board</span>
-      <div className={styles['patterns']}>
+      <span className={cx(['title'])}>You can select any pattern and place it on board</span>
+      <div className={cx(['patterns'])}>
         {patterns.map((pattern) => (
           <Pattern
             key={pattern.name}

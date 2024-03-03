@@ -13,7 +13,7 @@
   "dependencies": {
     "@heroicons/react": "^2.1.1",
     "@reduxjs/toolkit": "^1.9.7",
-    "clsx": "^2.1.0",
+    "classnames": "^2.5.1",
     "compose-function": "^3.0.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

@@ -1,8 +1,10 @@
 import { InformationCircleIcon } from '@heroicons/react/24/solid';
+import classnames from 'classnames/bind';
 
 import { Menu } from '@/shared/ui';
 
 import styles from './Instruction.module.scss';
+const cx = classnames.bind(styles);
 
 const activator = (
   <button className="button">
@@ -11,7 +13,7 @@ const activator = (
 );
 const content = (
   <>
-    <span className={styles['instruction__title']}>How to start?</span>
+    <span className={cx(['instruction__title'])}>How to start?</span>
     <p>
       The universe of the Game of Life is an infinite, two-dimensional orthogonal grid of square
       cells, each of which is in one of two possible states, live or dead (or populated and

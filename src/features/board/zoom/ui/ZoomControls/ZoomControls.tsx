@@ -1,5 +1,8 @@
+import classnames from 'classnames/bind';
+
 import { ZoomDirection, ZoomLevel, zoomLevels } from '../../lib';
 import styles from './ZoomControls.module.scss';
+const cx = classnames.bind(styles);
 
 interface ZoomControls {
   zoom: ZoomLevel;
@@ -16,7 +19,7 @@ export function ZoomControls({ zoom, onChangeZoom }: ZoomControls) {
   }
 
   return (
-    <div className={styles['zoom-controls']}>
+    <div className={cx(['zoom-controls'])}>
       <button className="button" onClick={() => changeZoom(ZoomDirection.Up)}>
         +
       </button>

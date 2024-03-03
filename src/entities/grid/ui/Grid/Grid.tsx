@@ -1,8 +1,10 @@
+import classnames from 'classnames/bind';
+
 import { applyPattern, Brush, Cell, Coords, updateGridCell } from '@/entities/grid';
 import { useAppDispatch, useAppSelector } from '@/shared/hooks';
-import { fitNumber } from '@/shared/lib';
 
 import styles from './Grid.module.scss';
+const cx = classnames.bind(styles);
 
 interface GridProps {
   zoom: 'sm' | 'md' | 'lg';
@@ -53,9 +55,9 @@ export function Grid({ zoom }: GridProps) {
   }
 
   return (
-    <div className={styles['grid']} onMouseUp={resetBrush} onMouseLeave={resetBrush}>
+    <div className={cx(['grid'])} onMouseUp={resetBrush} onMouseLeave={resetBrush}>
       {Array.from({ length: gridSettings.height }).map((_, y) => (
-        <div key={y} className={styles['grid__row']}>
+        <div key={y} className={cx(['grid__row'])}>
           {Array.from({ length: gridSettings.width }).map((_, x) => (
             <Cell
               key={`${y}:${x}`}

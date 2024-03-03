@@ -1,5 +1,5 @@
 import { Cog6ToothIcon } from '@heroicons/react/24/solid';
-import clsx from 'clsx';
+import classnames from 'classnames/bind';
 import { useCallback, useEffect } from 'react';
 
 import { resetGrid } from '@/entities/grid';
@@ -15,6 +15,7 @@ import { Menu, Switch } from '@/shared/ui';
 
 import { SettingsStorageKey, Theme } from '../../lib';
 import styles from './SettingsMenu.module.scss';
+const cx = classnames.bind(styles);
 
 export function SettingsMenu() {
   const tickSettings = useAppSelector((state) => state.settings.tick);
@@ -76,10 +77,10 @@ export function SettingsMenu() {
 
   const content = (
     <>
-      <label className={styles['field']}>
-        <span className={styles['field__name']}>Grid height (1-{MAX_GRID_SIZE.height - 1})</span>
+      <label className={cx(['field'])}>
+        <span className={cx(['field__name'])}>Grid height (1-{MAX_GRID_SIZE.height - 1})</span>
         <input
-          className={styles['field__input']}
+          className={cx(['field__input'])}
           type="number"
           min={1}
           max={MAX_GRID_SIZE.height}
@@ -87,10 +88,10 @@ export function SettingsMenu() {
           onChange={(event) => changeGridSettings({ ...gridSettings, height: +event.target.value })}
         />
       </label>
-      <label className={styles['field']}>
-        <span className={styles['field__name']}>Grid width (1-{MAX_GRID_SIZE.width - 1})</span>
+      <label className={cx(['field'])}>
+        <span className={cx(['field__name'])}>Grid width (1-{MAX_GRID_SIZE.width - 1})</span>
         <input
-          className={styles['field__input']}
+          className={cx(['field__input'])}
           type="number"
           min={1}
           max={MAX_GRID_SIZE.width}
@@ -98,10 +99,10 @@ export function SettingsMenu() {
           onChange={(event) => changeGridSettings({ ...gridSettings, width: +event.target.value })}
         />
       </label>
-      <label className={styles['field']}>
-        <span className={styles['field__name']}>Tick duration (ms)</span>
+      <label className={cx(['field'])}>
+        <span className={cx(['field__name'])}>Tick duration (ms)</span>
         <input
-          className={styles['field__input']}
+          className={cx(['field__input'])}
           type="number"
           min={0}
           step={25}
@@ -109,8 +110,8 @@ export function SettingsMenu() {
           onChange={(event) => changeTick(+event.target.value)}
         />
       </label>
-      <label className={clsx([styles['field'], 'pr-4'])}>
-        <span className={styles['field__name']}>Dark mode</span>
+      <label className={cx(['field', 'pr-4'])}>
+        <span className={cx(['field__name'])}>Dark mode</span>
         <Switch
           checked={theme === Theme.Dark}
           onChange={(value) => changeTheme(value ? Theme.Dark : Theme.Light)}

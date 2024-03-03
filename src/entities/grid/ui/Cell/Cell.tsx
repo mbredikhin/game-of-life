@@ -1,9 +1,10 @@
-import clsx from 'clsx';
+import classnames from 'classnames/bind';
 
 import { useAppSelector } from '@/shared/hooks';
 
 import { Coords, selectGridCell } from '../../model';
 import styles from './Cell.module.scss';
+const cx = classnames.bind(styles);
 
 interface CellProps {
   coords: Coords;
@@ -18,11 +19,7 @@ export function Cell({ coords, size, onMouseDown, onMouseEnter, onClick }: CellP
 
   return (
     <div
-      className={clsx([
-        styles.cell,
-        styles[`cell--${size}`],
-        isPopulated && styles['cell--filled'],
-      ])}
+      className={cx(['cell', `cell--${size}`, isPopulated && 'cell--filled'])}
       onMouseDown={() => onMouseDown(coords, isPopulated)}
       onMouseEnter={() => onMouseEnter(coords, isPopulated)}
       onClick={() => onClick(coords, isPopulated)}

@@ -1,8 +1,9 @@
 import { ChevronDoubleRightIcon } from '@heroicons/react/24/solid';
-import clsx from 'clsx';
+import classnames from 'classnames/bind';
 import { useState } from 'react';
 
 import styles from './Drawer.module.scss';
+const cx = classnames.bind(styles);
 
 type DrawerProps = {
   activator: JSX.Element;
@@ -16,16 +17,11 @@ export function Drawer({ activator, content }: DrawerProps) {
     <>
       <div onClick={() => setIsExpanded(true)}>{activator}</div>
 
-      <div
-        className={clsx(
-          styles['drawer'],
-          ...(isExpanded ? [styles['drawer--show']] : [styles['drawer--hidden']]),
-        )}
-      >
-        <button onClick={() => setIsExpanded(false)} className={styles['drawer__button']}>
+      <div className={cx('drawer', ...(isExpanded ? ['drawer--show'] : ['drawer--hidden']))}>
+        <button onClick={() => setIsExpanded(false)} className={cx(['drawer__button'])}>
           <ChevronDoubleRightIcon className="button__icon button__icon--lg" />
         </button>
-        <div className={styles['drawer__content']}>{content}</div>
+        <div className={cx(['drawer__content'])}>{content}</div>
       </div>
     </>
   );

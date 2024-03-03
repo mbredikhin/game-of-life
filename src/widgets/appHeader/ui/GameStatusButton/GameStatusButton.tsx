@@ -1,4 +1,3 @@
-import clsx from 'clsx';
 import { useEffect } from 'react';
 
 import PauseIcon from '@/app/assets/images/pause.svg?react';
@@ -34,7 +33,7 @@ export function GameStatusButton() {
   }
 
   return (
-    <button className={clsx(['button', 'button--lg'])} onClick={toggleGameStatus}>
+    <button className="button button--lg" onClick={toggleGameStatus}>
       <span>{gameStatus === GameStatus.PAUSED ? 'Start' : 'Pause'}</span>
       {gameStatus === GameStatus.PAUSED ? (
         <PlayIcon className="button__icon" fill="currentColor" />
