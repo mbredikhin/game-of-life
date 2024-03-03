@@ -1,5 +1,5 @@
 .cell {
-  @apply inline-block  border border-transparent bg-gray-light transition-all ease-out dark:bg-gray;
+  @apply inline-block border border-transparent bg-gray-light dark:bg-gray;
   &:hover {
     @apply border-gray-light dark:border-gray;
   }
