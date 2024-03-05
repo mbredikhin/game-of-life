@@ -64,10 +64,22 @@ export const GridSlice = createSlice({
             { x, y: y - 1 },
             { x: x + 1, y: y - 1 },
           ];
-          const populatedNeighbours = neighboursCoords.reduce(
-            (acc, { x, y }) => (state.grid[y] && state.grid[y][x] ? [...acc, { x, y }] : acc),
-            [] as Coords[],
-          );
+          const populatedNeighbours = neighboursCoords.reduce((acc, coords) => {
+            let { y, x } = coords;
+            const gridHeight = state.grid.length;
+            const gridWidth = state.grid[0].length;
+            if (y < 0) {
+              y = y + gridHeight;
+            } else if (y > gridHeight - 1) {
+              y = y - gridHeight;
+            }
+            if (x < 0) {
+              x = x + gridWidth;
+            } else if (x > gridWidth - 1) {
+              x = x - gridWidth;
+            }
+            return state.grid[y][x] ? [...acc, { x, y }] : acc;
+          }, [] as Coords[]);
           const result = cell
             ? populatedNeighbours.length > 1 && populatedNeighbours.length < 4
             : populatedNeighbours.length === 3;
