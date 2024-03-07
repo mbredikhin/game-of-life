@@ -104,7 +104,7 @@ export function SettingsMenu() {
         <input
           className={cx(['field__input'])}
           type="number"
-          min={0}
+          min={25}
           step={25}
           value={tickSettings}
           onChange={(event) => changeTick(+event.target.value)}
