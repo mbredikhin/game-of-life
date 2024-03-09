@@ -16,9 +16,9 @@
     }
   }
   &--sm {
-    @apply h-3 w-3;
+    @apply h-3.5 w-3.5;
     &:after {
-      @apply dark:h-3 dark:w-3;
+      @apply dark:h-3.5 dark:w-3.5;
     }
   }
   &--xs {
