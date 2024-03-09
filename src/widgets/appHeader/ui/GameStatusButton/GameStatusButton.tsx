@@ -20,7 +20,13 @@ export function GameStatusButton() {
     }
   }, [gridHasChanged, dispatch]);
 
-  useEffect(() => () => clearInterval(loop), []);
+  useEffect(() => {
+    if (gameStatus === GameStatus.PLAY) {
+      clearInterval(loop);
+      loop = setInterval(() => dispatch(evolve()), tick);
+    }
+    return () => clearInterval(loop);
+  }, [tick, gameStatus, dispatch]);
 
   function toggleGameStatus() {
     const newStatus = gameStatus === GameStatus.PAUSED ? GameStatus.PLAY : GameStatus.PAUSED;
