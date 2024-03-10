@@ -1,0 +1,18 @@
+.tooltip {
+  @apply relative h-fit w-fit;
+}
+.tooltip__text {
+  @apply absolute z-10 mx-auto min-w-fit max-w-24 whitespace-nowrap rounded border border-gray-light bg-gray-light px-4 py-1 dark:border-gray-700  dark:bg-gray;
+  &--top {
+    @apply -left-full bottom-full mb-2;
+  }
+  &--right {
+    @apply left-full top-0 ml-2;
+  }
+  &--bottom {
+    @apply -left-full top-full mt-2;
+  }
+  &--left {
+    @apply right-full top-0 mr-2;
+  }
+}

@@ -6,6 +6,7 @@ import { resetGrid } from '@/entities/grid';
 import { SettingsMenu } from '@/entities/settings';
 import { PatternsDrawer } from '@/features/selectPattern';
 import { useAppDispatch, useAppSelector } from '@/shared/hooks';
+import { Tooltip } from '@/shared/ui';
 import { Instruction } from '@/widgets/instruction';
 
 import { GameStatusButton } from '../GameStatusButton/GameStatusButton';
@@ -29,9 +30,11 @@ export function AppHeader() {
         <GenerationsCounter />
         <GameStatusButton />
         <InitRandomlyButton />
-        <button className="button" onClick={() => dispatch(resetGrid(gridSettings))}>
-          <ArrowPathIcon className="button__icon" />
-        </button>
+        <Tooltip text="Clear board" position="bottom">
+          <button className="button" onClick={() => dispatch(resetGrid(gridSettings))}>
+            <ArrowPathIcon className="button__icon" />
+          </button>
+        </Tooltip>
         <PatternsDrawer />
         <SettingsMenu />
         <Instruction />

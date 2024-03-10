@@ -4,7 +4,7 @@ import classnames from 'classnames/bind';
 import { selectPattern } from '@/entities/grid';
 import { decodeRLE, IPattern, Pattern, PatternSource, patternSources } from '@/entities/pattern';
 import { useAppDispatch, useAppSelector } from '@/shared/hooks';
-import { Drawer } from '@/shared/ui';
+import { Drawer, Tooltip } from '@/shared/ui';
 
 import styles from './PatternsDrawer.module.scss';
 const cx = classnames.bind(styles);
@@ -18,9 +18,11 @@ const patterns = patternSources.reduce(
 );
 
 const activator = (
-  <button className="button">
-    <BookOpenIcon className="button__icon" />
-  </button>
+  <Tooltip text="Patterns library" position="bottom">
+    <button className="button">
+      <BookOpenIcon className="button__icon" />
+    </button>
+  </Tooltip>
 );
 export function PatternsDrawer() {
   const selectedPattern = useAppSelector((state) => state.gridState.selectedPattern);
