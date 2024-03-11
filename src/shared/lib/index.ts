@@ -16,3 +16,7 @@ export function cropMatrix<T>(
     .slice(yAxisCoords[0], yAxisCoords[1])
     .map((row) => row.slice(xAxisCoords[0], xAxisCoords[1]));
 }
+
+export function rotateMatrix<T>(matrix: T[][]) {
+  return matrix[0].map((_, index) => matrix.map((row) => row[index]).reverse());
+}

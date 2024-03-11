@@ -1,8 +1,11 @@
 .pattern {
   @apply flex h-full flex-col justify-between gap-4;
 }
-.pattern__name {
-  @apply flex items-center gap-4 font-display;
+.pattern-header {
+  @apply flex items-center gap-4;
+}
+.pattern-header__name {
+  @apply font-display;
 }
 .pattern__grid {
   @apply mx-auto;

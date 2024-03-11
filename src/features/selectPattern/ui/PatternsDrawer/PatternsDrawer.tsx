@@ -1,15 +1,17 @@
 import { BookOpenIcon } from '@heroicons/react/24/solid';
 import classnames from 'classnames/bind';
+import { useState } from 'react';
 
 import { selectPattern } from '@/entities/grid';
 import { decodeRLE, IPattern, Pattern, PatternSource, patternSources } from '@/entities/pattern';
 import { useAppDispatch, useAppSelector } from '@/shared/hooks';
+import { rotateMatrix } from '@/shared/lib';
 import { Drawer, Tooltip } from '@/shared/ui';
 
 import styles from './PatternsDrawer.module.scss';
 const cx = classnames.bind(styles);
 
-const patterns = patternSources.reduce(
+const patternsInitial = patternSources.reduce(
   (acc, pattern) => ({
     ...acc,
     [pattern.group]: [...(acc[pattern.group] ?? []), { ...pattern, grid: decodeRLE(pattern.data) }],
@@ -25,8 +27,22 @@ const activator = (
   </Tooltip>
 );
 export function PatternsDrawer() {
+  const [patterns, setPatterns] = useState(patternsInitial);
   const selectedPattern = useAppSelector((state) => state.gridState.selectedPattern);
   const dispatch = useAppDispatch();
+
+  function rotatePatternGrid(pattern: IPattern) {
+    if (selectedPattern?.name === pattern.name) {
+      dispatch(selectPattern(null));
+    }
+    setPatterns({
+      ...patterns,
+      [pattern.group]: patterns[pattern.group].map((p) => ({
+        ...p,
+        ...(p.name === pattern.name ? { grid: rotateMatrix(pattern.grid) } : {}),
+      })),
+    });
+  }
 
   const content = (
     <div>
@@ -42,7 +58,8 @@ export function PatternsDrawer() {
                 key={pattern.name}
                 {...pattern}
                 isSelected={Boolean(selectedPattern && selectedPattern.name === pattern.name)}
-                select={() => dispatch(selectPattern(pattern))}
+                rotate={rotatePatternGrid}
+                select={(pattern) => dispatch(selectPattern(pattern))}
               />
             ))}
           </div>
