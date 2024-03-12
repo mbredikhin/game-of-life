@@ -11,6 +11,7 @@ import { Instruction } from '@/widgets/instruction';
 
 import { GameStatusButton } from '../GameStatusButton/GameStatusButton';
 import { GenerationsCounter } from '../GenerationsCounter/GenerationsCounter';
+import { GoBackwardButton } from '../GoBackwardButton/GoBackwardButton';
 import { InitRandomlyButton } from '../InitRandomlyButton/InitRandomlyButton';
 import styles from './AppHeader.module.scss';
 const cx = classnames.bind(styles);
@@ -30,6 +31,7 @@ export function AppHeader() {
         <GenerationsCounter />
         <GameStatusButton />
         <InitRandomlyButton />
+        <GoBackwardButton />
         <Tooltip text="Clear board" position="bottom">
           <button className="button" onClick={() => dispatch(resetGrid(gridSettings))}>
             <ArrowPathIcon className="button__icon" />

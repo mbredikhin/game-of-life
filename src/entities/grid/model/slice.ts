@@ -6,20 +6,24 @@ import { cropMatrix, fitNumber } from '@/shared/lib';
 
 import { Coords, GameStatus, GridState } from './types';
 
+const initialState: GridState = {
+  grid: [],
+  gridHistory: [],
+  gridHasChanged: false,
+  selectedPattern: null,
+  generation: 0,
+  gameStatus: GameStatus.PAUSED,
+};
+
 export const GridSlice = createSlice({
   name: 'grid',
-  initialState: {
-    grid: [],
-    gridHasChanged: false,
-    selectedPattern: null,
-    generation: 0,
-    gameStatus: GameStatus.PAUSED,
-  } as GridState,
+  initialState,
   reducers: {
     updateGrid: (state, action: PayloadAction<Partial<GridState>>) => {
       return {
         ...state,
         ...action.payload,
+        gridHistory: [...state.gridHistory, state.grid],
       };
     },
     updateGridCell: (state, action: PayloadAction<{ value: boolean; coords: Coords }>) => {
@@ -37,6 +41,7 @@ export const GridSlice = createSlice({
       return {
         ...state,
         grid,
+        gridHistory: [...state.gridHistory, state.grid],
       };
     },
     resetGrid: (state, action: PayloadAction<Settings['grid']>) => {
@@ -48,6 +53,17 @@ export const GridSlice = createSlice({
         ...state,
         grid,
         generation: 0,
+        gridHistory: [],
+      };
+    },
+    goBackward: (state) => {
+      return {
+        ...state,
+        ...(state.generation !== 0 && {
+          grid: state.gridHistory.slice(-1)[0],
+          gridHistory: state.gridHistory.slice(0, -1),
+          generation: state.generation - 1,
+        }),
       };
     },
     evolve: (state) => {
@@ -95,6 +111,7 @@ export const GridSlice = createSlice({
         grid,
         gridHasChanged,
         ...(gridHasChanged ? { generation: state.generation + 1 } : {}),
+        gridHistory: [...state.gridHistory, state.grid],
       };
     },
     selectPattern: (state, action: PayloadAction<GridState['selectedPattern']>) => {
@@ -174,6 +191,7 @@ export const {
   updateGrid,
   updateGridCell,
   resetGrid,
+  goBackward,
   selectPattern,
   applyPattern,
   updateGenerationsCount,
