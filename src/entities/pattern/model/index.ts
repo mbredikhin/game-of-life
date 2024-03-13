@@ -69,6 +69,27 @@ export const patternSources: PatternSource[] = [
     o4bo$o4bobo4bo$o4bobo4bo2$2b3o3b3o!`,
   },
   {
+    name: 'Ants',
+    group: 'wicks',
+    data: `x = 44, y = 4
+    2o3b2o3b2o3b2o3b2o3b2o3b2o3b2o3b2o2b$2b2o3b2o3b2o3b2o3b2o3b2o3b2o3b2o
+    3b2o$2b2o3b2o3b2o3b2o3b2o3b2o3b2o3b2o3b2o$2o3b2o3b2o3b2o3b2o3b2o3b2o3b
+    2o3b2o!`,
+  },
+  {
+    name: 'Hat',
+    group: 'still lifes',
+    data: `x = 5, y = 4
+    2bo2b$bobob$bobob$2ob2o!`,
+  },
+  {
+    name: 'Turning toads',
+    group: 'wicks',
+    data: `x = 37, y = 8
+    15bo6bo14b$14b2o5b2o6b2o6b$6b3obobob2obobob2obobo10b$2b2obo6bobo4bobo
+    4bobo2bob2o2b$o2bobo3bo18b4obo2bo$2obobo27bob2o$3bo29bo3b$3b2o27b2o!`,
+  },
+  {
     name: 'Gosper glider gun',
     group: 'guns',
     data: `x = 36, y = 9
