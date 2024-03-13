@@ -1,4 +1,4 @@
-import { ArrowPathIcon } from '@heroicons/react/24/solid';
+import { XMarkIcon } from '@heroicons/react/24/solid';
 import classnames from 'classnames/bind';
 import { useEffect } from 'react';
 
@@ -34,7 +34,7 @@ export function AppHeader() {
         <GoBackwardButton />
         <Tooltip text="Clear board" position="bottom">
           <button className="button" onClick={() => dispatch(resetGrid(gridSettings))}>
-            <ArrowPathIcon className="button__icon" />
+            <XMarkIcon className="button__icon" />
           </button>
         </Tooltip>
         <PatternsDrawer />

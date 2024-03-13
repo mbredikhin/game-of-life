@@ -1,4 +1,4 @@
-import { Cog6ToothIcon } from '@heroicons/react/24/solid';
+import { WrenchScrewdriverIcon } from '@heroicons/react/24/solid';
 import classnames from 'classnames/bind';
 import { useCallback, useEffect } from 'react';
 
@@ -71,7 +71,7 @@ export function SettingsMenu() {
 
   const activator = (
     <button className="button">
-      <Cog6ToothIcon className="button__icon" />
+      <WrenchScrewdriverIcon className="button__icon" />
     </button>
   );
 
