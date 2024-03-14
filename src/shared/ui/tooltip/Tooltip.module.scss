@@ -2,17 +2,33 @@
   @apply relative h-fit w-fit;
 }
 .tooltip__text {
-  @apply absolute z-10 mx-auto min-w-fit max-w-24 whitespace-nowrap rounded border border-gray-light bg-gray-light px-4 py-1 dark:border-gray-700  dark:bg-gray;
+  @apply absolute z-10 mx-auto min-w-fit max-w-80 whitespace-nowrap rounded border border-gray-light bg-white px-4 py-1 dark:border-gray-700 dark:bg-gray;
+  &::before {
+    content: '';
+    @apply absolute rotate-45 border-gray-light bg-white p-1.5 dark:border-gray-700 dark:bg-gray;
+  }
   &--top {
-    @apply -left-full bottom-full mb-2;
+    @apply bottom-full left-1/2 mb-2 -translate-x-1/2;
+    &::before {
+      @apply -bottom-2 left-1/2 -translate-x-1/2 border-b border-r;
+    }
   }
   &--right {
-    @apply left-full top-0 ml-2;
+    @apply left-full top-1/2 ml-2 -translate-y-1/2;
+    &::before {
+      @apply -left-2 top-1/2 -translate-y-1/2 border-b border-l;
+    }
   }
   &--bottom {
-    @apply -left-full top-full mt-2;
+    @apply left-1/2 top-full mt-2 -translate-x-1/2;
+    &::before {
+      @apply -top-2 left-1/2 -translate-x-1/2 border-l border-t;
+    }
   }
   &--left {
-    @apply right-full top-0 mr-2;
+    @apply right-full top-1/2 mr-2 -translate-y-1/2;
+    &::before {
+      @apply -right-2 top-1/2 -translate-y-1/2 border-r border-t;
+    }
   }
 }
