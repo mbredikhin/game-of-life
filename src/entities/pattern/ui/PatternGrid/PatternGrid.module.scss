@@ -1,15 +1,15 @@
 .pattern-grid {
-  @apply mx-auto inline-flex flex-col items-center justify-center gap-1 overflow-auto border-2 border-gray-light bg-white p-2 dark:border-gray dark:bg-black;
+  @apply mx-auto inline-flex flex-col items-center justify-center overflow-auto border border-gray-light bg-white p-1 dark:border-gray dark:bg-black;
 }
 
 .pattern-grid__row {
-  @apply flex gap-1;
+  @apply flex;
 }
 
 .pattern-grid__cell {
-  @apply inline-block h-4 w-4 border border-transparent bg-gray-light transition-all ease-out dark:bg-gray;
+  @apply inline-block h-4 w-4 border border-white bg-gray-light dark:border-black dark:bg-gray;
   &--filled {
-    @apply relative border-2 border-orange bg-orange dark:bg-orange;
+    @apply relative border border-white bg-orange dark:bg-orange;
     &:after {
       content: '';
       @apply absolute left-0 top-0 h-2 w-2 rounded-full shadow-cell dark:h-3 dark:w-3;

@@ -28,6 +28,7 @@ const activator = (
 );
 export function PatternsDrawer() {
   const [patterns, setPatterns] = useState(patternsInitial);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const selectedPattern = useAppSelector((state) => state.gridState.selectedPattern);
   const dispatch = useAppDispatch();
 
@@ -42,6 +43,11 @@ export function PatternsDrawer() {
         ...(p.name === pattern.name ? { grid: rotateMatrix(pattern.grid) } : {}),
       })),
     });
+  }
+
+  function onSelectPattern(pattern: IPattern) {
+    dispatch(selectPattern(pattern));
+    setIsDrawerOpen(false);
   }
 
   const content = (
@@ -59,7 +65,7 @@ export function PatternsDrawer() {
                 {...pattern}
                 isSelected={Boolean(selectedPattern && selectedPattern.name === pattern.name)}
                 rotate={rotatePatternGrid}
-                select={(pattern) => dispatch(selectPattern(pattern))}
+                select={onSelectPattern}
               />
             ))}
           </div>
@@ -67,5 +73,9 @@ export function PatternsDrawer() {
       ))}
     </div>
   );
-  return <Drawer activator={activator} content={content}></Drawer>;
+  return (
+    <Drawer activator={activator} open={isDrawerOpen} onChange={setIsDrawerOpen}>
+      {content}
+    </Drawer>
+  );
 }

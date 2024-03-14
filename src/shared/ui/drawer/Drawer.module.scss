@@ -1,10 +1,7 @@
 .drawer {
-  @apply fixed right-0 top-0 z-10 flex h-screen w-full animate-slideLeft items-stretch justify-between rounded-l-xl;
-  &--show {
+  @apply fixed right-0 top-0 z-10 hidden h-screen w-full animate-slideLeft items-stretch justify-between rounded-l-xl;
+  &--open {
     @apply flex;
-  }
-  &--hidden {
-    @apply hidden;
   }
 }
 .drawer__content {
