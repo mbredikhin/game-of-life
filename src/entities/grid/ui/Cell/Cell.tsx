@@ -10,18 +10,18 @@ interface CellProps {
   coords: Coords;
   size: 'sm' | 'md' | 'lg';
   onMouseDown: (coords: Coords, isPopulated: boolean) => void;
-  onMouseEnter: (coords: Coords, isPopulated: boolean) => void;
+  onCellMouseLeave: (coords: Coords, isPopulated: boolean) => void;
   onClick: (coords: Coords, isPopulated: boolean) => void;
 }
 
-export function Cell({ coords, size, onMouseDown, onMouseEnter, onClick }: CellProps) {
+export function Cell({ coords, size, onMouseDown, onCellMouseLeave, onClick }: CellProps) {
   const isPopulated = useAppSelector((state) => selectGridCell(state.gridState, coords));
 
   return (
     <div
       className={cx(['cell', `cell--${size}`, isPopulated && 'cell--filled'])}
       onMouseDown={() => onMouseDown(coords, isPopulated)}
-      onMouseEnter={() => onMouseEnter(coords, isPopulated)}
+      onMouseLeave={() => onCellMouseLeave(coords, isPopulated)}
       onClick={() => onClick(coords, isPopulated)}
     ></div>
   );

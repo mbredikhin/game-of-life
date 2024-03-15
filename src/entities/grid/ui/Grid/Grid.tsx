@@ -40,7 +40,7 @@ export function Grid({ zoom }: GridProps) {
     }
   }
 
-  function onCellMouseEnter(coords: Coords, isPopulated: boolean) {
+  function onCellMouseLeave(coords: Coords, isPopulated: boolean) {
     if (brush.active) {
       changeCell(coords, brush.fill);
     }
@@ -64,7 +64,7 @@ export function Grid({ zoom }: GridProps) {
               size={zoom}
               coords={{ x, y }}
               onMouseDown={onCellMouseDown}
-              onMouseEnter={onCellMouseEnter}
+              onCellMouseLeave={onCellMouseLeave}
               onClick={onCellClick}
             />
           ))}
