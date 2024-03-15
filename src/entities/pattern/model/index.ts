@@ -33,6 +33,12 @@ export const patternSources: PatternSource[] = [
     $3b11o3b$3b2obo3bob2o!`,
   },
   {
+    name: 'Clock',
+    group: 'oscillators',
+    data: `x = 4, y = 4
+    2bob$obob$bobo$bo!`,
+  },
+  {
     name: 'Tumbler',
     group: 'oscillators',
     data: `x = 9, y = 5
@@ -69,6 +75,12 @@ export const patternSources: PatternSource[] = [
     o4bo$o4bobo4bo$o4bobo4bo2$2b3o3b3o!`,
   },
   {
+    name: 'Two eaters',
+    group: 'oscillators',
+    data: `x = 9, y = 8
+    2o7b$bo7b$bobo5b$2b2o5b$5b2o2b$5bobob$7bob$7b2o!`,
+  },
+  {
     name: 'Ants',
     group: 'wicks',
     data: `x = 44, y = 4
@@ -95,5 +107,17 @@ export const patternSources: PatternSource[] = [
     data: `x = 36, y = 9
     24bo11b$22bobo11b$12b2o6b2o12b2o$11bo3bo4b2o12b2o$2o8bo5bo3b2o14b$2o8b
     o3bob2o4bobo11b$10bo5bo7bo11b$11bo3bo20b$12b2o!`,
+  },
+  {
+    name: 'Undecomino',
+    group: 'pure glider generators',
+    data: `x = 6, y = 2
+    6o$5o!`,
+  },
+  {
+    name: '4-8-12 diamond',
+    group: 'pure glider generators',
+    data: `x = 12, y = 9
+    4b4o4b2$2b8o2b2$12o2$2b8o2b2$4b4o!`,
   },
 ];
