@@ -7,8 +7,8 @@ import { Instruction } from '@/widgets/instruction';
 import { ClearBoardButton } from '../ClearBoardButton/ClearBoardButton';
 import { GameStatusButton } from '../GameStatusButton/GameStatusButton';
 import { GenerationsCounter } from '../GenerationsCounter/GenerationsCounter';
-import { GoBackwardButton } from '../GoBackwardButton/GoBackwardButton';
 import { InitRandomlyButton } from '../InitRandomlyButton/InitRandomlyButton';
+import { StepBackwardButton } from '../StepBackwardButton/StepBackwardButton';
 import styles from './AppHeader.module.scss';
 const cx = classnames.bind(styles);
 
@@ -20,7 +20,7 @@ export function AppHeader() {
         <GenerationsCounter />
         <GameStatusButton />
         <ClearBoardButton />
-        <GoBackwardButton />
+        <StepBackwardButton />
         <InitRandomlyButton />
         <PatternsDrawer />
         <SettingsMenu />

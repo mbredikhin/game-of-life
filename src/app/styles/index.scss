@@ -42,18 +42,27 @@ body {
 }
 
 .button {
-  @apply flex h-12 items-center justify-center gap-2 rounded-lg border border-transparent bg-gray-light px-4 font-display text-xl text-black dark:bg-gray dark:text-white;
+  @apply relative flex h-10 items-center justify-center gap-2 rounded-lg border border-gray-300 bg-gray-light px-3 font-display text-xl text-gray-600 dark:border-gray-700 dark:bg-gray dark:text-white;
+  &::before {
+    content: '';
+    @apply absolute -bottom-1 -z-10 block w-full rounded-lg border border-gray-light bg-gray-300 p-2 dark:border-gray-700 dark:bg-gray-700;
+  }
+  &:not(&--sm):active {
+    @apply translate-y-1;
+    &::before {
+      @apply -translate-y-1 opacity-0;
+    }
+  }
+  &:disabled {
+    &:active {
+      @apply translate-y-0;
+    }
+  }
   &--sm {
     @apply h-8 rounded-md px-2 text-base;
   }
   &--lg {
-    @apply w-64;
-  }
-  &--outlined {
-    @apply border-gray-light dark:border-gray-700;
-  }
-  &:hover {
-    @apply border-gray-light dark:border-gray-700;
+    @apply w-40;
   }
 }
 .button__icon {

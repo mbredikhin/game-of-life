@@ -25,13 +25,10 @@ export const Pattern = memo(function Pattern({
     <div className={cx(['pattern'])}>
       <div className={cx(['pattern-header'])}>
         <span className={cx(['pattern-header__name'])}>{pattern.name}</span>
-        <button
-          onClick={() => select(pattern)}
-          className={cx(['button button--sm', isSelected && 'button--outlined', 'w-20'])}
-        >
+        <button onClick={() => select(pattern)} className="button button--sm">
           <span>{isSelected ? 'Selected' : 'Select'}</span>
         </button>
-        <Tooltip text="Rotate clockwise" position="top">
+        <Tooltip text="Rotate clockwise" position="bottom">
           <button onClick={() => rotate(pattern)} className="button button--sm">
             <ArrowPathRoundedSquareIcon className="button__icon button__icon--sm" />
           </button>

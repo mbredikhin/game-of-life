@@ -56,7 +56,7 @@ export const GridSlice = createSlice({
         gridHistory: [],
       };
     },
-    goBackward: (state) => {
+    stepBackward: (state) => {
       return {
         ...state,
         ...(state.generation !== 0 && {
@@ -191,7 +191,7 @@ export const {
   updateGrid,
   updateGridCell,
   resetGrid,
-  goBackward,
+  stepBackward,
   selectPattern,
   applyPattern,
   updateGenerationsCount,

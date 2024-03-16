@@ -7,7 +7,7 @@ import styles from './Instruction.module.scss';
 const cx = classnames.bind(styles);
 
 const activator = (
-  <button className="button">
+  <button className="button" disabled>
     <InformationCircleIcon className="button__icon" />
   </button>
 );
