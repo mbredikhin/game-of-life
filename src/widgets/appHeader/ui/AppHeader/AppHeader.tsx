@@ -1,30 +1,41 @@
 import classnames from 'classnames/bind';
+import { useMatch } from 'react-router-dom';
 
 import { SettingsMenu } from '@/entities/settings';
 import { PatternsDrawer } from '@/features/selectPattern';
-import { Instruction } from '@/widgets/instruction';
+import { RouteName } from '@/shared/config';
 
 import { ClearBoardButton } from '../ClearBoardButton/ClearBoardButton';
 import { GameStatusButton } from '../GameStatusButton/GameStatusButton';
 import { GenerationsCounter } from '../GenerationsCounter/GenerationsCounter';
+import { GoBackButton } from '../GoBackButton/GoBackButton';
 import { InitRandomlyButton } from '../InitRandomlyButton/InitRandomlyButton';
+import { InstructionButton } from '../InstructionButton/InstructionButton';
 import { StepBackwardButton } from '../StepBackwardButton/StepBackwardButton';
 import styles from './AppHeader.module.scss';
 const cx = classnames.bind(styles);
 
 export function AppHeader() {
+  const isHomePage = useMatch(RouteName.HOME_PAGE);
+
   return (
     <div className={cx(['app-header'])}>
       <span className={cx(['app-header__title'])}>Conway&apos;s Game of Life</span>
       <div className={cx(['app-header-controls'])}>
-        <GenerationsCounter />
-        <GameStatusButton />
-        <ClearBoardButton />
-        <StepBackwardButton />
-        <InitRandomlyButton />
-        <PatternsDrawer />
-        <SettingsMenu />
-        <Instruction />
+        {isHomePage ? (
+          <>
+            <GenerationsCounter />
+            <GameStatusButton />
+            <ClearBoardButton />
+            <StepBackwardButton />
+            <InitRandomlyButton />
+            <PatternsDrawer />
+            <SettingsMenu />
+            <InstructionButton />
+          </>
+        ) : (
+          <GoBackButton />
+        )}
       </div>
     </div>
   );

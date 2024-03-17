@@ -6,10 +6,10 @@ import { AppHeader } from '@/widgets/appHeader';
 
 function App() {
   return (
-    <>
+    <div className="app">
       <AppHeader />
       <AppRouter />
-    </>
+    </div>
   );
 }
 

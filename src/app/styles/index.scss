@@ -3,7 +3,6 @@
 @tailwind utilities;
 
 :root {
-  @apply text-base font-normal leading-6 text-black dark:text-white;
   color-scheme: light dark;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -24,7 +23,7 @@ p {
   @apply py-2;
 }
 body {
-  @apply bg-white text-black dark:bg-black dark:text-white;
+  @apply bg-white text-base font-normal leading-6 text-gray-700 dark:bg-black dark:text-gray-200;
 }
 /* Scrollar customization */
 *::-webkit-scrollbar-track {
@@ -39,6 +38,10 @@ body {
 }
 *::-webkit-scrollbar-corner {
   @apply bg-white dark:bg-black;
+}
+
+.app {
+  @apply mx-auto w-11/12;
 }
 
 .button {

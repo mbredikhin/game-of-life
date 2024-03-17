@@ -1,8 +1,8 @@
 .app-header {
-  @apply mx-auto flex w-11/12 animate-fadeIn items-center justify-between gap-4 py-6;
+  @apply flex animate-fadeIn items-center justify-between gap-4 py-6;
 }
 .app-header__title {
-  @apply px-2 font-display text-lg lg:text-2xl;
+  @apply font-display text-lg lg:text-2xl;
 }
 .app-header-controls {
   @apply flex items-center gap-4;
