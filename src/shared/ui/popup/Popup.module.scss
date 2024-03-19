@@ -1,0 +1,18 @@
+.popup {
+  @apply relative h-fit w-fit;
+}
+.popup__content {
+  @apply absolute z-10 min-w-fit max-w-80 whitespace-nowrap;
+  &--top {
+    @apply bottom-full left-1/2 mb-2 -translate-x-1/2;
+  }
+  &--right {
+    @apply left-full top-1/2 ml-2 -translate-y-1/2;
+  }
+  &--bottom {
+    @apply left-1/2 top-full mt-2 -translate-x-1/2;
+  }
+  &--left {
+    @apply right-full top-1/2 mr-2 -translate-y-1/2;
+  }
+}

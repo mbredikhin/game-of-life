@@ -1,0 +1,6 @@
+.card {
+  @apply inline-flex max-w-80 flex-col gap-2 rounded-xl border border-gray-light bg-white p-4 dark:border-gray-700 dark:bg-black;
+}
+.card__title {
+  @apply font-display text-lg;
+}

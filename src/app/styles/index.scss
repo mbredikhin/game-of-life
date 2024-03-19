@@ -45,7 +45,7 @@ body {
 }
 
 .button {
-  @apply relative flex h-10 items-center justify-center gap-2 rounded-lg border border-gray-300 bg-gray-light px-3 font-display text-xl text-gray-600 dark:border-gray-700 dark:bg-gray dark:text-white;
+  @apply relative inline-flex h-10 items-center justify-center gap-2 rounded-lg border border-gray-300 bg-gray-light px-3 font-display text-xl text-gray-600 dark:border-gray-700 dark:bg-gray dark:text-white;
   &::before {
     content: '';
     @apply absolute -bottom-1 -z-10 block w-full rounded-lg border border-gray-light bg-gray-300 p-2 dark:border-gray-700 dark:bg-gray-700;
