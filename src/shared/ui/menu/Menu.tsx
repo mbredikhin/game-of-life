@@ -1,6 +1,7 @@
 import classnames from 'classnames/bind';
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 
+import { Card } from '../card/Card';
 import styles from './Menu.module.scss';
 const cx = classnames.bind(styles);
 
@@ -11,7 +12,6 @@ type MenuProps = {
 
 export function Menu({ activator, content }: MenuProps) {
   const [isExpanded, setIsExpanded] = useState(false);
-  const contentRef = useRef<HTMLDivElement>(null);
 
   return (
     <div
@@ -20,14 +20,8 @@ export function Menu({ activator, content }: MenuProps) {
       onMouseOut={() => setIsExpanded(false)}
     >
       {activator}
-      <div
-        className={cx(
-          'menu__content',
-          ...(isExpanded ? ['menu__content--show'] : ['menu__content--hidden']),
-        )}
-        ref={contentRef}
-      >
-        {content}
+      <div className={cx(['menu__content', `menu__content--${isExpanded ? 'show' : 'hidden'}`])}>
+        <Card>{content}</Card>
       </div>
     </div>
   );
