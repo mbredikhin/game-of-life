@@ -1,6 +1,12 @@
 .card {
-  @apply inline-flex flex-col gap-2 rounded-xl border border-gray-light bg-white p-4 dark:border-gray-700 dark:bg-black;
+  @apply inline-flex w-max flex-col gap-2 rounded-xl border border-gray-light bg-white p-4 dark:border-gray-700 dark:bg-black;
 }
 .card__title {
-  @apply font-display text-lg;
+  @apply text-wrap font-display text-lg;
+}
+.card__body {
+  @apply text-wrap;
+}
+.card__footer {
+  @apply text-wrap;
 }

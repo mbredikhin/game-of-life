@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import PauseIcon from '@/app/assets/images/pause.svg?react';
 import PlayIcon from '@/app/assets/images/play.svg?react';
 import { evolve, GameStatus, updateGameStatus } from '@/entities/grid';
+import { TourPopup, TourStepID } from '@/features/tour';
 import { useAppDispatch, useAppSelector } from '@/shared/hooks';
 
 let loop: number | undefined;
@@ -39,13 +40,15 @@ export function GameStatusButton() {
   }
 
   return (
-    <button className="button button--lg" onClick={toggleGameStatus}>
-      <span>{gameStatus === GameStatus.PAUSED ? 'Start' : 'Pause'}</span>
-      {gameStatus === GameStatus.PAUSED ? (
-        <PlayIcon className="button__icon" fill="currentColor" />
-      ) : (
-        <PauseIcon className="button__icon" fill="currentColor" />
-      )}
-    </button>
+    <TourPopup stepID={TourStepID.Start}>
+      <button className="button button--lg" onClick={toggleGameStatus}>
+        <span>{gameStatus === GameStatus.PAUSED ? 'Start' : 'Pause'}</span>
+        {gameStatus === GameStatus.PAUSED ? (
+          <PlayIcon className="button__icon" fill="currentColor" />
+        ) : (
+          <PauseIcon className="button__icon" fill="currentColor" />
+        )}
+      </button>
+    </TourPopup>
   );
 }

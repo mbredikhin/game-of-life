@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 
 import ClearIcon from '@/app/assets/images/clear.svg?react';
 import { resetGrid } from '@/entities/grid';
+import { TourPopup, TourStepID } from '@/features/tour';
 import { useAppDispatch, useAppSelector } from '@/shared/hooks';
 import { Tooltip } from '@/shared/ui';
 
@@ -14,10 +15,12 @@ export function ClearBoardButton() {
   }, [gridSettings, dispatch]);
 
   return (
-    <Tooltip text="Clear board" position="bottom">
-      <button className="button" onClick={() => dispatch(resetGrid(gridSettings))}>
-        <ClearIcon className="button__icon" fill="currentColor" />
-      </button>
-    </Tooltip>
+    <TourPopup stepID={TourStepID.ClearBoard}>
+      <Tooltip text="Clear board" position="bottom">
+        <button className="button" onClick={() => dispatch(resetGrid(gridSettings))}>
+          <ClearIcon className="button__icon" fill="currentColor" />
+        </button>
+      </Tooltip>
+    </TourPopup>
   );
 }

@@ -1,15 +1,23 @@
 import { createContext, useCallback, useState } from 'react';
 
 import { steps, TourButtonType, TourStep } from '@/features/tour';
+import { useStorage } from '@/shared/hooks';
 
 export const TourContext = createContext<{
   step: TourStep | null;
   onButtonClick: (type: TourButtonType, step: TourStep) => void;
 }>({ step: null, onButtonClick: () => {} });
 
+export enum TourStorageKey {
+  IsTourFinished = 'isTourFinished',
+}
+
 // eslint-disable-next-line react/display-name
 export const withTour = (component: () => JSX.Element) => () => {
-  const [step, setStep] = useState<TourStep | null>(null);
+  const { getFromStorage, setToStorage } = useStorage<TourStorageKey>(window.localStorage);
+  const [step, setStep] = useState<TourStep | null>(
+    getFromStorage(TourStorageKey.IsTourFinished) ? null : steps[0],
+  );
 
   const goBack = useCallback((step: TourStep) => {
     const index = steps.findIndex(({ id }) => id === step.id);
@@ -27,7 +35,8 @@ export const withTour = (component: () => JSX.Element) => () => {
 
   const cancel = useCallback(() => {
     setStep(null);
-  }, []);
+    setToStorage(TourStorageKey.IsTourFinished, 1);
+  }, [setToStorage]);
 
   const onButtonClick = useCallback(
     (type: TourButtonType, step: TourStep) => {

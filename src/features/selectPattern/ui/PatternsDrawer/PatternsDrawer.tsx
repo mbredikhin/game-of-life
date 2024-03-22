@@ -4,6 +4,7 @@ import { useState } from 'react';
 
 import { selectPattern } from '@/entities/grid';
 import { decodeRLE, IPattern, Pattern, PatternSource, patternSources } from '@/entities/pattern';
+import { TourPopup, TourStepID } from '@/features/tour';
 import { useAppDispatch, useAppSelector } from '@/shared/hooks';
 import { rotateMatrix } from '@/shared/lib';
 import { Drawer, Tooltip } from '@/shared/ui';
@@ -74,8 +75,10 @@ export function PatternsDrawer() {
     </div>
   );
   return (
-    <Drawer activator={activator} open={isDrawerOpen} onChange={setIsDrawerOpen}>
-      {content}
-    </Drawer>
+    <TourPopup stepID={TourStepID.PatternsLibrary}>
+      <Drawer activator={activator} open={isDrawerOpen} onChange={setIsDrawerOpen}>
+        {content}
+      </Drawer>
+    </TourPopup>
   );
 }

@@ -10,7 +10,7 @@ const cx = classnames.bind(styles);
 
 interface TourPopupProps {
   stepID: TourStepID;
-  children: JSX.Element;
+  children: React.ReactNode;
 }
 
 export function TourPopup({ stepID, children }: TourPopupProps) {
@@ -34,8 +34,9 @@ export function TourPopup({ stepID, children }: TourPopupProps) {
     <Popup
       show={tour.step?.id === stepID}
       title={tour.step?.title}
-      body={tour.step?.text.join('\n')}
+      body={tour.step?.text?.join('\n')}
       footer={footer}
+      position={tour.step?.position ?? 'bottom'}
     >
       {children}
     </Popup>

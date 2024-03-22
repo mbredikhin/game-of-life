@@ -6,11 +6,23 @@
   &--top {
     @apply bottom-full left-1/2 mb-2 -translate-x-1/2;
   }
+  &--top-left {
+    @apply bottom-full right-0 mb-2;
+  }
+  &--top-right {
+    @apply bottom-full left-0 mb-2;
+  }
   &--right {
     @apply left-full top-1/2 ml-2 -translate-y-1/2;
   }
   &--bottom {
     @apply left-1/2 top-full mt-2 -translate-x-1/2;
+  }
+  &--bottom-left {
+    @apply right-0 top-full mt-2;
+  }
+  &--bottom-right {
+    @apply left-0 top-full mt-2;
   }
   &--left {
     @apply right-full top-1/2 mr-2 -translate-y-1/2;

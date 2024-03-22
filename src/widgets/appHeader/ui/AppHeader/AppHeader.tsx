@@ -3,6 +3,7 @@ import { useMatch } from 'react-router-dom';
 
 import { SettingsMenu } from '@/entities/settings';
 import { PatternsDrawer } from '@/features/selectPattern';
+import { TourPopup, TourStepID } from '@/features/tour';
 import { RouteName } from '@/shared/config';
 
 import { ClearBoardButton } from '../ClearBoardButton/ClearBoardButton';
@@ -20,7 +21,9 @@ export function AppHeader() {
 
   return (
     <div className={cx(['app-header'])}>
-      <span className={cx(['app-header__title'])}>Conway&apos;s Game of Life</span>
+      <TourPopup stepID={TourStepID.Initial}>
+        <span className={cx(['app-header__title'])}>Conway&apos;s Game of Life</span>
+      </TourPopup>
       <div className={cx(['app-header-controls'])}>
         {isHomePage ? (
           <>

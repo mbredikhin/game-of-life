@@ -10,6 +10,7 @@ import {
   updateTheme,
   updateTick,
 } from '@/entities/settings';
+import { TourPopup, TourStepID } from '@/features/tour';
 import { useAppDispatch, useAppSelector, useStorage } from '@/shared/hooks';
 import { Menu, Switch } from '@/shared/ui';
 
@@ -120,5 +121,9 @@ export function SettingsMenu() {
     </>
   );
 
-  return <Menu activator={activator} content={content}></Menu>;
+  return (
+    <TourPopup stepID={TourStepID.Settings}>
+      <Menu activator={activator} content={content}></Menu>
+    </TourPopup>
+  );
 }

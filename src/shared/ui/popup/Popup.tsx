@@ -1,16 +1,18 @@
 import classnames from 'classnames/bind';
 
+import { RelativePosition } from '@/shared/lib';
+
 import { Card } from '../card/Card';
 import styles from './Popup.module.scss';
 const cx = classnames.bind(styles);
 
 interface PopupProps {
   show: boolean;
-  position?: 'top' | 'right' | 'bottom' | 'left';
+  position?: RelativePosition;
   title?: JSX.Element | string;
   body?: JSX.Element | string;
   footer?: JSX.Element | string;
-  children: JSX.Element;
+  children: React.ReactNode;
 }
 
 export function Popup({ show, position = 'bottom', title, body, footer, children }: PopupProps) {
@@ -18,7 +20,9 @@ export function Popup({ show, position = 'bottom', title, body, footer, children
     <div className={cx(['popup'])}>
       {show ? (
         <div className={cx(['popup__content', `popup__content--${position}`])}>
-          <Card title={title} body={body} footer={footer}></Card>
+          <Card maxWidth="340px" title={title} footer={footer}>
+            {body}
+          </Card>
         </div>
       ) : null}
       <div>{children}</div>

@@ -1,3 +1,13 @@
+export type RelativePosition =
+  | 'top'
+  | 'bottom'
+  | 'left'
+  | 'right'
+  | 'top-left'
+  | 'top-right'
+  | 'bottom-left'
+  | 'bottom-right';
+
 export function fitNumber(value: number, range: [number, number]) {
   if (value < range[0]) {
     return range[0];
