@@ -12,7 +12,7 @@ const initialState: GridState = {
   gridHasChanged: false,
   selectedPattern: null,
   generation: 0,
-  gameStatus: GameStatus.PAUSED,
+  gameStatus: GameStatus.Pause,
 };
 
 export const GridSlice = createSlice({

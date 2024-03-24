@@ -1,8 +1,8 @@
 import type { IPattern } from '@/entities/pattern';
 
 export enum GameStatus {
-  PLAY,
-  PAUSED,
+  Play = 'play',
+  Pause = 'pause',
 }
 export type TGrid = boolean[][];
 export type Coords = Record<'x' | 'y', number>;

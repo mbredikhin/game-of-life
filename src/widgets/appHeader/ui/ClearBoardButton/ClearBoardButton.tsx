@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 
 import ClearIcon from '@/app/assets/images/clear.svg?react';
 import { resetGrid } from '@/entities/grid';
@@ -10,13 +10,27 @@ export function ClearBoardButton() {
   const gridSettings = useAppSelector((state) => state.settings.grid);
   const dispatch = useAppDispatch();
 
+  const keyboardHandler = useCallback(
+    (event: KeyboardEvent) => {
+      if (event.code === 'KeyC') {
+        dispatch(resetGrid(gridSettings));
+      }
+    },
+    [gridSettings, dispatch],
+  );
+
+  useEffect(() => {
+    addEventListener('keypress', keyboardHandler);
+    return () => removeEventListener('keypress', keyboardHandler);
+  }, [keyboardHandler]);
+
   useEffect(() => {
     dispatch(resetGrid(gridSettings));
   }, [gridSettings, dispatch]);
 
   return (
     <TourPopup stepID={TourStepID.ClearBoard}>
-      <Tooltip text="Clear board" position="bottom">
+      <Tooltip text="Clear board [C]" position="bottom">
         <button className="button" onClick={() => dispatch(resetGrid(gridSettings))}>
           <ClearIcon className="button__icon" fill="currentColor" />
         </button>

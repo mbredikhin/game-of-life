@@ -1,6 +1,6 @@
 import { BookOpenIcon } from '@heroicons/react/24/solid';
 import classnames from 'classnames/bind';
-import { useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import { selectPattern } from '@/entities/grid';
 import { decodeRLE, IPattern, Pattern, PatternSource, patternSources } from '@/entities/pattern';
@@ -21,7 +21,7 @@ const patternsInitial = patternSources.reduce(
 );
 
 const activator = (
-  <Tooltip text="Patterns library" position="bottom">
+  <Tooltip text="Patterns library [L]" position="bottom">
     <button className="button">
       <BookOpenIcon className="button__icon" />
     </button>
@@ -50,6 +50,20 @@ export function PatternsDrawer() {
     dispatch(selectPattern(pattern));
     setIsDrawerOpen(false);
   }
+
+  const keyboardHandler = useCallback(
+    (event: KeyboardEvent) => {
+      if (event.code === 'KeyL') {
+        setIsDrawerOpen(!isDrawerOpen);
+      }
+    },
+    [isDrawerOpen],
+  );
+
+  useEffect(() => {
+    addEventListener('keypress', keyboardHandler);
+    return () => removeEventListener('keypress', keyboardHandler);
+  }, [keyboardHandler]);
 
   const content = (
     <div>

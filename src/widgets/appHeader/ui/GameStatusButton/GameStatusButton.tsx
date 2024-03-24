@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 
 import PauseIcon from '@/app/assets/images/pause.svg?react';
 import PlayIcon from '@/app/assets/images/play.svg?react';
@@ -14,36 +14,58 @@ export function GameStatusButton() {
   const gridHasChanged = useAppSelector((state) => state.gridState.gridHasChanged);
   const dispatch = useAppDispatch();
 
+  const changeGameStatus = useCallback(
+    (status: GameStatus) => {
+      dispatch(updateGameStatus(status));
+      clearInterval(loop);
+      if (status === GameStatus.Play) {
+        loop = setInterval(() => dispatch(evolve()), tick);
+      }
+    },
+    [tick, dispatch],
+  );
+
+  const keyboardHandler = useCallback(
+    (event: KeyboardEvent) => {
+      if (event.code === 'Space') {
+        event.preventDefault();
+        const status = gameStatus === GameStatus.Pause ? GameStatus.Play : GameStatus.Pause;
+        changeGameStatus(status);
+      }
+    },
+    [gameStatus, changeGameStatus],
+  );
+
+  useEffect(() => {
+    addEventListener('keypress', keyboardHandler);
+    return () => removeEventListener('keypress', keyboardHandler);
+  }, [keyboardHandler]);
+
   useEffect(() => {
     if (!gridHasChanged) {
-      dispatch(updateGameStatus(GameStatus.PAUSED));
+      dispatch(updateGameStatus(GameStatus.Pause));
       clearInterval(loop);
     }
   }, [gridHasChanged, dispatch]);
 
   useEffect(() => {
-    if (gameStatus === GameStatus.PLAY) {
+    if (gameStatus === GameStatus.Play) {
       clearInterval(loop);
       loop = setInterval(() => dispatch(evolve()), tick);
     }
     return () => clearInterval(loop);
   }, [tick, gameStatus, dispatch]);
 
-  function toggleGameStatus() {
-    const newStatus = gameStatus === GameStatus.PAUSED ? GameStatus.PLAY : GameStatus.PAUSED;
-    dispatch(updateGameStatus(newStatus));
-    if (newStatus === GameStatus.PLAY) {
-      loop = setInterval(() => dispatch(evolve()), tick);
-    } else {
-      clearInterval(loop);
-    }
-  }
-
   return (
     <TourPopup stepID={TourStepID.Start}>
-      <button className="button button--lg" onClick={toggleGameStatus}>
-        <span>{gameStatus === GameStatus.PAUSED ? 'Start' : 'Pause'}</span>
-        {gameStatus === GameStatus.PAUSED ? (
+      <button
+        className="button button--lg"
+        onClick={() =>
+          changeGameStatus(gameStatus === GameStatus.Pause ? GameStatus.Play : GameStatus.Pause)
+        }
+      >
+        <span>{gameStatus === GameStatus.Pause ? 'Start' : 'Pause'}</span>
+        {gameStatus === GameStatus.Pause ? (
           <PlayIcon className="button__icon" fill="currentColor" />
         ) : (
           <PauseIcon className="button__icon" fill="currentColor" />
