@@ -120,4 +120,19 @@ export const patternSources: PatternSource[] = [
     data: `x = 12, y = 9
     4b4o4b2$2b8o2b2$12o2$2b8o2b2$4b4o!`,
   },
+  {
+    name: 'p28 block puffer',
+    group: 'puffers',
+    data: `x = 29, y = 11
+    10b3o3b3o$2bo6bo2bo3bo2bo6bo$b3o5bo3bobo3bo5b3o$2obo9bobo9bob2o$3o5b2o
+    3bobo3b2o5b3o$b2o8bobobobo8b2o$9bobobobobobo$13bobo$11bobobobo$10b2obo
+    bob2o$11bobobobo!`,
+  },
+  {
+    name: 'Pufferfish',
+    group: 'puffers',
+    data: `x = 15, y = 12, rule = B3/S23
+    3bo7bo$2b3o5b3o$b2o2bo3bo2b2o$3b3o3b3o2$4bo5bo$2bo2bo3bo2bo$o5bobo5bo$
+    2o4bobo4b2o$6bobo$3bobo3bobo$4bo5bo!`,
+  },
 ];
