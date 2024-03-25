@@ -11,18 +11,22 @@ let loop: number | undefined;
 export function GameStatusButton() {
   const tick = useAppSelector((state) => state.settings.tick);
   const gameStatus = useAppSelector((state) => state.gridState.gameStatus);
+  const grid = useAppSelector((state) => state.gridState.grid);
   const gridHasChanged = useAppSelector((state) => state.gridState.gridHasChanged);
   const dispatch = useAppDispatch();
 
   const changeGameStatus = useCallback(
     (status: GameStatus) => {
+      if (grid.flat().every((cell) => cell === false) && status === GameStatus.Play) {
+        return;
+      }
       dispatch(updateGameStatus(status));
       clearInterval(loop);
       if (status === GameStatus.Play) {
         loop = setInterval(() => dispatch(evolve()), tick);
       }
     },
-    [tick, dispatch],
+    [grid, tick, dispatch],
   );
 
   const keyboardHandler = useCallback(
@@ -43,10 +47,9 @@ export function GameStatusButton() {
 
   useEffect(() => {
     if (!gridHasChanged) {
-      dispatch(updateGameStatus(GameStatus.Pause));
-      clearInterval(loop);
+      changeGameStatus(GameStatus.Pause);
     }
-  }, [gridHasChanged, dispatch]);
+  }, [gridHasChanged, changeGameStatus]);
 
   useEffect(() => {
     if (gameStatus === GameStatus.Play) {
