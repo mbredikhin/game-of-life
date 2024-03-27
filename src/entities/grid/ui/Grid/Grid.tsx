@@ -24,7 +24,13 @@ export function Grid({ zoom }: GridProps) {
     dispatch(updateGridCell({ coords, value: isPopulated }));
   }
 
-  function onCellClick(coords: Coords, isPopulated: boolean) {
+  function onCellMouseEnter(coords: Coords, isPopulated: boolean) {
+    if (brush.active) {
+      changeCell(coords, brush.fill);
+    }
+  }
+
+  function onCellMouseDown(coords: Coords, isPopulated: boolean) {
     if (selectedPattern) {
       dispatch(
         applyPattern({
@@ -35,19 +41,10 @@ export function Grid({ zoom }: GridProps) {
           },
         }),
       );
-    } else {
-      changeCell(coords, !isPopulated);
+      return;
     }
-  }
-
-  function onCellMouseLeave(coords: Coords, isPopulated: boolean) {
-    if (brush.active) {
-      changeCell(coords, brush.fill);
-    }
-  }
-
-  function onCellMouseDown(coords: Coords, isPopulated: boolean) {
     brush = { active: true, fill: !isPopulated };
+    changeCell(coords, brush.fill);
   }
 
   function resetBrush() {
@@ -64,8 +61,7 @@ export function Grid({ zoom }: GridProps) {
               size={zoom}
               coords={{ x, y }}
               onMouseDown={onCellMouseDown}
-              onCellMouseLeave={onCellMouseLeave}
-              onClick={onCellClick}
+              onCellMouseEnter={onCellMouseEnter}
             />
           ))}
         </div>
