@@ -23,7 +23,7 @@ export function GameStatusButton() {
       dispatch(updateGameStatus(status));
       clearInterval(loop);
       if (status === GameStatus.Play) {
-        loop = setInterval(() => dispatch(evolve()), tick);
+        loop = +setInterval(() => dispatch(evolve()), tick);
       }
     },
     [grid, tick, dispatch],
@@ -54,7 +54,7 @@ export function GameStatusButton() {
   useEffect(() => {
     if (gameStatus === GameStatus.Play) {
       clearInterval(loop);
-      loop = setInterval(() => dispatch(evolve()), tick);
+      loop = +setInterval(() => dispatch(evolve()), tick);
     }
     return () => clearInterval(loop);
   }, [tick, gameStatus, dispatch]);
