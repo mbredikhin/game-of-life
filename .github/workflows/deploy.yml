@@ -1,0 +1,36 @@
+name: Deploy
+
+on:
+  push:
+    branches: ['main']
+  workflow_dispatch:
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-24.04
+    environment: production
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Build image
+        run: docker build . -t ${{ secrets.DOCKER_HUB_USER }}/game-of-life:latest
+      - name: Push image to docker hub
+        run: |
+          docker login -u ${{ secrets.DOCKER_HUB_USER }} -p ${{ secrets.DOCKER_HUB_TOKEN }}
+          docker push ${{ secrets.DOCKER_HUB_USER }}/game-of-life:latest
+
+  pull-and-run:
+    runs-on: ubuntu-24.04
+    environment: production
+    needs: build-and-publish
+    steps:
+      - name: Pull and run image on EC2
+        run: |
+          echo "${{ secrets.EC2_SSH_KEY }}" > key.pem
+          chmod 600 key.pem
+          ssh -o StrictHostKeyChecking=no -i key.pem ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'EOF'
+            docker stop game-of-life || true
+            docker rm game-of-life || true
+            docker pull ${{ secrets.DOCKER_HUB_USER }}/game-of-life:latest
+            docker run -d -p 8002:80 --name game-of-life --restart=always ${{ secrets.DOCKER_HUB_USER }}/game-of-life:latest
+          EOF
