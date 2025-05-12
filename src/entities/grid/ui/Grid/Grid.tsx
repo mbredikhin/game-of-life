@@ -7,7 +7,7 @@ import styles from './Grid.module.scss';
 const cx = classnames.bind(styles);
 
 interface GridProps {
-  zoom: 'sm' | 'md' | 'lg';
+  zoom: number;
 }
 
 let brush: Brush = {
@@ -58,7 +58,7 @@ export function Grid({ zoom }: GridProps) {
           {Array.from({ length: gridSettings.width }).map((_, x) => (
             <Cell
               key={`${y}:${x}`}
-              size={zoom}
+              zoom={zoom}
               coords={{ x, y }}
               onMouseDown={onCellMouseDown}
               onCellMouseEnter={onCellMouseEnter}

@@ -8,14 +8,8 @@ export type RelativePosition =
   | 'bottom-left'
   | 'bottom-right';
 
-export function fitNumber(value: number, range: [number, number]) {
-  if (value < range[0]) {
-    return range[0];
-  } else if (value > range[1]) {
-    return range[1];
-  }
-  return value;
-}
+export const clamp = (value: number, min: number, max: number) =>
+  Math.max(min, Math.min(value, max));
 
 export function cropMatrix<T>(
   matrix: T[][],

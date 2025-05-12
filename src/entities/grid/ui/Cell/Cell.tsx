@@ -8,17 +8,20 @@ const cx = classnames.bind(styles);
 
 interface CellProps {
   coords: Coords;
-  size: 'sm' | 'md' | 'lg';
+  zoom: number;
   onMouseDown: (coords: Coords, isPopulated: boolean) => void;
   onCellMouseEnter: (coords: Coords, isPopulated: boolean) => void;
 }
 
-export function Cell({ coords, size, onMouseDown, onCellMouseEnter }: CellProps) {
+export function Cell({ coords, zoom, onMouseDown, onCellMouseEnter }: CellProps) {
   const isPopulated = useAppSelector((state) => selectGridCell(state.gridState, coords));
+  const edgeSize = 24 + zoom * 2;
+  const style = { width: `${edgeSize}px`, height: `${edgeSize}px` };
 
   return (
     <div
-      className={cx(['cell', `cell--${size}`, isPopulated && 'cell--filled'])}
+      className={cx(['cell', isPopulated && 'cell--filled'])}
+      style={style}
       onMouseDown={() => onMouseDown(coords, isPopulated)}
       onMouseEnter={() => onCellMouseEnter(coords, isPopulated)}
     ></div>

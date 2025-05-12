@@ -1,9 +1,10 @@
 import { RelativePosition } from '@/shared/lib';
 
 export enum TourButtonType {
-  Cancel = 'cancel',
-  Back = 'back',
-  Next = 'next',
+  Close,
+  Back,
+  Next,
+  Finish,
 }
 
 export enum TourStepID {
@@ -23,7 +24,7 @@ export interface TourButton {
 
 export interface TourStep {
   id: TourStepID;
-  buttons: TourButton[];
+  buttons: TourButtonType[];
   title: string;
   text: string[];
   position?: RelativePosition;

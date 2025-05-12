@@ -1,8 +1,6 @@
-import { ZoomLevel } from './types';
-
-export const zoomLevels: ZoomLevel[] = ['sm', 'md', 'lg'];
-export enum ZoomDirection {
+export enum ZoomDelta {
   Up = 1,
   Down = -1,
 }
-export { type ZoomLevel };
+
+export const zoomStorageKey = 'boardZoom';

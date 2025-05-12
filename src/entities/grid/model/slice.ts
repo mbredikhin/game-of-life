@@ -2,7 +2,7 @@ import { createSelector, createSlice, type PayloadAction } from '@reduxjs/toolki
 
 import type { IPattern } from '@/entities/pattern';
 import type { Settings } from '@/entities/settings';
-import { cropMatrix, fitNumber } from '@/shared/lib';
+import { cropMatrix, clamp } from '@/shared/lib';
 
 import { Coords, GameStatus, GridState } from './types';
 
@@ -137,8 +137,8 @@ export const GridSlice = createSlice({
             : state.grid[0].length - 1,
         ],
       );
-      const y = fitNumber(coords.y, [0, state.grid.length - 1]);
-      const x = fitNumber(coords.x, [0, state.grid[0].length - 1]);
+      const y = clamp(coords.y, 0, state.grid.length - 1);
+      const x = clamp(coords.x, 0, state.grid[0].length - 1);
       const grid = [
         ...state.grid.slice(0, y),
         ...state.grid

@@ -3,23 +3,20 @@ import { useCallback, useEffect } from 'react';
 
 import { Tooltip } from '@/shared/ui';
 
-import { ZoomDirection, ZoomLevel, zoomLevels } from '../../lib';
+import { ZoomDelta } from '../../lib';
 import styles from './ZoomControls.module.scss';
+import { clamp } from '@/shared/lib';
 const cx = classnames.bind(styles);
 
 interface ZoomControls {
-  zoom: ZoomLevel;
-  onChangeZoom: (zoom: ZoomLevel) => void;
+  zoom: number;
+  onChangeZoom: (zoom: number) => void;
 }
 
 export function ZoomControls({ zoom, onChangeZoom }: ZoomControls) {
   const changeZoom = useCallback(
-    (direction: ZoomDirection) => {
-      const currentZoomLevel = zoomLevels.findIndex((level) => level === zoom);
-      const value = zoomLevels[currentZoomLevel + direction];
-      if (value) {
-        onChangeZoom(value);
-      }
+    (delta: ZoomDelta) => {
+      onChangeZoom(clamp(zoom + delta, -5, 5));
     },
     [zoom, onChangeZoom],
   );
@@ -27,9 +24,9 @@ export function ZoomControls({ zoom, onChangeZoom }: ZoomControls) {
   const keyboardHandler = useCallback(
     (event: KeyboardEvent) => {
       if (event.shiftKey && event.code === 'Equal') {
-        changeZoom(ZoomDirection.Up);
+        changeZoom(ZoomDelta.Up);
       } else if (event.shiftKey && event.code === 'Minus') {
-        changeZoom(ZoomDirection.Down);
+        changeZoom(ZoomDelta.Down);
       }
     },
     [changeZoom],
@@ -42,13 +39,13 @@ export function ZoomControls({ zoom, onChangeZoom }: ZoomControls) {
 
   return (
     <div className={cx(['zoom-controls'])}>
-      <Tooltip position="left" text="Add zoom [shift +]">
-        <button className="button" onClick={() => changeZoom(ZoomDirection.Up)}>
+      <Tooltip position="left" text="Zoom In [shift +]">
+        <button className="button" onClick={() => changeZoom(ZoomDelta.Up)}>
           +
         </button>
       </Tooltip>
-      <Tooltip position="left" text="Reduce zoom [shift -]">
-        <button className="button" onClick={() => changeZoom(ZoomDirection.Down)}>
+      <Tooltip position="left" text="Zoom Out [shift -]">
+        <button className="button" onClick={() => changeZoom(ZoomDelta.Down)}>
           -
         </button>
       </Tooltip>

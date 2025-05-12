@@ -41,7 +41,7 @@ body {
 }
 
 .app {
-  @apply animate-fade-in mx-auto w-11/12;
+  @apply mx-auto w-screen animate-fade-in px-16;
 }
 
 .button {

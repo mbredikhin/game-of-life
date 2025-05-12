@@ -1,8 +1,8 @@
 .popup {
-  @apply relative h-fit w-fit;
+  @apply z-popup relative h-fit w-fit;
 }
 .popup__content {
-  @apply absolute z-10 min-w-fit max-w-80 whitespace-nowrap;
+  @apply absolute z-10 min-w-fit max-w-80 whitespace-nowrap shadow-lg;
   &--top {
     @apply bottom-full left-1/2 mb-2 -translate-x-1/2;
   }

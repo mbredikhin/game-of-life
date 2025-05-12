@@ -1,25 +1,10 @@
 .cell {
-  @apply inline-block border border-white bg-gray-light dark:border-black dark:bg-gray;
+  @apply relative inline-block border border-white bg-gray-light dark:border-black dark:bg-gray;
   &:hover {
     @apply border-orange;
   }
-  &--sm {
-    @apply h-3.5 w-3.5;
-    &:after {
-      @apply h-3.5 w-3.5;
-    }
-  }
-  &--md {
-    @apply h-4 w-4;
-    &:after {
-      @apply h-4 w-4;
-    }
-  }
-  &--lg {
-    @apply h-5 w-5;
-    &:after {
-      @apply h-5 w-5;
-    }
+  &:after {
+    @apply absolute inset-0 z-cell-glow;
   }
   &--filled {
     @apply relative  bg-orange dark:bg-orange;

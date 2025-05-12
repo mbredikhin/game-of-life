@@ -22,7 +22,9 @@ module.exports = {
         display: ['Minecraft', 'sans-serif'],
       },
       zIndex: {
+        'cell-glow': '10',
         tooltip: '100',
+        popup: '100',
         drawer: '1000',
       },
       keyframes: {
