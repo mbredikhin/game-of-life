@@ -6,6 +6,8 @@ import { Popup } from '@/shared/ui';
 
 import { TourStepID } from '../../model';
 import styles from './TourPopup.module.scss';
+import { useMatch } from 'react-router-dom';
+import { RouteName } from '@/shared/config';
 const cx = classnames.bind(styles);
 
 interface TourPopupProps {
@@ -15,6 +17,8 @@ interface TourPopupProps {
 
 export function TourPopup({ stepID, children }: TourPopupProps) {
   const tour = useContext(TourContext);
+  const isHomePage = useMatch(RouteName.HOME_PAGE);
+  const tourVisible = !!isHomePage;
 
   const footer = (
     <div className={cx(['tour-popup__footer'])}>
@@ -32,7 +36,7 @@ export function TourPopup({ stepID, children }: TourPopupProps) {
 
   return (
     <Popup
-      show={tour.step?.id === stepID}
+      show={tourVisible && tour.step?.id === stepID}
       title={tour.step?.title}
       body={tour.step?.text?.join('\n')}
       footer={footer}
