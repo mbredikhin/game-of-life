@@ -2,7 +2,7 @@
   @apply relative h-fit w-fit;
 }
 .tooltip__text {
-  @apply absolute z-10 mx-auto min-w-fit max-w-80 whitespace-nowrap rounded border border-gray-light bg-white px-4 py-1 dark:border-gray-700 dark:bg-gray;
+  @apply z-tooltip absolute mx-auto min-w-fit max-w-80 whitespace-nowrap rounded border border-gray-light bg-white px-4 py-1 dark:border-gray-700 dark:bg-gray;
   &::before {
     content: '';
     @apply absolute rotate-45 border-gray-light bg-white p-1.5 dark:border-gray-700 dark:bg-gray;

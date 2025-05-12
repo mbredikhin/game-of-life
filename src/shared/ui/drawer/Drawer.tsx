@@ -16,6 +16,7 @@ export function Drawer({ activator, children, open, onChange }: DrawerProps) {
     <>
       <div onClick={() => onChange(true)}>{activator}</div>
 
+      {open ? <div className={cx('drawer-backdrop')} onClick={() => onChange(false)}></div> : null}
       <div className={cx('drawer', open && ['drawer--open'])}>
         <button onClick={() => onChange(false)} className={cx(['drawer__button'])}>
           <ChevronDoubleRightIcon className="button__icon button__icon--lg" />

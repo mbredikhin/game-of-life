@@ -1,5 +1,5 @@
 .app-header {
-  @apply flex animate-fadeIn items-center justify-between gap-4 py-6;
+  @apply flex items-center justify-between gap-4 py-6;
 }
 .app-header__title {
   @apply font-display text-lg lg:text-2xl;
