@@ -1,5 +1,5 @@
 .cell {
-  @apply relative inline-block border border-white bg-gray-light dark:border-black dark:bg-gray;
+  @apply dark:bg-gray-dark relative inline-block border border-white bg-gray-light dark:border-black;
   &:hover {
     @apply border-orange;
   }

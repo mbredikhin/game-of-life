@@ -67,7 +67,7 @@ export function PatternsDrawer() {
 
   const content = (
     <div>
-      <div className={cx(['title', 'px-6 pt-6'])}>
+      <div className={cx(['text-3xl font-bold leading-10', 'px-6 pt-6'])}>
         You can select any pattern and place it on board
       </div>
       {Object.entries(patterns).map(([group, patterns]) => (

@@ -5,15 +5,14 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        black: '#0a0a0a',
+        white: '#f1f7ed',
+        black: '#211c1e',
         gray: {
-          DEFAULT: '#1b1716',
-          light: '#EFEFEF',
+          DEFAULT: '#7a7a7a',
+          dark: '#333333',
+          light: '#e0e0e0',
         },
         orange: '#ff9665',
-        violet: {
-          dark: '#24113d',
-        },
       },
       boxShadow: {
         cell: '-2px -2px 48px 0px #ff9665',

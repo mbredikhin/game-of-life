@@ -1,5 +1,5 @@
 .patterns-group__name {
-  @apply sticky top-0 z-10 w-full border-b border-b-gray-light bg-white px-6 pb-2 pt-4 capitalize dark:border-b-gray dark:bg-black;
+  @apply dark:border-b-gray-dark sticky top-0 z-10 w-full border-b border-b-gray-light bg-white px-6 pb-2 pt-4 capitalize dark:bg-black;
 }
 .patterns-group__list {
   @apply mx-auto flex flex-wrap gap-6 overflow-x-scroll px-6 py-4;

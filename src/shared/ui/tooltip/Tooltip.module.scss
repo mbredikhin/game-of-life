@@ -2,10 +2,10 @@
   @apply relative h-fit w-fit;
 }
 .tooltip__text {
-  @apply z-tooltip absolute mx-auto min-w-fit max-w-80 whitespace-nowrap rounded border border-gray-light bg-white px-4 py-1 dark:border-gray-700 dark:bg-gray;
+  @apply dark:border-gray-dark absolute z-tooltip mx-auto min-w-fit max-w-80 whitespace-nowrap rounded-lg border border-gray-light bg-white px-4 py-1 shadow-md dark:bg-black;
   &::before {
     content: '';
-    @apply absolute rotate-45 border-gray-light bg-white p-1.5 dark:border-gray-700 dark:bg-gray;
+    @apply dark:border-gray-dark absolute rotate-45 border-gray-light bg-white p-1.5 dark:bg-black;
   }
   &--top {
     @apply bottom-full left-1/2 mb-2 -translate-x-1/2;
