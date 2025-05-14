@@ -1,13 +1,18 @@
 import { ArrowUturnLeftIcon } from '@heroicons/react/24/solid';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useNavigationType } from 'react-router-dom';
 
 export function GoBackButton() {
   const navigate = useNavigate();
+  const navigationType = useNavigationType();
 
   return (
-    <button className="button button--lg" onClick={() => navigate(-1)}>
-      Go back
-      <ArrowUturnLeftIcon className="button__icon" />
-    </button>
+    <>
+      {navigationType === 'POP' ? null : (
+        <button className="button button--lg" onClick={() => navigate(-1)}>
+          Go back
+          <ArrowUturnLeftIcon className="button__icon" />
+        </button>
+      )}
+    </>
   );
 }
