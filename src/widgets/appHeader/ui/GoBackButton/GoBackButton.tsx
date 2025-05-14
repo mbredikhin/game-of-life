@@ -5,7 +5,7 @@ export function GoBackButton() {
   const navigate = useNavigate();
 
   return (
-    <button className="button" onClick={() => navigate(-1)}>
+    <button className="button button--lg" onClick={() => navigate(-1)}>
       Go back
       <ArrowUturnLeftIcon className="button__icon" />
     </button>

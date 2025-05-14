@@ -1,5 +1,5 @@
 .app-header {
-  @apply flex items-center justify-between gap-4 py-6;
+  @apply z-app-header sticky top-0 flex items-center justify-between gap-4 bg-white py-6 dark:bg-black;
 }
 .app-header__title {
   @apply font-display text-lg lg:text-2xl;

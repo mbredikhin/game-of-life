@@ -1,3 +1,7 @@
+.instruction {
+  @apply mx-auto my-4 max-w-screen-lg;
+}
+
 .instruction__title {
-  @apply text-xl font-bold;
+  @apply text-3xl font-bold leading-10;
 }

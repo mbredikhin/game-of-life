@@ -23,7 +23,7 @@ p {
   @apply py-2;
 }
 body {
-  @apply bg-white text-base font-normal leading-6 text-gray-700 dark:bg-black dark:text-gray-200;
+  @apply font-body bg-white text-lg font-normal leading-8 text-gray-700 dark:bg-black dark:text-gray-200;
 }
 /* Scrollar customization */
 *::-webkit-scrollbar-track {
