@@ -16,6 +16,18 @@ export const patternSources: PatternSource[] = [
     bo2bo$o4b$o3bo$4o!`,
   },
   {
+    name: 'Middleweight spaceship',
+    group: 'spaceships',
+    data: `x = 6, y = 5
+    bo3bo$o5b$o4bo$5o$b!`,
+  },
+  {
+    name: 'Heavyweight spaceship',
+    group: 'spaceships',
+    data: `x = 7, y = 5
+    bo4bo$o6b$o5bo$6o$b!`,
+  },
+  {
     name: 'Canada goose',
     group: 'spaceships',
     data: `x = 13, y = 12
@@ -31,6 +43,24 @@ export const patternSources: PatternSource[] = [
     2bob$b2o11b2ob$b2o11b2ob$4bo7bo4b$4b3o3b3o4b$6bo3bo6b$3b2obo3bob2o3b$
     5b2o3b2o5b$5bobobobo5b2$5bo2bo2bo5b$6b2ob2o6b$5b2o3b2o5b2$4bo2b3o2bo4b
     $3b11o3b$3b2obo3bob2o!`,
+  },
+  {
+    name: 'Blinker',
+    group: 'oscillators',
+    data: `x = 3, y = 1
+    ooo!`,
+  },
+  {
+    name: 'Toad',
+    group: 'oscillators',
+    data: `x = 4, y = 2
+    b3o$3o!`,
+  },
+  {
+    name: 'Beacon',
+    group: 'oscillators',
+    data: `x = 4, y = 4
+    2o2b$o3b$3bo$2b2o!`,
   },
   {
     name: 'Clock',
@@ -93,6 +123,30 @@ export const patternSources: PatternSource[] = [
     group: 'still lifes',
     data: `x = 5, y = 4
     2bo2b$bobob$bobob$2ob2o!`,
+  },
+  {
+    name: 'Block',
+    group: 'still lifes',
+    data: `x = 2, y = 2
+    2o$2o!`,
+  },
+  {
+    name: 'Beehive',
+    group: 'still lifes',
+    data: `x = 4, y = 3
+    b2ob$o2bo$b2o!`,
+  },
+  {
+    name: 'Loaf',
+    group: 'still lifes',
+    data: `x = 4, y = 4
+    b2o$o2bo$bobo$2bo!`,
+  },
+  {
+    name: 'Boat',
+    group: 'still lifes',
+    data: `x = 3, y = 3
+    2ob$obo$bo!`,
   },
   {
     name: 'Turning toads',
