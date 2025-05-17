@@ -24,22 +24,22 @@ export function AppHeader() {
       <TourPopup stepID={TourStepID.Initial}>
         <span className={cx(['app-header__title'])}>Conway&apos;s Game of Life</span>
       </TourPopup>
-      <div className={cx(['app-header-controls'])}>
-        {isHomePage ? (
-          <>
-            <GenerationsCounter />
-            <GameStatusButton />
+      {isHomePage ? (
+        <>
+          <GenerationsCounter />
+          <div className={cx(['app-header-controls'])}>
+            <div className={cx(['app-header-controls__status-button'])}>
+              <GameStatusButton />
+            </div>
             <ClearBoardButton />
             <StepBackwardButton />
             <InitRandomlyButton />
             <PatternsDrawer />
             <SettingsMenu />
             <InstructionButton />
-          </>
-        ) : (
-          <GoBackButton />
-        )}
-      </div>
+          </div>
+        </>
+      ) : null}
     </div>
   );
 }

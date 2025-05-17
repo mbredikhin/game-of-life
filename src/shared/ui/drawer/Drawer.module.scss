@@ -2,7 +2,7 @@
   @apply fixed left-0 top-0 z-drawer h-screen w-screen bg-black bg-opacity-25;
 }
 .drawer {
-  @apply fixed left-32 top-0 z-drawer flex h-screen w-auto translate-x-full transform items-stretch justify-between overflow-scroll rounded-l-xl transition-transform duration-500 ease-in-out;
+  @apply fixed left-32 top-0 z-drawer flex h-screen w-auto translate-x-full transform items-stretch justify-between rounded-l-xl transition-transform duration-500 ease-in-out;
   &--open {
     @apply translate-x-0;
   }

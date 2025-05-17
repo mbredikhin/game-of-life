@@ -34,18 +34,18 @@ body {
 }
 *::-webkit-scrollbar-thumb {
   -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-  @apply dark:bg-gray-dark rounded-xl bg-gray-light;
+  @apply rounded-xl bg-gray-light dark:bg-gray-dark;
 }
 *::-webkit-scrollbar-corner {
   @apply bg-white dark:bg-black;
 }
 
 .app {
-  @apply mx-auto w-screen animate-fade-in px-16;
+  @apply mx-auto w-full animate-fade-in px-4 md:px-8 lg:px-16;
 }
 
 .button {
-  @apply text-gray-dark dark:bg-gray-dark relative inline-flex h-10 items-center justify-center gap-2 rounded-lg border border-gray bg-gray-light px-3 font-display text-xl dark:border-gray dark:text-white;
+  @apply relative inline-flex h-10 items-center justify-center gap-2 rounded-lg border border-gray bg-gray-light px-3 font-display text-xl text-gray-dark dark:border-gray dark:bg-gray-dark dark:text-white;
   &::before {
     content: '';
     @apply absolute -bottom-1 -z-10 block w-full rounded-lg border border-gray bg-gray p-2 dark:border-gray dark:bg-gray;

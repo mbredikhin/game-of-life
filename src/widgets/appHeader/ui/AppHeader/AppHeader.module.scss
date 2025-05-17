@@ -1,9 +1,12 @@
 .app-header {
-  @apply z-app-header sticky top-0 flex items-center justify-between gap-4 bg-white py-6 dark:bg-black;
+  @apply sticky top-0 z-app-header flex flex-wrap items-center justify-between gap-4 bg-white py-6  dark:bg-black;
 }
 .app-header__title {
   @apply font-display text-lg lg:text-2xl;
 }
 .app-header-controls {
-  @apply flex items-center gap-4;
+  @apply flex flex-wrap items-center gap-4;
+}
+.app-header-controls__status-button {
+  @apply basis-full md:basis-auto;
 }
