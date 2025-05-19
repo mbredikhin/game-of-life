@@ -30,11 +30,15 @@ export function ClearBoardButton() {
 
   return (
     <TourPopup stepID={TourStepID.ClearBoard}>
-      <Tooltip text="Clear board [C]" position="bottom">
-        <button className="button" onClick={() => dispatch(resetGrid(gridSettings))}>
-          <ClearIcon className="button__icon" fill="currentColor" />
-        </button>
-      </Tooltip>
+      <Tooltip
+        position="bottom"
+        content="Clear board [C]"
+        activator={
+          <button className="button" onClick={() => dispatch(resetGrid(gridSettings))}>
+            <ClearIcon className="button__icon" fill="currentColor" />
+          </button>
+        }
+      />
     </TourPopup>
   );
 }

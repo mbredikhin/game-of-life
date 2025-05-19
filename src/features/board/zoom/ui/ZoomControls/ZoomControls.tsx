@@ -39,16 +39,24 @@ export function ZoomControls({ zoom, onChangeZoom }: ZoomControls) {
 
   return (
     <div className={cx(['zoom-controls'])}>
-      <Tooltip position="left" text="Zoom In [shift +]">
-        <button className="button" onClick={() => changeZoom(ZoomDelta.Up)}>
-          +
-        </button>
-      </Tooltip>
-      <Tooltip position="left" text="Zoom Out [shift -]">
-        <button className="button" onClick={() => changeZoom(ZoomDelta.Down)}>
-          -
-        </button>
-      </Tooltip>
+      <Tooltip
+        position="left"
+        content="Zoom In [shift +]"
+        activator={
+          <button className="button" onClick={() => changeZoom(ZoomDelta.Up)}>
+            +
+          </button>
+        }
+      />
+      <Tooltip
+        position="left"
+        content="Zoom Out [shift -]"
+        activator={
+          <button className="button" onClick={() => changeZoom(ZoomDelta.Down)}>
+            -
+          </button>
+        }
+      />
     </div>
   );
 }

@@ -6,22 +6,22 @@ import styles from './Tooltip.module.scss';
 const cx = classnames.bind(styles);
 
 interface TooltipProps {
-  text: string;
   position?: 'top' | 'right' | 'bottom' | 'left';
-  children: JSX.Element;
+  content: JSX.Element | string;
+  activator: JSX.Element;
 }
 
-export function Tooltip({ text, position = 'top', children }: TooltipProps) {
-  const activator = useRef(null);
-  const isHover = useHover(activator);
+export function Tooltip({ position = 'top', content, activator }: TooltipProps) {
+  const activatorRef = useRef(null);
+  const isHover = useHover(activatorRef);
 
   return (
     <div className={cx(['tooltip'])}>
-      {isHover && text ? (
-        <div className={cx(['tooltip__text', `tooltip__text--${position}`])}>{text}</div>
+      {isHover && content ? (
+        <div className={cx(['tooltip__content', `tooltip__content--${position}`])}>{content}</div>
       ) : null}
-      <div className={cx(['tooltip__activator'])} ref={activator}>
-        {children}
+      <div className={cx(['tooltip__activator'])} ref={activatorRef}>
+        {activator}
       </div>
     </div>
   );

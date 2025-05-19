@@ -29,11 +29,15 @@ export function InitRandomlyButton() {
 
   return (
     <TourPopup stepID={TourStepID.InitRandomly}>
-      <Tooltip text="Random population [R]" position="bottom">
-        <button className="button" onClick={initRandomly}>
-          <BeakerIcon className="button__icon" />
-        </button>
-      </Tooltip>
+      <Tooltip
+        position="bottom"
+        content="Random population [R]"
+        activator={
+          <button className="button" onClick={initRandomly}>
+            <BeakerIcon className="button__icon" />
+          </button>
+        }
+      />
     </TourPopup>
   );
 }

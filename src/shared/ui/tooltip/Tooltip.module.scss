@@ -1,11 +1,11 @@
 .tooltip {
   @apply relative h-fit w-fit;
 }
-.tooltip__text {
-  @apply dark:border-gray-dark absolute z-tooltip mx-auto min-w-fit max-w-80 whitespace-nowrap rounded-lg border border-gray-light bg-white px-4 py-1 shadow-md dark:bg-black;
+.tooltip__content {
+  @apply absolute z-tooltip mx-auto min-w-fit max-w-80 whitespace-nowrap rounded-lg border border-gray-light bg-white px-4 py-1 shadow-md dark:border-gray-dark dark:bg-black;
   &::before {
     content: '';
-    @apply dark:border-gray-dark absolute rotate-45 border-gray-light bg-white p-1.5 dark:bg-black;
+    @apply absolute rotate-45 border-gray-light bg-white p-1.5 dark:border-gray-dark dark:bg-black;
   }
   &--top {
     @apply bottom-full left-1/2 mb-2 -translate-x-1/2;

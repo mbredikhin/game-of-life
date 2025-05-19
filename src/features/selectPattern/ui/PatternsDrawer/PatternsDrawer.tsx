@@ -21,11 +21,15 @@ const patternsInitial = patternSources.reduce(
 );
 
 const activator = (
-  <Tooltip text="Patterns library [L]" position="bottom">
-    <button className="button">
-      <BookOpenIcon className="button__icon" />
-    </button>
-  </Tooltip>
+  <Tooltip
+    position="bottom"
+    content="Patterns library [L]"
+    activator={
+      <button className="button">
+        <BookOpenIcon className="button__icon" />
+      </button>
+    }
+  />
 );
 export function PatternsDrawer() {
   const [patterns, setPatterns] = useState(patternsInitial);

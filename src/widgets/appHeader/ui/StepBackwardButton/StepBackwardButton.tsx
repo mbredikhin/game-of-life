@@ -27,10 +27,14 @@ export function StepBackwardButton() {
   }, [keyboardHandler]);
 
   return (
-    <Tooltip text="Step backward [B]" position="bottom">
-      <button className="button" onClick={stepBackward}>
-        <ArrowUturnLeftIcon className="button__icon" />
-      </button>
-    </Tooltip>
+    <Tooltip
+      position="bottom"
+      content="Step backward [B]"
+      activator={
+        <button className="button" onClick={stepBackward}>
+          <ArrowUturnLeftIcon className="button__icon" />
+        </button>
+      }
+    ></Tooltip>
   );
 }
