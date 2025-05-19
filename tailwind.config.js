@@ -24,7 +24,7 @@ module.exports = {
       zIndex: {
         'cell-glow': '10',
         'app-header': '100',
-        tooltip: '100',
+        tooltip: '1000',
         popup: '100',
         drawer: '1000',
       },

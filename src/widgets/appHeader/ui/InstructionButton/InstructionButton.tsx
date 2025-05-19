@@ -1,4 +1,4 @@
-import { InformationCircleIcon } from '@heroicons/react/24/outline';
+import { ArrowTopRightOnSquareIcon, InformationCircleIcon } from '@heroicons/react/24/outline';
 
 import { TourPopup, TourStepID } from '@/features/tour';
 import { RouteName } from '@/shared/config';
@@ -8,8 +8,13 @@ export function InstructionButton() {
   return (
     <TourPopup stepID={TourStepID.Instruction}>
       <Tooltip
-        position="bottom"
-        content="Open instruction"
+        position="left"
+        content={
+          <div className="flex gap-2">
+            Open instruction
+            <ArrowTopRightOnSquareIcon width={18} />
+          </div>
+        }
         activator={
           <a className="button" href={RouteName.INSTRUCTION_PAGE} target="_blank">
             <InformationCircleIcon className="button__icon" />

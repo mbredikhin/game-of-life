@@ -21,7 +21,7 @@ export function Popup({ visible, position = 'bottom', title, body, footer, child
     <div className={cx(['popup'])}>
       {visible ? (
         <div className={cx(['popup__content', `popup__content--${position}`])}>
-          <Card maxWidth="340px" title={title} footer={footer}>
+          <Card maxWidth="375px" title={title} footer={footer}>
             {body}
           </Card>
         </div>
