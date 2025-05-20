@@ -3,30 +3,24 @@ import classnames from 'classnames/bind';
 import { useCallback, useEffect } from 'react';
 
 import { resetGrid } from '@/entities/grid';
-import {
-  MAX_GRID_SIZE,
-  Settings as ISettings,
-  updateGridSettings,
-  updateTheme,
-  updateTick,
-} from '@/entities/settings';
+import { MAX_GRID_SIZE, Settings, updateGridSettings, updateTick } from '@/entities/settings';
 import { TourPopup, TourStepID } from '@/features/tour';
 import { useAppDispatch, useAppSelector, useStorage } from '@/shared/hooks';
 import { Menu, Switch } from '@/shared/ui';
 
-import { SettingsStorageKey, Theme } from '../../lib';
+import { SettingsStorageKey, useAppearance } from '../../lib';
 import styles from './SettingsMenu.module.scss';
 const cx = classnames.bind(styles);
 
 export function SettingsMenu() {
   const tickSettings = useAppSelector((state) => state.settings.tick);
   const gridSettings = useAppSelector((state) => state.settings.grid);
-  const theme = useAppSelector((state) => state.settings.theme);
   const dispatch = useAppDispatch();
   const { getFromStorage, setToStorage } = useStorage<SettingsStorageKey>(window.localStorage);
+  const { isDarkMode, changeIsDarkMode } = useAppearance();
 
   const changeGridSettings = useCallback(
-    (settings: ISettings['grid']) => {
+    (settings: Settings['grid']) => {
       dispatch(updateGridSettings(settings));
       dispatch(resetGrid(settings));
       setToStorage(SettingsStorageKey.Grid, settings);
@@ -35,40 +29,24 @@ export function SettingsMenu() {
   );
 
   const changeTick = useCallback(
-    (tick: ISettings['tick']) => {
+    (tick: Settings['tick']) => {
       dispatch(updateTick(tick));
       setToStorage(SettingsStorageKey.Tick, tick);
     },
     [setToStorage, dispatch],
   );
 
-  const changeTheme = useCallback(
-    (theme: Theme) => {
-      document.documentElement.dataset.theme = theme;
-      dispatch(updateTheme(theme));
-      setToStorage(SettingsStorageKey.DarkMode, theme);
-    },
-    [setToStorage, dispatch],
-  );
-
   useEffect(() => {
-    const theme: ISettings['theme'] | null = getFromStorage(SettingsStorageKey.DarkMode);
-    if (theme === Theme.Light) {
-      changeTheme(theme);
+    const lastGridSettings: Settings['grid'] | null = getFromStorage(SettingsStorageKey.Grid);
+    if (lastGridSettings) {
+      changeGridSettings({ ...gridSettings, ...lastGridSettings });
     }
 
-    const preservedGridSettings: ISettings['grid'] | null = getFromStorage(SettingsStorageKey.Grid);
-    if (preservedGridSettings) {
-      changeGridSettings({ ...gridSettings, ...preservedGridSettings });
-    }
-
-    const tick: ISettings['tick'] | null = getFromStorage(SettingsStorageKey.Tick);
+    const tick: Settings['tick'] | null = getFromStorage(SettingsStorageKey.Tick);
     if (tick) {
       changeTick(tick);
     }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [changeGridSettings, changeTick, changeTheme]);
+  }, [changeGridSettings, changeTick]);
 
   const activator = (
     <button className="button">
@@ -113,10 +91,7 @@ export function SettingsMenu() {
       </label>
       <label className={cx(['field', 'pr-4'])}>
         <span className={cx(['field__name'])}>Dark mode</span>
-        <Switch
-          checked={theme === Theme.Dark}
-          onChange={(value) => changeTheme(value ? Theme.Dark : Theme.Light)}
-        />
+        <Switch checked={isDarkMode} onChange={changeIsDarkMode} />
       </label>
     </>
   );

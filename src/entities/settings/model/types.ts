@@ -1,7 +1,5 @@
-import { Theme } from '../lib';
-
 export interface Settings {
-  theme: Theme;
+  isDarkMode: boolean;
   tick: number;
   grid: {
     width: number;
