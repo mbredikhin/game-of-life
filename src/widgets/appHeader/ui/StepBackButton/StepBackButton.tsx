@@ -1,24 +1,27 @@
 import { ArrowUturnLeftIcon } from '@heroicons/react/24/solid';
 import { useCallback, useEffect } from 'react';
 
-import { stepBackward as stepBackwardAction } from '@/entities/grid';
-import { useAppDispatch } from '@/shared/hooks';
+import { stepBack as stepBackAction } from '@/entities/grid';
+import { useAppDispatch, useAppSelector } from '@/shared/hooks';
 import { Tooltip } from '@/shared/ui';
 
-export function StepBackwardButton() {
+export function StepBackButton() {
+  const gridHistory = useAppSelector((state) => state.gridState.gridHistory);
   const dispatch = useAppDispatch();
 
-  const stepBackward = useCallback(() => {
-    dispatch(stepBackwardAction());
+  const disabled = gridHistory.length === 0;
+
+  const stepBack = useCallback(() => {
+    dispatch(stepBackAction());
   }, [dispatch]);
 
   const keyboardHandler = useCallback(
     (event: KeyboardEvent) => {
       if (event.code === 'KeyB') {
-        stepBackward();
+        stepBack();
       }
     },
-    [stepBackward],
+    [stepBack],
   );
 
   useEffect(() => {
@@ -29,12 +32,12 @@ export function StepBackwardButton() {
   return (
     <Tooltip
       position="bottom"
-      content="Step backward [B]"
+      content="Step back [B]"
       activator={
-        <button className="button" onClick={stepBackward}>
+        <button disabled={disabled} className="button" onClick={stepBack}>
           <ArrowUturnLeftIcon className="button__icon" />
         </button>
       }
-    ></Tooltip>
+    />
   );
 }

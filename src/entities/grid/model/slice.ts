@@ -23,7 +23,6 @@ export const GridSlice = createSlice({
       return {
         ...state,
         ...action.payload,
-        gridHistory: [...state.gridHistory, state.grid],
       };
     },
     updateGridCell: (state, action: PayloadAction<{ value: boolean; coords: Coords }>) => {
@@ -41,7 +40,6 @@ export const GridSlice = createSlice({
       return {
         ...state,
         grid,
-        gridHistory: [...state.gridHistory, state.grid],
       };
     },
     resetGrid: (state, action: PayloadAction<Settings['grid']>) => {
@@ -56,13 +54,14 @@ export const GridSlice = createSlice({
         gridHistory: [],
       };
     },
-    stepBackward: (state) => {
+    stepBack: (state) => {
       return {
         ...state,
         ...(state.generation !== 0 && {
           grid: state.gridHistory.slice(-1)[0],
           gridHistory: state.gridHistory.slice(0, -1),
           generation: state.generation - 1,
+          gameStatus: GameStatus.Pause,
         }),
       };
     },
@@ -191,7 +190,7 @@ export const {
   updateGrid,
   updateGridCell,
   resetGrid,
-  stepBackward,
+  stepBack,
   selectPattern,
   applyPattern,
   updateGenerationsCount,

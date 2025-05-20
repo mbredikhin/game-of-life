@@ -9,10 +9,9 @@ import { RouteName } from '@/shared/config';
 import { ClearBoardButton } from '../ClearBoardButton/ClearBoardButton';
 import { GameStatusButton } from '../GameStatusButton/GameStatusButton';
 import { GenerationsCounter } from '../GenerationsCounter/GenerationsCounter';
-import { GoBackButton } from '../GoBackButton/GoBackButton';
 import { InitRandomlyButton } from '../InitRandomlyButton/InitRandomlyButton';
 import { InstructionButton } from '../InstructionButton/InstructionButton';
-import { StepBackwardButton } from '../StepBackwardButton/StepBackwardButton';
+import { StepBackButton } from '../StepBackButton/StepBackButton';
 import styles from './AppHeader.module.scss';
 const cx = classnames.bind(styles);
 
@@ -32,7 +31,7 @@ export function AppHeader() {
               <GameStatusButton />
             </div>
             <ClearBoardButton />
-            <StepBackwardButton />
+            <StepBackButton />
             <InitRandomlyButton />
             <PatternsDrawer />
             <SettingsMenu />
