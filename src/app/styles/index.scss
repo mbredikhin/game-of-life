@@ -25,7 +25,7 @@ p {
 body {
   @apply bg-white font-body text-lg font-normal leading-8 text-black dark:bg-black dark:text-white;
 }
-/* Scrollar customization */
+/* Scrollbar customization */
 *::-webkit-scrollbar-track {
   @apply rounded-xl bg-white dark:bg-black;
 }
@@ -50,15 +50,16 @@ body {
     content: '';
     @apply absolute -bottom-1 -z-10 block w-full rounded-lg border border-gray bg-gray p-2 dark:border-gray dark:bg-gray;
   }
-  &:not(&--sm):active {
+  &:not(&--sm):not(:disabled):active {
     @apply translate-y-1;
     &::before {
       @apply -translate-y-1 opacity-0;
     }
   }
   &:disabled {
-    &:active {
-      @apply translate-y-0;
+    @apply cursor-not-allowed border border-gray-light bg-gray-light text-gray dark:border-gray-dark dark:bg-gray-dark dark:text-gray;
+    &::before {
+      @apply hidden;
     }
   }
   &--sm {

@@ -71,7 +71,7 @@ export function SettingsMenu() {
   }, [changeGridSettings, changeTick, changeTheme]);
 
   const activator = (
-    <button className="button" disabled>
+    <button className="button">
       <WrenchScrewdriverIcon className="button__icon" />
     </button>
   );
