@@ -2,7 +2,10 @@
   @apply sticky top-0 z-app-header flex flex-wrap items-center justify-between gap-4 bg-white py-6  dark:bg-black;
 }
 .app-header__title {
-  @apply font-display text-lg lg:text-2xl;
+  @apply cursor-default select-none font-display text-lg lg:text-2xl;
+  &--link {
+    @apply cursor-pointer;
+  }
 }
 .app-header-controls {
   @apply flex flex-wrap items-center gap-4;

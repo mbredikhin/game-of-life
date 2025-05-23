@@ -1,5 +1,5 @@
 import classnames from 'classnames/bind';
-import { useMatch } from 'react-router-dom';
+import { useMatch, useNavigate } from 'react-router-dom';
 
 import { SettingsMenu } from '@/entities/settings';
 import { PatternsDrawer } from '@/features/selectPattern';
@@ -17,11 +17,23 @@ const cx = classnames.bind(styles);
 
 export function AppHeader() {
   const isHomePage = useMatch(RouteName.HOME_PAGE);
+  const navigate = useNavigate();
+
+  function onLogoClick() {
+    if (!isHomePage) {
+      navigate(RouteName.HOME_PAGE);
+    }
+  }
 
   return (
     <div className={cx(['app-header'])}>
       <TourPopup stepID={TourStepID.Initial}>
-        <span className={cx(['app-header__title'])}>Conway&apos;s Game of Life</span>
+        <span
+          className={cx({ 'app-header__title': true, 'app-header__title--link': !isHomePage })}
+          onClick={onLogoClick}
+        >
+          Conway&apos;s Game of Life
+        </span>
       </TourPopup>
       {isHomePage ? (
         <>
