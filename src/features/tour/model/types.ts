@@ -11,7 +11,7 @@ export enum TourStepID {
   Initial,
   Settings,
   PatternsLibrary,
-  InitRandomly,
+  RandomPopulation,
   Start,
   ClearBoard,
   Instruction,

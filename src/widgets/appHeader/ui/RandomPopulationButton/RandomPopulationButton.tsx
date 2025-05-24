@@ -1,25 +1,25 @@
 import { BeakerIcon } from '@heroicons/react/24/solid';
 import { useCallback, useEffect } from 'react';
 
-import { initGridRandomly } from '@/entities/grid';
+import { generateRandomPopulation } from '@/entities/grid';
 import { TourPopup, TourStepID } from '@/features/tour';
 import { useAppDispatch } from '@/shared/hooks';
 import { Tooltip } from '@/shared/ui';
 
-export function InitRandomlyButton() {
+export function RandomPopulationButton() {
   const dispatch = useAppDispatch();
 
-  const initRandomly = useCallback(() => {
-    dispatch(initGridRandomly());
+  const generate = useCallback(() => {
+    dispatch(generateRandomPopulation());
   }, [dispatch]);
 
   const keyboardHandler = useCallback(
     (event: KeyboardEvent) => {
       if (event.code === 'KeyR') {
-        initRandomly();
+        generate();
       }
     },
-    [initRandomly],
+    [generate],
   );
 
   useEffect(() => {
@@ -28,12 +28,12 @@ export function InitRandomlyButton() {
   }, [keyboardHandler]);
 
   return (
-    <TourPopup stepID={TourStepID.InitRandomly}>
+    <TourPopup stepID={TourStepID.RandomPopulation}>
       <Tooltip
         position="bottom"
         content="Random population [R]"
         activator={
-          <button className="button" onClick={initRandomly}>
+          <button className="button" onClick={generate}>
             <BeakerIcon className="button__icon" />
           </button>
         }

@@ -167,7 +167,7 @@ export const GridSlice = createSlice({
         gameStatus: action.payload,
       };
     },
-    initGridRandomly: (state) => {
+    generateRandomPopulation: (state) => {
       const grid = Array.from({ length: state.grid.length }).map(() =>
         Array.from({ length: state.grid[0].length }).map(() => Math.random() > 0.9),
       );
@@ -175,6 +175,8 @@ export const GridSlice = createSlice({
         ...state,
         grid,
         generation: 0,
+        gameStatus: GameStatus.Pause,
+        gridHistory: [],
       };
     },
   },
@@ -196,6 +198,6 @@ export const {
   updateGenerationsCount,
   updateGameStatus,
   evolve,
-  initGridRandomly,
+  generateRandomPopulation,
 } = GridSlice.actions;
 export { selectGridCell };

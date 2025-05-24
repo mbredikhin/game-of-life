@@ -53,9 +53,9 @@ export const steps: TourStep[] = [
     ],
   },
   {
-    id: TourStepID.InitRandomly,
+    id: TourStepID.RandomPopulation,
     buttons: [TourButtonType.Close, TourButtonType.Back, TourButtonType.Next],
-    title: 'Init board with random population',
+    title: 'Generate random population',
     text: ['Just a random population generator.'],
   },
   {
