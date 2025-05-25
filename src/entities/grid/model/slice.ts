@@ -1,15 +1,44 @@
 import { createSelector, createSlice, type PayloadAction } from '@reduxjs/toolkit';
 
 import type { IPattern } from '@/entities/pattern';
-import type { Settings } from '@/entities/settings';
 import { cropMatrix, clamp } from '@/shared/lib';
 
-import { Coords, GameStatus, GridState } from './types';
+import { Coords, GameStatus, GridDiff, GridState, TGrid } from './types';
+import { Settings } from '@/entities/settings';
+
+const getNeighboursCount = ([y, x]: Coords, grid: TGrid): number => {
+  const gridHeight = grid.length;
+  const gridWidth = grid[0].length;
+  let neighboursCoords: Coords[] = [
+    [y + 1, x - 1],
+    [y + 1, x],
+    [y + 1, x + 1],
+    [y, x - 1],
+    [y, x + 1],
+    [y - 1, x - 1],
+    [y - 1, x],
+    [y - 1, x + 1],
+  ];
+
+  neighboursCoords.forEach((coords) => {
+    if (coords[0] < 0) {
+      coords[0] += gridHeight;
+    } else if (coords[0] > gridHeight - 1) {
+      coords[0] -= gridHeight;
+    }
+    if (coords[1] < 0) {
+      coords[1] += gridWidth;
+    } else if (coords[1] > gridWidth - 1) {
+      coords[1] -= gridWidth;
+    }
+  });
+
+  return neighboursCoords.reduce((acc, [y, x]) => acc + (grid[y]?.[x] ? 1 : 0), 0);
+};
 
 const initialState: GridState = {
   grid: [],
-  gridHistory: [],
-  gridHasChanged: false,
+  gridDiffStack: [],
   selectedPattern: null,
   generation: 0,
   gameStatus: GameStatus.Pause,
@@ -19,177 +48,136 @@ export const GridSlice = createSlice({
   name: 'grid',
   initialState,
   reducers: {
-    updateGrid: (state, action: PayloadAction<Partial<GridState>>) => {
-      return {
-        ...state,
-        ...action.payload,
-      };
-    },
     updateGridCell: (state, action: PayloadAction<{ value: boolean; coords: Coords }>) => {
       const { coords, value } = action.payload;
-      const row = [
-        ...state.grid[coords.y].slice(0, coords.x),
-        value,
-        ...state.grid[coords.y].slice(coords.x + 1),
-      ];
-      const grid: GridState['grid'] = [
-        ...state.grid.slice(0, coords.y),
-        row,
-        ...state.grid.slice(coords.y + 1),
-      ];
-      return {
-        ...state,
-        grid,
-      };
+      const [y, x] = coords;
+      if (state.grid[y][x] === value) {
+        return state;
+      }
+
+      state.grid[y][x] = value;
+
+      const gridDiff = state.gridDiffStack.at(-1);
+      if (gridDiff) {
+        gridDiff.push([y, x]);
+      }
     },
+
     resetGrid: (state, action: PayloadAction<Settings['grid']>) => {
       const { height, width } = action.payload;
-      const grid = Array.from({ length: height }).map(() =>
+
+      state.grid = Array.from({ length: height }).map(() =>
         Array.from({ length: width }).map(() => false),
       );
-      return {
-        ...state,
-        grid,
-        generation: 0,
-        gridHistory: [],
-      };
+      state.generation = 0;
+      state.gridDiffStack = [];
+      state.gameStatus = GameStatus.Pause;
     },
+
     stepBack: (state) => {
-      return {
-        ...state,
-        ...(state.generation !== 0 && {
-          grid: state.gridHistory.slice(-1)[0],
-          gridHistory: state.gridHistory.slice(0, -1),
-          generation: state.generation - 1,
-          gameStatus: GameStatus.Pause,
-        }),
-      };
+      if (state.generation === 0) {
+        return state;
+      }
+      const grid = state.grid;
+      const gridDiff: GridDiff = state.gridDiffStack.pop() ?? [];
+      gridDiff.forEach(([y, x]) => {
+        if (grid[y] && x in grid[y]) {
+          grid[y][x] = !grid[y][x];
+        }
+      });
+      state.generation -= 1;
+      state.gameStatus = GameStatus.Pause;
     },
+
     evolve: (state) => {
-      let gridHasChanged = false;
-      const grid = state.grid.map((row, y) =>
+      const gridDiff: GridDiff = [];
+      state.grid = state.grid.map((row, y) =>
         row.map((cell, x) => {
-          const neighboursCoords: Coords[] = [
-            { x: x - 1, y: y + 1 },
-            { x, y: y + 1 },
-            { x: x + 1, y: y + 1 },
-            { x: x - 1, y },
-            { x: x + 1, y },
-            { x: x - 1, y: y - 1 },
-            { x, y: y - 1 },
-            { x: x + 1, y: y - 1 },
-          ];
-          const populatedNeighbours = neighboursCoords.reduce((acc, coords) => {
-            let { y, x } = coords;
-            const gridHeight = state.grid.length;
-            const gridWidth = state.grid[0].length;
-            if (y < 0) {
-              y = y + gridHeight;
-            } else if (y > gridHeight - 1) {
-              y = y - gridHeight;
-            }
-            if (x < 0) {
-              x = x + gridWidth;
-            } else if (x > gridWidth - 1) {
-              x = x - gridWidth;
-            }
-            return state.grid[y][x] ? [...acc, { x, y }] : acc;
-          }, [] as Coords[]);
-          const result = cell
-            ? populatedNeighbours.length > 1 && populatedNeighbours.length < 4
-            : populatedNeighbours.length === 3;
-          if (result !== cell) {
-            gridHasChanged = true;
+          const neighboursCount = getNeighboursCount([y, x], state.grid);
+          const newCell = cell ? [2, 3].includes(neighboursCount) : neighboursCount === 3;
+          if (newCell !== cell) {
+            gridDiff.push([y, x]);
           }
-          return result;
+          return newCell;
         }),
+      );
+      state.gridDiffStack.push(gridDiff);
+      state.generation += 1;
+      if (gridDiff.length === 0) {
+        state.gameStatus = GameStatus.Pause;
+      }
+    },
+
+    selectPattern: (state, action: PayloadAction<GridState['selectedPattern']>) => {
+      state.selectedPattern = action.payload;
+    },
+
+    applyPattern: (state, action: PayloadAction<{ pattern: IPattern; coords: Coords }>) => {
+      const [y, x] = action.payload.coords;
+      const croppedPatternGrid = cropMatrix<boolean>(
+        action.payload.pattern.grid,
+        [
+          y < 0 ? Math.abs(y) : 0,
+          y > state.grid.length - 1 ? state.grid.length - 1 - y : state.grid.length - 1,
+        ],
+        [
+          x < 0 ? Math.abs(x) : 0,
+          y > state.grid[0].length - 1 ? state.grid[0].length - 1 - x : state.grid[0].length - 1,
+        ],
       );
 
-      return {
-        ...state,
-        grid,
-        gridHasChanged,
-        ...(gridHasChanged ? { generation: state.generation + 1 } : {}),
-        gridHistory: [...state.gridHistory, state.grid],
-      };
-    },
-    selectPattern: (state, action: PayloadAction<GridState['selectedPattern']>) => {
-      return {
-        ...state,
-        selectedPattern: action.payload,
-      };
-    },
-    applyPattern: (state, action: PayloadAction<{ pattern: IPattern; coords: Coords }>) => {
-      const { pattern, coords } = action.payload;
-      const croppedPatternGrid = cropMatrix<boolean>(
-        pattern.grid,
-        [
-          coords.y < 0 ? Math.abs(coords.y) : 0,
-          coords.y > state.grid.length - 1
-            ? state.grid.length - 1 - coords.y
-            : state.grid.length - 1,
-        ],
-        [
-          coords.x < 0 ? Math.abs(coords.x) : 0,
-          coords.y > state.grid[0].length - 1
-            ? state.grid[0].length - 1 - coords.x
-            : state.grid[0].length - 1,
-        ],
-      );
-      const y = clamp(coords.y, 0, state.grid.length - 1);
-      const x = clamp(coords.x, 0, state.grid[0].length - 1);
-      const grid = [
-        ...state.grid.slice(0, y),
+      const startFromY = clamp(y, 0, state.grid.length - 1);
+      const startFromX = clamp(x, 0, state.grid[0].length - 1);
+
+      const gridDiff = state.gridDiffStack.at(-1);
+      if (gridDiff) {
+        croppedPatternGrid.forEach((row, y) => {
+          row.forEach((cell, x) => {
+            if (cell && !state.grid[y][x]) {
+              gridDiff.push([startFromY + y, startFromX + x]);
+            }
+          });
+        });
+      }
+
+      state.grid = [
+        ...state.grid.slice(0, startFromY),
         ...state.grid
-          .slice(y, y + croppedPatternGrid.length)
+          .slice(startFromY, startFromY + croppedPatternGrid.length)
           .map((row, y) => [
-            ...row.slice(0, x),
+            ...row.slice(0, startFromX),
             ...croppedPatternGrid[y],
-            ...row.slice(x + croppedPatternGrid[y].length),
+            ...row.slice(startFromX + croppedPatternGrid[y].length),
           ]),
         ...state.grid.slice(y + croppedPatternGrid.length),
       ];
-      return {
-        ...state,
-        grid,
-        selectedPattern: null,
-      };
+      state.selectedPattern = null;
     },
+
     updateGenerationsCount: (state, action: PayloadAction<number>) => {
-      return {
-        ...state,
-        generation: action.payload,
-      };
+      state.generation = action.payload;
     },
+
     updateGameStatus: (state, action: PayloadAction<GameStatus>) => {
-      return {
-        ...state,
-        gameStatus: action.payload,
-      };
+      state.gameStatus = action.payload;
     },
+
     generateRandomPopulation: (state) => {
-      const grid = Array.from({ length: state.grid.length }).map(() =>
-        Array.from({ length: state.grid[0].length }).map(() => Math.random() > 0.9),
-      );
-      return {
-        ...state,
-        grid,
-        generation: 0,
-        gameStatus: GameStatus.Pause,
-        gridHistory: [],
-      };
+      state.grid = state.grid.map((row) => row.map(() => Math.random() > 0.9));
+      state.gameStatus = GameStatus.Pause;
+      state.generation = 0;
+      state.gridDiffStack = [];
     },
   },
 });
 
 const selectGridCell = createSelector(
   [(state: GridState) => state.grid, (_: GridState, coords: Coords) => coords],
-  (grid, coords) => grid.at(coords.y)?.at(coords.x) ?? false,
+  (grid, [y, x]) => grid.at(y)?.at(x) ?? false,
 );
 
 export const { reducer: gridReducer } = GridSlice;
 export const {
-  updateGrid,
   updateGridCell,
   resetGrid,
   stepBack,

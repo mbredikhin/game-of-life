@@ -6,10 +6,10 @@ import { useAppDispatch, useAppSelector } from '@/shared/hooks';
 import { Tooltip } from '@/shared/ui';
 
 export function StepBackButton() {
-  const gridHistory = useAppSelector((state) => state.gridState.gridHistory);
+  const gridDiffStack = useAppSelector((state) => state.gridState.gridDiffStack);
   const dispatch = useAppDispatch();
 
-  const disabled = gridHistory.length === 0;
+  const disabled = gridDiffStack.length === 0;
 
   const stepBack = useCallback(() => {
     dispatch(stepBackAction());

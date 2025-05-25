@@ -12,7 +12,6 @@ export function GameStatusButton() {
   const tick = useAppSelector((state) => state.settings.tick);
   const gameStatus = useAppSelector((state) => state.gridState.gameStatus);
   const grid = useAppSelector((state) => state.gridState.grid);
-  const gridHasChanged = useAppSelector((state) => state.gridState.gridHasChanged);
   const dispatch = useAppDispatch();
 
   const changeGameStatus = useCallback(
@@ -44,12 +43,6 @@ export function GameStatusButton() {
     addEventListener('keypress', keyboardHandler);
     return () => removeEventListener('keypress', keyboardHandler);
   }, [keyboardHandler]);
-
-  useEffect(() => {
-    if (!gridHasChanged) {
-      changeGameStatus(GameStatus.Pause);
-    }
-  }, [gridHasChanged, changeGameStatus]);
 
   useEffect(() => {
     if (gameStatus === GameStatus.Play) {

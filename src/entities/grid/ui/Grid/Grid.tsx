@@ -32,13 +32,12 @@ export function Grid({ zoom }: GridProps) {
 
   function onCellMouseDown(coords: Coords, isPopulated: boolean) {
     if (selectedPattern) {
+      const y = coords[0] - Math.floor(selectedPattern.grid.length / 2);
+      const x = coords[1] - Math.floor(selectedPattern.grid[0].length / 2);
       dispatch(
         applyPattern({
           pattern: selectedPattern,
-          coords: {
-            x: coords.x - Math.floor(selectedPattern.grid[0].length / 2),
-            y: coords.y - Math.floor(selectedPattern.grid.length / 2),
-          },
+          coords: [y, x],
         }),
       );
       return;
@@ -59,7 +58,7 @@ export function Grid({ zoom }: GridProps) {
             <Cell
               key={`${y}:${x}`}
               zoom={zoom}
-              coords={{ x, y }}
+              coords={[y, x]}
               onMouseDown={onCellMouseDown}
               onCellMouseEnter={onCellMouseEnter}
             />
