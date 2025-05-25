@@ -64,6 +64,9 @@ body {
   }
   &--sm {
     @apply h-8 rounded-md px-2 text-base;
+    &:hover {
+      @apply border-gray-dark dark:border-gray-light;
+    }
   }
   &--lg {
     @apply w-40;
