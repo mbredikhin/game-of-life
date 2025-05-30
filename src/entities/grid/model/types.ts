@@ -1,4 +1,5 @@
 import type { IPattern } from '@/entities/pattern';
+import { CellState } from '@/shared/lib';
 
 export enum GameStatus {
   Play = 'play',
@@ -9,7 +10,7 @@ export type Coords = [y: number, x: number];
 
 export type Brush = Record<'active' | 'fill', boolean>;
 
-export type TGrid = boolean[][];
+export type TGrid = CellState[][];
 
 // List of cells which state has been changed
 export type GridDiff = Coords[];

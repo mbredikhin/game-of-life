@@ -1,6 +1,6 @@
 .grid {
-  @apply flex flex-col items-center justify-center;
+  @apply flex flex-col items-center justify-center gap-[1px];
 }
 .grid__row {
-  @apply flex;
+  @apply flex gap-[1px];
 }

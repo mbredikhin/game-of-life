@@ -4,6 +4,7 @@ import { applyPattern, Brush, Cell, Coords, updateGridCell } from '@/entities/gr
 import { useAppDispatch, useAppSelector } from '@/shared/hooks';
 
 import styles from './Grid.module.scss';
+import { CellState } from '@/shared/lib';
 const cx = classnames.bind(styles);
 
 interface GridProps {
@@ -20,30 +21,46 @@ export function Grid({ zoom }: GridProps) {
   const selectedPattern = useAppSelector((state) => state.gridState.selectedPattern);
   const dispatch = useAppDispatch();
 
-  function changeCell(coords: Coords, isPopulated: boolean) {
-    dispatch(updateGridCell({ coords, value: isPopulated }));
+  function changeCell(coords: Coords, cellState: CellState) {
+    dispatch(updateGridCell({ coords, cellState }));
   }
 
-  function onCellMouseEnter(coords: Coords, isPopulated: boolean) {
+  function onCellMouseEnter(coords: Coords) {
     if (brush.active) {
-      changeCell(coords, brush.fill);
+      changeCell(coords, brush.fill ? CellState.Populated : CellState.Empty);
+      return;
     }
-  }
 
-  function onCellMouseDown(coords: Coords, isPopulated: boolean) {
     if (selectedPattern) {
       const y = coords[0] - Math.floor(selectedPattern.grid.length / 2);
       const x = coords[1] - Math.floor(selectedPattern.grid[0].length / 2);
       dispatch(
         applyPattern({
-          pattern: selectedPattern,
+          pattern: selectedPattern.grid,
+          coords: [y, x],
+          isGhost: true,
+        }),
+      );
+    }
+  }
+
+  function onCellMouseDown(coords: Coords, cellState: CellState) {
+    if (selectedPattern) {
+      const y = coords[0] - Math.floor(selectedPattern.grid.length / 2);
+      const x = coords[1] - Math.floor(selectedPattern.grid[0].length / 2);
+      dispatch(
+        applyPattern({
+          pattern: selectedPattern.grid,
           coords: [y, x],
         }),
       );
       return;
     }
-    brush = { active: true, fill: !isPopulated };
-    changeCell(coords, brush.fill);
+    brush = {
+      active: true,
+      fill: cellState !== CellState.Populated,
+    };
+    changeCell(coords, brush.fill ? CellState.Populated : CellState.Empty);
   }
 
   function resetBrush() {
@@ -60,7 +77,7 @@ export function Grid({ zoom }: GridProps) {
               zoom={zoom}
               coords={[y, x]}
               onMouseDown={onCellMouseDown}
-              onCellMouseEnter={onCellMouseEnter}
+              onMouseEnter={onCellMouseEnter}
             />
           ))}
         </div>

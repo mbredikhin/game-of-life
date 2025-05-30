@@ -1,3 +1,5 @@
+import { CellState } from '@/shared/lib';
+
 export interface PatternSource {
   name: string;
   group: string;
@@ -7,5 +9,5 @@ export interface PatternSource {
 export interface Pattern {
   name: string;
   group: string;
-  grid: boolean[][];
+  grid: CellState[][];
 }

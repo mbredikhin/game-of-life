@@ -5,6 +5,7 @@ import PlayIcon from '@/app/assets/images/play.svg?react';
 import { evolve, GameStatus, updateGameStatus } from '@/entities/grid';
 import { TourPopup, TourStepID } from '@/features/tour';
 import { useAppDispatch, useAppSelector } from '@/shared/hooks';
+import { CellState } from '@/shared/lib';
 
 let loop: number | undefined;
 
@@ -16,7 +17,7 @@ export function GameStatusButton() {
 
   const changeGameStatus = useCallback(
     (status: GameStatus) => {
-      if (grid.flat().every((cell) => cell === false) && status === GameStatus.Play) {
+      if (grid.flat().every((cell) => cell !== CellState.Populated) && status === GameStatus.Play) {
         return;
       }
       dispatch(updateGameStatus(status));

@@ -1,16 +1,19 @@
 .cell {
-  @apply dark:bg-gray-dark relative inline-block border border-white bg-gray-light dark:border-black;
-  &:hover {
-    @apply border-orange;
-  }
+  @apply relative inline-block border border-white bg-gray-light dark:border-black dark:bg-gray-dark;
   &:after {
     @apply absolute inset-0 z-cell-glow;
   }
-  &--filled {
+  &--hovered {
+    @apply border-orange dark:border-orange;
+  }
+  &--populated {
     @apply relative  bg-orange dark:bg-orange;
     &:after {
       content: '';
       @apply absolute left-0 top-0 rounded-full shadow-cell;
     }
+  }
+  &--ghost {
+    @apply border-orange dark:border-orange;
   }
 }
