@@ -14,7 +14,7 @@ export enum TourStorageKey {
 
 // eslint-disable-next-line react/display-name
 export const withTour = (component: () => JSX.Element) => () => {
-  const { getFromStorage, setToStorage } = useStorage<TourStorageKey>(window.localStorage);
+  const { getFromStorage, setToStorage } = useStorage<TourStorageKey>();
   const [step, setStep] = useState<TourStep | null>(
     getFromStorage(TourStorageKey.IsTourFinished) ? null : steps[0],
   );

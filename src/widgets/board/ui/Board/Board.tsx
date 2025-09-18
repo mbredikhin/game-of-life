@@ -9,7 +9,7 @@ import styles from './Board.module.scss';
 const cx = classnames.bind(styles);
 
 export function Board() {
-  const { getFromStorage, setToStorage } = useStorage(window.localStorage);
+  const { getFromStorage, setToStorage } = useStorage();
   const [zoom, setZoom] = useState(getFromStorage(zoomStorageKey) ?? 0);
 
   function changeZoom(zoom: number) {

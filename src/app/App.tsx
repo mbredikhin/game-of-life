@@ -3,16 +3,16 @@ import './styles/index.scss';
 import { withProviders } from '@/app/providers';
 import { AppRouter } from '@/app/router/AppRouter';
 import { AppHeader } from '@/widgets/appHeader';
-import { useEffect } from 'react';
-import { useAppearance } from '@/entities/settings';
+import { SettingsStorageKey } from '@/entities/settings';
+import { bindStorage, setAppearance } from '@/shared/lib';
+
+(function init() {
+  const { get: getFromStorage } = bindStorage(window.localStorage);
+  const isDarkMode = (getFromStorage(SettingsStorageKey.DarkMode) as boolean) ?? true;
+  setAppearance(isDarkMode);
+})();
 
 function App() {
-  const { initAppearance } = useAppearance();
-
-  useEffect(() => {
-    initAppearance();
-  }, []);
-
   return (
     <div className="app">
       <AppHeader />

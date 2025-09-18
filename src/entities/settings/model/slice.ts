@@ -4,15 +4,20 @@ import { createSlice } from '@reduxjs/toolkit';
 import { MAX_GRID_SIZE } from '@/entities/settings/model/constants';
 
 import type { Settings } from './types';
+import { SettingsStorageKey } from '../lib';
+import { bindStorage } from '@/shared/lib';
+
+const { get: getFromStorage } = bindStorage(window.localStorage);
 
 export const SettingsSlice = createSlice({
   name: 'settings',
   initialState: {
-    isDarkMode: true,
-    tick: 1 * 200,
+    isDarkMode: getFromStorage(SettingsStorageKey.DarkMode) ?? true,
+    tick: getFromStorage(SettingsStorageKey.Tick) ?? 200,
     grid: {
       width: 75,
       height: 40,
+      ...getFromStorage(SettingsStorageKey.Grid),
     },
   } as Settings,
   reducers: {

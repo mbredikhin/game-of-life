@@ -1,3 +1,8 @@
+import { bindStorage } from './storage';
+import { setAppearance } from './appearance';
+
+export { bindStorage, setAppearance };
+
 export type RelativePosition =
   | 'top'
   | 'bottom'

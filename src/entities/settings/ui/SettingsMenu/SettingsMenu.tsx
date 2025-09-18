@@ -1,6 +1,6 @@
 import { WrenchScrewdriverIcon } from '@heroicons/react/24/solid';
 import classnames from 'classnames/bind';
-import { useCallback, useEffect } from 'react';
+import { useCallback } from 'react';
 
 import { resetGrid } from '@/entities/grid';
 import { MAX_GRID_SIZE, Settings, updateGridSettings, updateTick } from '@/entities/settings';
@@ -16,7 +16,7 @@ export function SettingsMenu() {
   const tickSettings = useAppSelector((state) => state.settings.tick);
   const gridSettings = useAppSelector((state) => state.settings.grid);
   const dispatch = useAppDispatch();
-  const { getFromStorage, setToStorage } = useStorage<SettingsStorageKey>(window.localStorage);
+  const { setToStorage } = useStorage<SettingsStorageKey>();
   const { isDarkMode, changeIsDarkMode } = useAppearance();
 
   const changeGridSettings = useCallback(
@@ -35,18 +35,6 @@ export function SettingsMenu() {
     },
     [setToStorage, dispatch],
   );
-
-  useEffect(() => {
-    const lastGridSettings: Settings['grid'] | null = getFromStorage(SettingsStorageKey.Grid);
-    if (lastGridSettings) {
-      changeGridSettings({ ...gridSettings, ...lastGridSettings });
-    }
-
-    const tick: Settings['tick'] | null = getFromStorage(SettingsStorageKey.Tick);
-    if (tick) {
-      changeTick(tick);
-    }
-  }, [changeGridSettings, changeTick]);
 
   const activator = (
     <button className="button">
