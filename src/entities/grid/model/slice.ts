@@ -1,7 +1,7 @@
 import { createSelector, createSlice, type PayloadAction } from '@reduxjs/toolkit';
 
 import type { IPattern } from '@/entities/pattern';
-import { cropMatrix, clamp, CellState, assignMatrices } from '@/shared/lib';
+import { cropMatrix, clamp, CellState, assignMatrices, MatrixCropWindow } from '@/shared/lib';
 
 import { Coords, GameStatus, GridDiff, GridState, TGrid } from './types';
 import { Settings } from '@/entities/settings';
@@ -139,10 +139,11 @@ export const GridSlice = createSlice({
       const [y, x] = action.payload.coords;
       const maxY = state.grid.length - 1;
       const maxX = state.grid[0].length - 1;
-      const patternGrid = cropMatrix(action.payload.pattern, {
+      const patternCropWindow: MatrixCropWindow = {
         y: [y < 0 ? Math.abs(y) : 0, y > maxY ? maxY - y : maxY],
         x: [x < 0 ? Math.abs(x) : 0, x > maxX ? maxX - x : maxX],
-      });
+      };
+      const patternGrid = cropMatrix(action.payload.pattern, patternCropWindow);
 
       const applyFrom = {
         y: clamp(y, 0, maxY),
