@@ -18,4 +18,18 @@ export default defineConfig({
       '@': path.resolve(__dirname, './src'),
     },
   },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (id.includes('node_modules')) {
+            if (id.includes('@heroicons/react')) return '@heroicons/react';
+            if (id.includes('react-dom')) return 'react-dom';
+            if (id.includes('react')) return 'react';
+            return 'vendor';
+          }
+        },
+      },
+    },
+  },
 });
