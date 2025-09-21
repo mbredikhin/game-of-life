@@ -5,10 +5,12 @@ import { Board } from '@/widgets/board';
 import styles from './HomePage.module.scss';
 const cx = classnames.bind(styles);
 
-export function HomePage() {
+function HomePage() {
   return (
     <div className={cx(['home-page'])}>
       <Board />
     </div>
   );
 }
+
+export default HomePage;

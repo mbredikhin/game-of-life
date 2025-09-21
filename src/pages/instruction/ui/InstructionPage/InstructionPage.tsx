@@ -5,10 +5,12 @@ import { Instruction } from '@/widgets/instruction';
 import styles from './InstructionPage.module.scss';
 const cx = classnames.bind(styles);
 
-export function InstructionPage() {
+function InstructionPage() {
   return (
     <div className={cx(['instruction-page'])}>
       <Instruction />
     </div>
   );
 }
+
+export default InstructionPage;
