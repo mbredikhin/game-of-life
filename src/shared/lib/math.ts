@@ -3,13 +3,24 @@ export interface MatrixCropWindow {
   x: [from: number, to: number];
 }
 
+export type MatrixTransformation = <T>(matrix: T[][]) => T[][];
+
 // Returns submatrix cropped to the specified window of rows (y) and columns (x).
 export const cropMatrix = <T>(matrix: T[][], window: MatrixCropWindow) =>
   matrix.slice(...window.y).map((row) => row.slice(...window.x));
 
 // Rotate matrix clockwise
-export const rotateMatrix = <T>(matrix: T[][]) =>
-  matrix[0].map((_, index) => matrix.map((row) => row[index]).reverse());
+export const rotateMatrix: MatrixTransformation = (matrix) =>
+  matrix[0].map((_, index) =>
+    matrix
+      .map((row) => row[index])
+      .slice()
+      .reverse(),
+  );
+
+// Flip matrix
+export const flipMatrix: MatrixTransformation = (matrix) =>
+  matrix.map((row) => row.slice().reverse());
 
 // Merge matrix b into a at a specific position
 export const assignMatrices = <T>(

@@ -6,7 +6,7 @@ import { selectPattern } from '@/entities/grid';
 import { decodeRLE, IPattern, Pattern, PatternSource, patternSources } from '@/entities/pattern';
 import { TourPopup, TourStepID } from '@/features/tour';
 import { useAppDispatch, useAppSelector } from '@/shared/hooks';
-import { rotateMatrix } from '@/shared/lib';
+import { flipMatrix, MatrixTransformation, rotateMatrix } from '@/shared/lib';
 import { Drawer, Tooltip } from '@/shared/ui';
 
 import styles from './PatternsDrawer.module.scss';
@@ -37,7 +37,12 @@ export function PatternsDrawer() {
   const selectedPattern = useAppSelector((state) => state.gridState.selectedPattern);
   const dispatch = useAppDispatch();
 
-  function rotatePatternGrid(pattern: IPattern) {
+  function onSelectPattern(pattern: IPattern) {
+    dispatch(selectPattern(pattern));
+    setIsDrawerOpen(false);
+  }
+
+  function applyTransformation(pattern: IPattern, transformation: MatrixTransformation) {
     if (selectedPattern?.name === pattern.name) {
       dispatch(selectPattern(null));
     }
@@ -45,14 +50,17 @@ export function PatternsDrawer() {
       ...patterns,
       [pattern.group]: patterns[pattern.group].map((p) => ({
         ...p,
-        ...(p.name === pattern.name ? { grid: rotateMatrix(pattern.grid) } : {}),
+        ...(p.name === pattern.name ? { grid: transformation(pattern.grid) } : {}),
       })),
     });
   }
 
-  function onSelectPattern(pattern: IPattern) {
-    dispatch(selectPattern(pattern));
-    setIsDrawerOpen(false);
+  function rotate(pattern: IPattern) {
+    applyTransformation(pattern, rotateMatrix);
+  }
+
+  function flip(pattern: IPattern) {
+    applyTransformation(pattern, flipMatrix);
   }
 
   const keyboardHandler = useCallback(
@@ -83,7 +91,8 @@ export function PatternsDrawer() {
                 key={pattern.name}
                 {...pattern}
                 isSelected={Boolean(selectedPattern && selectedPattern.name === pattern.name)}
-                rotate={rotatePatternGrid}
+                rotate={rotate}
+                flip={flip}
                 select={onSelectPattern}
               />
             ))}

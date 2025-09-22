@@ -1,4 +1,4 @@
-import { ArrowPathRoundedSquareIcon } from '@heroicons/react/24/solid';
+import { ArrowPathRoundedSquareIcon, ArrowUturnLeftIcon } from '@heroicons/react/24/solid';
 import classnames from 'classnames/bind';
 import { memo } from 'react';
 
@@ -13,12 +13,14 @@ interface PatternProps extends IPattern {
   isSelected: boolean;
   select: (pattern: IPattern) => void;
   rotate: (pattern: IPattern) => void;
+  flip: (pattern: IPattern) => void;
 }
 
 export const Pattern = memo(function Pattern({
   isSelected,
   select,
   rotate,
+  flip,
   ...pattern
 }: PatternProps) {
   return (
@@ -34,6 +36,15 @@ export const Pattern = memo(function Pattern({
           activator={
             <button onClick={() => rotate(pattern)} className="button button--sm">
               <ArrowPathRoundedSquareIcon className="button__icon button__icon--sm" />
+            </button>
+          }
+        />
+        <Tooltip
+          position="bottom"
+          content="Flip"
+          activator={
+            <button onClick={() => flip(pattern)} className="button button--sm">
+              <ArrowUturnLeftIcon className="button__icon button__icon--sm" />
             </button>
           }
         />
