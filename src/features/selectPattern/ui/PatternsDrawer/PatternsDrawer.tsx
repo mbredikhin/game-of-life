@@ -1,11 +1,11 @@
 import { BookOpenIcon } from '@heroicons/react/24/solid';
 import classnames from 'classnames/bind';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
 
 import { selectPattern } from '@/entities/grid';
 import { decodeRLE, IPattern, Pattern, PatternSource, patternSources } from '@/entities/pattern';
 import { TourPopup, TourStepID } from '@/features/tour';
-import { useAppDispatch, useAppSelector } from '@/shared/hooks';
+import { useAppDispatch, useAppSelector, useKeymap } from '@/shared/hooks';
 import { flipMatrix, MatrixTransformation, rotateMatrix } from '@/shared/lib';
 import { Drawer, Tooltip } from '@/shared/ui';
 
@@ -63,19 +63,11 @@ export function PatternsDrawer() {
     applyTransformation(pattern, flipMatrix);
   }
 
-  const keyboardHandler = useCallback(
-    (event: KeyboardEvent) => {
-      if (event.code === 'KeyL') {
-        setIsDrawerOpen(!isDrawerOpen);
-      }
-    },
-    [isDrawerOpen],
-  );
+  const toggleDrawer = useCallback(() => setIsDrawerOpen(!isDrawerOpen), [isDrawerOpen]);
 
-  useEffect(() => {
-    addEventListener('keypress', keyboardHandler);
-    return () => removeEventListener('keypress', keyboardHandler);
-  }, [keyboardHandler]);
+  useKeymap({
+    KeyL: toggleDrawer,
+  });
 
   const content = (
     <div>

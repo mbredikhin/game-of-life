@@ -1,9 +1,9 @@
 import { BeakerIcon } from '@heroicons/react/24/solid';
-import { useCallback, useEffect } from 'react';
+import { useCallback } from 'react';
 
 import { generateRandomPopulation } from '@/entities/grid';
 import { TourPopup, TourStepID } from '@/features/tour';
-import { useAppDispatch } from '@/shared/hooks';
+import { useAppDispatch, useKeymap } from '@/shared/hooks';
 import { Tooltip } from '@/shared/ui';
 
 export function RandomPopulationButton() {
@@ -13,19 +13,9 @@ export function RandomPopulationButton() {
     dispatch(generateRandomPopulation());
   }, [dispatch]);
 
-  const keyboardHandler = useCallback(
-    (event: KeyboardEvent) => {
-      if (event.code === 'KeyR') {
-        generate();
-      }
-    },
-    [generate],
-  );
-
-  useEffect(() => {
-    addEventListener('keypress', keyboardHandler);
-    return () => removeEventListener('keypress', keyboardHandler);
-  }, [keyboardHandler]);
+  useKeymap({
+    KeyR: generate,
+  });
 
   return (
     <TourPopup stepID={TourStepID.RandomPopulation}>

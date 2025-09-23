@@ -1,11 +1,12 @@
 import classnames from 'classnames/bind';
-import { useCallback, useEffect } from 'react';
+import { useCallback } from 'react';
 
 import { Tooltip } from '@/shared/ui';
 
 import { ZoomDelta } from '../../lib';
 import styles from './ZoomControls.module.scss';
 import { clamp } from '@/shared/lib';
+import { useKeymap } from '@/shared/hooks';
 const cx = classnames.bind(styles);
 
 interface ZoomControls {
@@ -21,21 +22,20 @@ export function ZoomControls({ zoom, onChangeZoom }: ZoomControls) {
     [zoom, onChangeZoom],
   );
 
-  const keyboardHandler = useCallback(
-    (event: KeyboardEvent) => {
-      if (event.shiftKey && event.code === 'Equal') {
-        changeZoom(ZoomDelta.Up);
-      } else if (event.shiftKey && event.code === 'Minus') {
-        changeZoom(ZoomDelta.Down);
-      }
-    },
-    [changeZoom],
-  );
-
-  useEffect(() => {
-    addEventListener('keypress', keyboardHandler);
-    return () => removeEventListener('keypress', keyboardHandler);
-  }, [keyboardHandler]);
+  useKeymap({
+    Equal: [
+      {
+        modifiers: ['shiftKey'],
+        handler: () => changeZoom(ZoomDelta.Up),
+      },
+    ],
+    Minus: [
+      {
+        modifiers: ['shiftKey'],
+        handler: () => changeZoom(ZoomDelta.Down),
+      },
+    ],
+  });
 
   return (
     <div className={cx(['zoom-controls'])}>

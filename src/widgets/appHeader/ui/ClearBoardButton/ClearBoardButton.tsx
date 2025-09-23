@@ -3,26 +3,18 @@ import { useCallback, useEffect } from 'react';
 import ClearIcon from '@/app/assets/images/clear.svg?react';
 import { resetGrid } from '@/entities/grid';
 import { TourPopup, TourStepID } from '@/features/tour';
-import { useAppDispatch, useAppSelector } from '@/shared/hooks';
+import { useAppDispatch, useAppSelector, useKeymap } from '@/shared/hooks';
 import { Tooltip } from '@/shared/ui';
 
 export function ClearBoardButton() {
   const gridSettings = useAppSelector((state) => state.settings.grid);
   const dispatch = useAppDispatch();
 
-  const keyboardHandler = useCallback(
-    (event: KeyboardEvent) => {
-      if (event.code === 'KeyC') {
-        dispatch(resetGrid(gridSettings));
-      }
-    },
-    [gridSettings, dispatch],
-  );
+  const clearGrid = useCallback(() => dispatch(resetGrid(gridSettings)), [gridSettings, dispatch]);
 
-  useEffect(() => {
-    addEventListener('keypress', keyboardHandler);
-    return () => removeEventListener('keypress', keyboardHandler);
-  }, [keyboardHandler]);
+  useKeymap({
+    KeyC: clearGrid,
+  });
 
   useEffect(() => {
     dispatch(resetGrid(gridSettings));

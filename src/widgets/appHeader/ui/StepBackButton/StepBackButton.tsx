@@ -1,8 +1,8 @@
 import { ArrowUturnLeftIcon } from '@heroicons/react/24/solid';
-import { useCallback, useEffect } from 'react';
+import { useCallback } from 'react';
 
 import { stepBack as stepBackAction } from '@/entities/grid';
-import { useAppDispatch, useAppSelector } from '@/shared/hooks';
+import { useAppDispatch, useAppSelector, useKeymap } from '@/shared/hooks';
 import { Tooltip } from '@/shared/ui';
 
 export function StepBackButton() {
@@ -15,19 +15,9 @@ export function StepBackButton() {
     dispatch(stepBackAction());
   }, [dispatch]);
 
-  const keyboardHandler = useCallback(
-    (event: KeyboardEvent) => {
-      if (event.code === 'KeyB') {
-        stepBack();
-      }
-    },
-    [stepBack],
-  );
-
-  useEffect(() => {
-    addEventListener('keypress', keyboardHandler);
-    return () => removeEventListener('keypress', keyboardHandler);
-  }, [keyboardHandler]);
+  useKeymap({
+    KeyB: stepBack,
+  });
 
   return (
     <Tooltip

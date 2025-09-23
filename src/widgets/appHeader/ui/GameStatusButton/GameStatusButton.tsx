@@ -4,7 +4,7 @@ import PauseIcon from '@/app/assets/images/pause.svg?react';
 import PlayIcon from '@/app/assets/images/play.svg?react';
 import { evolve, GameStatus, updateGameStatus } from '@/entities/grid';
 import { TourPopup, TourStepID } from '@/features/tour';
-import { useAppDispatch, useAppSelector } from '@/shared/hooks';
+import { useAppDispatch, useAppSelector, useKeymap } from '@/shared/hooks';
 import { CellState } from '@/shared/lib';
 
 let loop: number | undefined;
@@ -29,21 +29,18 @@ export function GameStatusButton() {
     [grid, tick, dispatch],
   );
 
-  const keyboardHandler = useCallback(
+  const onSpaceClick = useCallback(
     (event: KeyboardEvent) => {
-      if (event.code === 'Space') {
-        event.preventDefault();
-        const status = gameStatus === GameStatus.Pause ? GameStatus.Play : GameStatus.Pause;
-        changeGameStatus(status);
-      }
+      event.preventDefault();
+      const status = gameStatus === GameStatus.Pause ? GameStatus.Play : GameStatus.Pause;
+      changeGameStatus(status);
     },
     [gameStatus, changeGameStatus],
   );
 
-  useEffect(() => {
-    addEventListener('keypress', keyboardHandler);
-    return () => removeEventListener('keypress', keyboardHandler);
-  }, [keyboardHandler]);
+  useKeymap({
+    Space: onSpaceClick,
+  });
 
   useEffect(() => {
     if (gameStatus === GameStatus.Play) {
