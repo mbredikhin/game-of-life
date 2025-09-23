@@ -3,7 +3,6 @@ import classnames from 'classnames/bind';
 import type { IPattern } from '@/entities/pattern';
 
 import styles from './PatternGrid.module.scss';
-import { CellState } from '@/shared/lib';
 const cx = classnames.bind(styles);
 
 interface PatternGridProps {
@@ -24,7 +23,7 @@ export function PatternGrid({ grid }: PatternGridProps) {
                 'pattern-grid__cell': true,
                 'pattern-grid__cell--sm': gridSize.every((dim) => dim > 10 && dim <= 20),
                 'pattern-grid__cell--xs': gridSize.every((dim) => dim > 20),
-                'pattern-grid__cell--populated': cell === CellState.Populated,
+                'pattern-grid__cell--populated': !!cell,
               })}
             ></div>
           ))}

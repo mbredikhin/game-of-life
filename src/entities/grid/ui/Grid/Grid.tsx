@@ -1,10 +1,9 @@
 import classnames from 'classnames/bind';
 
-import { applyPattern, Brush, Cell, Coords, updateGridCell } from '@/entities/grid';
+import { applyPattern, Brush, Cell, CellState, Coords, updateGridCell } from '@/entities/grid';
 import { useAppDispatch, useAppSelector } from '@/shared/hooks';
 
 import styles from './Grid.module.scss';
-import { CellState } from '@/shared/lib';
 const cx = classnames.bind(styles);
 
 interface GridProps {

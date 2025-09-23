@@ -2,9 +2,8 @@ import classnames from 'classnames/bind';
 
 import { useAppSelector } from '@/shared/hooks';
 
-import { Coords, selectGridCell } from '../../model';
+import { CellState, Coords, selectGridCell } from '../../model';
 import styles from './Cell.module.scss';
-import { CellState } from '@/shared/lib';
 import { useHover } from 'usehooks-ts';
 import { useRef } from 'react';
 const cx = classnames.bind(styles);

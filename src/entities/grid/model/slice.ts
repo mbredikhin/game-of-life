@@ -1,43 +1,8 @@
 import { createSelector, createSlice, type PayloadAction } from '@reduxjs/toolkit';
-
-import type { IPattern } from '@/entities/pattern';
-import { cropMatrix, clamp, CellState, assignMatrices, MatrixCropWindow } from '@/shared/lib';
-
-import { Coords, GameStatus, GridDiff, GridState, TGrid } from './types';
+import { cropMatrix, clamp, assignMatrices, MatrixCropWindow } from '@/shared/lib';
+import { CellState, Coords, GameStatus, GridDiff, GridState, TGrid } from './types';
 import { Settings } from '@/entities/settings';
-
-const getNeighboursCount = ([y, x]: Coords, grid: TGrid): number => {
-  const gridHeight = grid.length;
-  const gridWidth = grid[0].length;
-  let neighboursCoords: Coords[] = [
-    [y + 1, x - 1],
-    [y + 1, x],
-    [y + 1, x + 1],
-    [y, x - 1],
-    [y, x + 1],
-    [y - 1, x - 1],
-    [y - 1, x],
-    [y - 1, x + 1],
-  ];
-
-  neighboursCoords.forEach((coords) => {
-    if (coords[0] < 0) {
-      coords[0] += gridHeight;
-    } else if (coords[0] > gridHeight - 1) {
-      coords[0] -= gridHeight;
-    }
-    if (coords[1] < 0) {
-      coords[1] += gridWidth;
-    } else if (coords[1] > gridWidth - 1) {
-      coords[1] -= gridWidth;
-    }
-  });
-
-  return neighboursCoords.reduce(
-    (acc, [y, x]) => acc + (grid[y]?.[x] === CellState.Populated ? 1 : 0),
-    0,
-  );
-};
+import { getNeighboursCount } from '../lib';
 
 const initialState: GridState = {
   grid: [],
@@ -134,7 +99,11 @@ export const GridSlice = createSlice({
 
     applyPattern: (
       state,
-      action: PayloadAction<{ pattern: IPattern['grid']; coords: Coords; isGhost?: boolean }>,
+      action: PayloadAction<{
+        pattern: TGrid;
+        coords: Coords;
+        isGhost?: boolean;
+      }>,
     ) => {
       const [y, x] = action.payload.coords;
       const maxY = state.grid.length - 1;

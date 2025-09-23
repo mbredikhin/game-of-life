@@ -10,6 +10,7 @@ import { flipMatrix, MatrixTransformation, rotateMatrix } from '@/shared/lib';
 import { Drawer, Tooltip } from '@/shared/ui';
 
 import styles from './PatternsDrawer.module.scss';
+import { patternGridToCellGrid } from '../../lib';
 const cx = classnames.bind(styles);
 
 const patternsInitial = patternSources.reduce(
@@ -31,6 +32,7 @@ const activator = (
     }
   />
 );
+
 export function PatternsDrawer() {
   const [patterns, setPatterns] = useState(patternsInitial);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -38,7 +40,11 @@ export function PatternsDrawer() {
   const dispatch = useAppDispatch();
 
   function onSelectPattern(pattern: IPattern) {
-    dispatch(selectPattern(pattern));
+    const selectedPattern = {
+      name: pattern.name,
+      grid: patternGridToCellGrid(pattern.grid),
+    };
+    dispatch(selectPattern(selectedPattern));
     setIsDrawerOpen(false);
   }
 

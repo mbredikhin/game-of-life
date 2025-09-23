@@ -2,10 +2,9 @@ import { useCallback, useEffect } from 'react';
 
 import PauseIcon from '@/app/assets/images/pause.svg?react';
 import PlayIcon from '@/app/assets/images/play.svg?react';
-import { evolve, GameStatus, updateGameStatus } from '@/entities/grid';
+import { CellState, evolve, GameStatus, updateGameStatus } from '@/entities/grid';
 import { TourPopup, TourStepID } from '@/features/tour';
 import { useAppDispatch, useAppSelector, useKeymap } from '@/shared/hooks';
-import { CellState } from '@/shared/lib';
 
 let loop: number | undefined;
 

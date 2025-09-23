@@ -1,5 +1,3 @@
-import { CellState } from '@/shared/lib';
-
 export function decodeRLE(input: string) {
   const inputByLines = input.split('\n');
   const dimensions = inputByLines[0].trim().replace('x = ', '').replace('y = ', '').split(',');
@@ -7,8 +5,8 @@ export function decodeRLE(input: string) {
     .slice(1)
     .map((s) => s.trim())
     .join('');
-  const grid: CellState[][] = Array.from({ length: +dimensions[1] }).map(
-    () => Array.from({ length: +dimensions[0] }).fill(CellState.Empty) as CellState[],
+  const grid: boolean[][] = Array.from({ length: +dimensions[1] }).map(
+    () => Array.from({ length: +dimensions[0] }).fill(false) as boolean[],
   );
   let repeat = 1;
   let x = 0;
@@ -19,11 +17,11 @@ export function decodeRLE(input: string) {
     if (char === '!') {
       break;
     } else if (char === 'b') {
-      grid[y].splice(x, repeat, ...Array.from({ length: repeat }).map(() => CellState.Empty));
+      grid[y].splice(x, repeat, ...Array.from({ length: repeat }).map(() => false));
       x += repeat;
       repeat = 1;
     } else if (char === 'o') {
-      grid[y].splice(x, repeat, ...Array.from({ length: repeat }).map(() => CellState.Populated));
+      grid[y].splice(x, repeat, ...Array.from({ length: repeat }).map(() => true));
       x += repeat;
       repeat = 1;
     } else if (char === '$') {
@@ -31,7 +29,7 @@ export function decodeRLE(input: string) {
         grid.splice(
           y + 1,
           repeat - 1,
-          Array.from({ length: +dimensions[0] }).map(() => CellState.Empty),
+          Array.from({ length: +dimensions[0] }).map(() => false),
         );
       }
       y += repeat;
