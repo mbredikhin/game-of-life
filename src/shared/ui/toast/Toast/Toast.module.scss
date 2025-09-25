@@ -1,0 +1,27 @@
+.toast-wrapper {
+  @apply fixed z-toast w-0 py-4;
+  &--top {
+    @apply left-1/2 top-4 animate-emerge-from-top;
+  }
+  &--bottom {
+    @apply bottom-4 left-1/2 animate-emerge-from-bottom;
+  }
+}
+
+.toast {
+  @apply flex w-max max-w-96 items-center gap-2 rounded-lg border border-gray-light bg-white px-4 py-2 shadow-lg dark:border-gray-dark dark:bg-black;
+  &--top {
+    @apply -translate-x-1/2;
+  }
+  &--bottom {
+    @apply -translate-x-1/2;
+  }
+}
+
+.toast__icon {
+  @apply h-6 w-6;
+}
+
+.toast__close-button {
+  @apply h-6 w-6 rounded hover:bg-gray-light dark:hover:bg-gray-dark;
+}

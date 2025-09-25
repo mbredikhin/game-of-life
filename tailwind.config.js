@@ -24,9 +24,10 @@ module.exports = {
       zIndex: {
         'cell-glow': '10',
         'app-header': '100',
-        tooltip: '1000',
         popup: '100',
         drawer: '1000',
+        tooltip: '1000',
+        toast: '10000',
       },
       keyframes: {
         'fade-in': {
@@ -36,9 +37,31 @@ module.exports = {
           '75%': { opacity: '70%' },
           '100%': { opacity: '100%' },
         },
+        'emerge-from-top': {
+          '0%': {
+            opacity: '0',
+            transform: 'translateY(-100%)',
+          },
+          '100%': {
+            opacity: '100%',
+            transform: 'translateY(0)',
+          },
+        },
+        'emerge-from-bottom': {
+          '0%': {
+            opacity: '0',
+            transform: 'translateY(100%)',
+          },
+          '100%': {
+            opacity: '100%',
+            transform: 'translateY(0%)',
+          },
+        },
       },
       animation: {
         'fade-in': 'fade-in 1s linear',
+        'emerge-from-top': 'emerge-from-top 0.25s ease-out forwards',
+        'emerge-from-bottom': 'emerge-from-bottom 0.25s ease-out forwards',
       },
     },
   },

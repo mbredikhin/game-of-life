@@ -5,6 +5,7 @@ import { AppRouter } from '@/app/router/AppRouter';
 import { AppHeader } from '@/widgets/appHeader';
 import { SettingsStorageKey } from '@/entities/settings';
 import { bindStorage, setAppearance } from '@/shared/lib';
+import { ToastRoot } from '@/shared/ui';
 
 (function init() {
   const { get: getFromStorage } = bindStorage(window.localStorage);
@@ -17,6 +18,7 @@ function App() {
     <div className="app">
       <AppHeader />
       <AppRouter />
+      <ToastRoot />
     </div>
   );
 }
