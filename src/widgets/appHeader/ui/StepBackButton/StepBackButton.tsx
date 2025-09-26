@@ -19,10 +19,16 @@ export function StepBackButton() {
     KeyB: stepBack,
   });
 
+  const tooltipContent = (
+    <span className="shortcut">
+      Step back <kbd>B</kbd>
+    </span>
+  );
+
   return (
     <Tooltip
       position="bottom"
-      content="Step back [B]"
+      content={tooltipContent}
       activator={
         <button disabled={disabled} className="button" onClick={stepBack}>
           <ArrowUturnLeftIcon className="button__icon" />

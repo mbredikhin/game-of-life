@@ -20,11 +20,17 @@ export function ClearBoardButton() {
     dispatch(resetGrid(gridSettings));
   }, [gridSettings, dispatch]);
 
+  const tooltipContent = (
+    <span className="shortcut">
+      Clear board <kbd>C</kbd>
+    </span>
+  );
+
   return (
     <TourPopup stepID={TourStepID.ClearBoard}>
       <Tooltip
         position="bottom"
-        content="Clear board [C]"
+        content={tooltipContent}
         activator={
           <button className="button" onClick={() => dispatch(resetGrid(gridSettings))}>
             <ClearIcon className="button__icon" fill="currentColor" />

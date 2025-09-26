@@ -25,6 +25,10 @@ p {
 body {
   @apply bg-white font-body text-lg font-normal leading-8 text-black dark:bg-black dark:text-white;
 }
+kbd {
+  @apply rounded-md border border-gray bg-gray-light px-1.5 font-mono text-sm dark:border-gray dark:bg-gray-dark;
+}
+
 /* Scrollbar customization */
 *::-webkit-scrollbar-track {
   @apply rounded-xl bg-white dark:bg-black;
@@ -87,4 +91,7 @@ body {
 }
 .subtitle {
   @apply text-lg font-medium;
+}
+.shortcut {
+  @apply flex items-center gap-2;
 }

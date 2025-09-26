@@ -1,12 +1,12 @@
 import classnames from 'classnames/bind';
 import { useCallback } from 'react';
 
+import { useKeymap } from '@/shared/hooks';
+import { clamp } from '@/shared/lib';
 import { Tooltip } from '@/shared/ui';
 
 import { ZoomDelta } from '../../lib';
 import styles from './ZoomControls.module.scss';
-import { clamp } from '@/shared/lib';
-import { useKeymap } from '@/shared/hooks';
 const cx = classnames.bind(styles);
 
 interface ZoomControls {
@@ -37,11 +37,31 @@ export function ZoomControls({ zoom, onChangeZoom }: ZoomControls) {
     ],
   });
 
+  const zoomInTooltipContent = (
+    <span className="shortcut">
+      Zoom In
+      <span className="flex gap-1">
+        <kbd>shift</kbd>
+        <kbd>+</kbd>
+      </span>
+    </span>
+  );
+
+  const zoomOutTooltipContent = (
+    <span className="shortcut">
+      Zoom Out
+      <span className="flex gap-1">
+        <kbd>shift</kbd>
+        <kbd>-</kbd>
+      </span>
+    </span>
+  );
+
   return (
     <div className={cx(['zoom-controls'])}>
       <Tooltip
         position="left"
-        content="Zoom In [shift +]"
+        content={zoomInTooltipContent}
         activator={
           <button className="button" onClick={() => changeZoom(ZoomDelta.Up)}>
             +
@@ -50,7 +70,7 @@ export function ZoomControls({ zoom, onChangeZoom }: ZoomControls) {
       />
       <Tooltip
         position="left"
-        content="Zoom Out [shift -]"
+        content={zoomOutTooltipContent}
         activator={
           <button className="button" onClick={() => changeZoom(ZoomDelta.Down)}>
             -

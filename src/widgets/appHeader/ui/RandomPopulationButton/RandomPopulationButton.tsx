@@ -17,11 +17,17 @@ export function RandomPopulationButton() {
     KeyR: generate,
   });
 
+  const tooltipContent = (
+    <span className="shortcut">
+      Random population <kbd>R</kbd>
+    </span>
+  );
+
   return (
     <TourPopup stepID={TourStepID.RandomPopulation}>
       <Tooltip
         position="bottom"
-        content="Random population [R]"
+        content={tooltipContent}
         activator={
           <button className="button" onClick={generate}>
             <BeakerIcon className="button__icon" />

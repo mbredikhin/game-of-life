@@ -9,8 +9,8 @@ import { useAppDispatch, useAppSelector, useKeymap } from '@/shared/hooks';
 import { flipMatrix, MatrixTransformation, rotateMatrix } from '@/shared/lib';
 import { Drawer, Tooltip } from '@/shared/ui';
 
-import styles from './PatternsDrawer.module.scss';
 import { patternGridToCellGrid } from '../../lib';
+import styles from './PatternsDrawer.module.scss';
 const cx = classnames.bind(styles);
 
 const patternsInitial = patternSources.reduce(
@@ -21,10 +21,16 @@ const patternsInitial = patternSources.reduce(
   {} as Record<PatternSource['group'], IPattern[]>,
 );
 
+const activatorTooltipContent = (
+  <span className="shortcut">
+    Patterns library <kbd>L</kbd>
+  </span>
+);
+
 const activator = (
   <Tooltip
     position="bottom"
-    content="Patterns library [L]"
+    content={activatorTooltipContent}
     activator={
       <button className="button">
         <BookOpenIcon className="button__icon" />
