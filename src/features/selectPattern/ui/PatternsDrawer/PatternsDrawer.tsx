@@ -3,23 +3,15 @@ import classnames from 'classnames/bind';
 import { useCallback, useState } from 'react';
 
 import { selectPattern } from '@/entities/grid';
-import { decodeRLE, IPattern, Pattern, PatternSource, patternSources } from '@/entities/pattern';
+import { IPattern, Pattern, patternSources } from '@/entities/pattern';
 import { TourPopup, TourStepID } from '@/features/tour';
 import { useAppDispatch, useAppSelector, useKeymap } from '@/shared/hooks';
 import { flipMatrix, MatrixTransformation, rotateMatrix } from '@/shared/lib';
-import { Drawer, Tooltip } from '@/shared/ui';
+import { Drawer, showToast, Tooltip } from '@/shared/ui';
 
-import { patternGridToCellGrid } from '../../lib';
+import { buildPatternGroups } from '../../lib';
 import styles from './PatternsDrawer.module.scss';
 const cx = classnames.bind(styles);
-
-const patternsInitial = patternSources.reduce(
-  (acc, pattern) => ({
-    ...acc,
-    [pattern.group]: [...(acc[pattern.group] ?? []), { ...pattern, grid: decodeRLE(pattern.data) }],
-  }),
-  {} as Record<PatternSource['group'], IPattern[]>,
-);
 
 const activatorTooltipContent = (
   <span className="shortcut">
@@ -39,46 +31,74 @@ const activator = (
   />
 );
 
+const groupedPatterns = buildPatternGroups(patternSources);
+
 export function PatternsDrawer() {
-  const [patterns, setPatterns] = useState(patternsInitial);
+  const [patterns, setPatterns] = useState(groupedPatterns);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const selectedPattern = useAppSelector((state) => state.gridState.selectedPattern);
   const dispatch = useAppDispatch();
 
   function onSelectPattern(pattern: IPattern) {
-    const selectedPattern = {
-      name: pattern.name,
-      grid: patternGridToCellGrid(pattern.grid),
-    };
-    dispatch(selectPattern(selectedPattern));
+    dispatch(selectPattern({ id: pattern.id, grid: pattern.grid }));
     setIsDrawerOpen(false);
-  }
-
-  function applyTransformation(pattern: IPattern, transformation: MatrixTransformation) {
-    if (selectedPattern?.name === pattern.name) {
-      dispatch(selectPattern(null));
-    }
-    setPatterns({
-      ...patterns,
-      [pattern.group]: patterns[pattern.group].map((p) => ({
-        ...p,
-        ...(p.name === pattern.name ? { grid: transformation(pattern.grid) } : {}),
-      })),
+    showToast({
+      content: (
+        <span>
+          Press <kbd>R</kbd> to rotate, <kbd>F</kbd> to flip
+        </span>
+      ),
     });
   }
 
-  function rotate(pattern: IPattern) {
-    applyTransformation(pattern, rotateMatrix);
+  function updatePattern(patternPayload: Partial<IPattern> & { id: number }) {
+    const [group, index] = Object.entries(patterns).reduce(
+      (acc, [group, patterns]) => {
+        const index = patterns.findIndex(({ id }) => id === patternPayload.id);
+        return index === -1 ? acc : [group, index];
+      },
+      ['', 0] as [string, number],
+    );
+
+    setPatterns({
+      ...patterns,
+      [group]: [
+        ...patterns[group].slice(0, index),
+        { ...patterns[group][index], ...patternPayload },
+        ...patterns[group].slice(index + 1),
+      ],
+    });
   }
 
-  function flip(pattern: IPattern) {
-    applyTransformation(pattern, flipMatrix);
+  function transform(
+    pattern: Pick<IPattern, 'id' | 'grid'>,
+    transformation: MatrixTransformation,
+    isSelected = false,
+  ) {
+    const transformedPattern = { ...pattern, grid: transformation(pattern.grid) };
+    if (isSelected) {
+      dispatch(selectPattern(transformedPattern));
+      return;
+    }
+    updatePattern(transformedPattern);
+  }
+
+  function rotate(pattern: Pick<IPattern, 'id' | 'grid'>, isSelected = false) {
+    transform(pattern, rotateMatrix, isSelected);
+  }
+
+  function flip(pattern: Pick<IPattern, 'id' | 'grid'>, isSelected = false) {
+    transform(pattern, flipMatrix, isSelected);
   }
 
   const toggleDrawer = useCallback(() => setIsDrawerOpen(!isDrawerOpen), [isDrawerOpen]);
 
   useKeymap({
     KeyL: toggleDrawer,
+    ...(selectedPattern && {
+      KeyR: () => rotate(selectedPattern, true),
+      KeyF: () => flip(selectedPattern, true),
+    }),
   });
 
   const content = (
@@ -92,9 +112,9 @@ export function PatternsDrawer() {
           <div className={cx(['patterns-group__list'])}>
             {patterns.map((pattern) => (
               <Pattern
-                key={pattern.name}
+                key={pattern.id}
                 {...pattern}
-                isSelected={Boolean(selectedPattern && selectedPattern.name === pattern.name)}
+                isSelected={selectedPattern?.id === pattern.id}
                 rotate={rotate}
                 flip={flip}
                 select={onSelectPattern}

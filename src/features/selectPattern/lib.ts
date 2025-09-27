@@ -1,7 +1,19 @@
-import { CellState, TGrid } from '@/entities/grid';
-import { IPattern } from '@/entities/pattern';
+import { decodeRLE, IPattern, PatternSource } from '@/entities/pattern';
 
-export const patternGridToCellGrid = (patternGrid: IPattern['grid']): TGrid =>
-  patternGrid.map((row) =>
-    row.map((isPopulated) => (isPopulated ? CellState.Populated : CellState.Empty)),
+let patternId = 0;
+const generatePatternId = () => {
+  patternId++;
+  return patternId;
+};
+
+export const buildPatternGroups = (patternSources: PatternSource[]) =>
+  patternSources.reduce(
+    (acc, pattern) => ({
+      ...acc,
+      [pattern.group]: [
+        ...(acc[pattern.group] ?? []),
+        { ...pattern, id: generatePatternId(), grid: decodeRLE(pattern.data) },
+      ],
+    }),
+    {} as Record<PatternSource['group'], IPattern[]>,
   );

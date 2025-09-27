@@ -3,24 +3,28 @@ import { useCallback } from 'react';
 
 import { generateRandomPopulation } from '@/entities/grid';
 import { TourPopup, TourStepID } from '@/features/tour';
-import { useAppDispatch, useKeymap } from '@/shared/hooks';
+import { useAppDispatch, useAppSelector, useKeymap } from '@/shared/hooks';
 import { Tooltip } from '@/shared/ui';
 
 export function RandomPopulationButton() {
+  const selectedPattern = useAppSelector((state) => state.gridState.selectedPattern);
   const dispatch = useAppDispatch();
+
+  // R is used by the patterns feature when a pattern is selected
+  const shortcutEnabled = !selectedPattern;
 
   const generate = useCallback(() => {
     dispatch(generateRandomPopulation());
   }, [dispatch]);
 
   useKeymap({
-    KeyR: generate,
+    ...(shortcutEnabled && {
+      KeyR: generate,
+    }),
   });
 
   const tooltipContent = (
-    <span className="shortcut">
-      Random population <kbd>R</kbd>
-    </span>
+    <span className="shortcut">Random population {shortcutEnabled && <kbd>R</kbd>}</span>
   );
 
   return (

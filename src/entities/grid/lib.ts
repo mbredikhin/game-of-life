@@ -3,7 +3,7 @@ import { CellState, Coords, TGrid } from './model';
 export const getNeighboursCount = ([y, x]: Coords, grid: TGrid): number => {
   const gridHeight = grid.length;
   const gridWidth = grid[0].length;
-  let neighboursCoords: Coords[] = [
+  const neighboursCoords: Coords[] = [
     [y + 1, x - 1],
     [y + 1, x],
     [y + 1, x + 1],
@@ -32,3 +32,8 @@ export const getNeighboursCount = ([y, x]: Coords, grid: TGrid): number => {
     0,
   );
 };
+
+export const patternGridToCellGrid = (patternGrid: boolean[][]): TGrid =>
+  patternGrid.map((row) =>
+    row.map((isPopulated) => (isPopulated ? CellState.Populated : CellState.Empty)),
+  );

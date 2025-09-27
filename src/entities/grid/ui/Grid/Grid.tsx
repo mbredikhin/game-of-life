@@ -1,8 +1,18 @@
 import classnames from 'classnames/bind';
+import { useCallback, useEffect, useRef } from 'react';
 
-import { applyPattern, Brush, Cell, CellState, Coords, updateGridCell } from '@/entities/grid';
+import {
+  applyPattern,
+  Brush,
+  Cell,
+  CellState,
+  Coords,
+  GridState,
+  updateGridCell,
+} from '@/entities/grid';
 import { useAppDispatch, useAppSelector } from '@/shared/hooks';
 
+import { patternGridToCellGrid } from '../../lib';
 import styles from './Grid.module.scss';
 const cx = classnames.bind(styles);
 
@@ -10,12 +20,9 @@ interface GridProps {
   zoom: number;
 }
 
-let brush: Brush = {
-  active: false,
-  fill: false,
-};
-
 export function Grid({ zoom }: GridProps) {
+  const brush = useRef<Brush>({ active: false, fill: false });
+  const cursor = useRef<Coords>([0, 0]);
   const gridSettings = useAppSelector((state) => state.settings.grid);
   const selectedPattern = useAppSelector((state) => state.gridState.selectedPattern);
   const dispatch = useAppDispatch();
@@ -24,47 +31,52 @@ export function Grid({ zoom }: GridProps) {
     dispatch(updateGridCell({ coords, cellState }));
   }
 
-  function onCellMouseEnter(coords: Coords) {
-    if (brush.active) {
-      changeCell(coords, brush.fill ? CellState.Populated : CellState.Empty);
-      return;
-    }
-
-    if (selectedPattern) {
-      const y = coords[0] - Math.floor(selectedPattern.grid.length / 2);
-      const x = coords[1] - Math.floor(selectedPattern.grid[0].length / 2);
+  const drawPattern = useCallback(
+    (cursorAt: Coords, pattern: Exclude<GridState['selectedPattern'], null>, isGhost: boolean) => {
+      const y = cursorAt[0] - Math.floor(pattern.grid.length / 2);
+      const x = cursorAt[1] - Math.floor(pattern.grid[0].length / 2);
       dispatch(
         applyPattern({
-          pattern: selectedPattern.grid,
+          pattern: patternGridToCellGrid(pattern.grid),
           coords: [y, x],
-          isGhost: true,
+          isGhost,
         }),
       );
+    },
+    [dispatch],
+  );
+
+  function onCellMouseEnter(coords: Coords) {
+    if (brush.current.active) {
+      changeCell(coords, brush.current.fill ? CellState.Populated : CellState.Empty);
+    }
+    cursor.current = coords;
+    if (selectedPattern) {
+      drawPattern(cursor.current, selectedPattern, true);
     }
   }
 
   function onCellMouseDown(coords: Coords, cellState: CellState) {
     if (selectedPattern) {
-      const y = coords[0] - Math.floor(selectedPattern.grid.length / 2);
-      const x = coords[1] - Math.floor(selectedPattern.grid[0].length / 2);
-      dispatch(
-        applyPattern({
-          pattern: selectedPattern.grid,
-          coords: [y, x],
-        }),
-      );
+      drawPattern(coords, selectedPattern, false);
       return;
     }
-    brush = {
+    brush.current = {
       active: true,
       fill: cellState !== CellState.Populated,
     };
-    changeCell(coords, brush.fill ? CellState.Populated : CellState.Empty);
+    changeCell(coords, brush.current.fill ? CellState.Populated : CellState.Empty);
   }
 
   function resetBrush() {
-    brush = { active: false, fill: false };
+    brush.current = { active: false, fill: false };
   }
+
+  useEffect(() => {
+    if (selectedPattern) {
+      drawPattern(cursor.current, selectedPattern, true);
+    }
+  }, [selectedPattern, drawPattern]);
 
   return (
     <div className={cx(['grid'])} onMouseUp={resetBrush} onMouseLeave={resetBrush}>

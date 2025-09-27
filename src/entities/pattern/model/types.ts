@@ -5,6 +5,7 @@ export interface PatternSource {
 }
 
 export interface Pattern {
+  id: number;
   name: string;
   group: string;
   grid: boolean[][];

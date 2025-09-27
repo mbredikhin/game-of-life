@@ -1,8 +1,10 @@
 import { createSelector, createSlice, type PayloadAction } from '@reduxjs/toolkit';
-import { cropMatrix, clamp, assignMatrices, MatrixCropWindow } from '@/shared/lib';
-import { CellState, Coords, GameStatus, GridDiff, GridState, TGrid } from './types';
+
 import { Settings } from '@/entities/settings';
+import { assignMatrices, clamp, cropMatrix, MatrixCropWindow } from '@/shared/lib';
+
 import { getNeighboursCount } from '../lib';
+import { CellState, Coords, GameStatus, GridDiff, GridState, TGrid } from './types';
 
 const initialState: GridState = {
   grid: [],

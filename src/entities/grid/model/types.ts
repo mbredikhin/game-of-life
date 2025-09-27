@@ -18,15 +18,13 @@ export type TGrid = CellState[][];
 // List of cells which state has been changed
 export type GridDiff = Coords[];
 
-export interface SelectedPattern {
-  name: string;
-  grid: TGrid;
-}
-
 export interface GridState {
   grid: TGrid;
   gridDiffStack: GridDiff[];
-  selectedPattern: SelectedPattern | null;
+  selectedPattern: {
+    id: number;
+    grid: boolean[][];
+  } | null;
   generation: number;
   gameStatus: GameStatus;
 }
