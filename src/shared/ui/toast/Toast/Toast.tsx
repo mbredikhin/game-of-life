@@ -1,7 +1,7 @@
 import { XMarkIcon } from '@heroicons/react/24/solid';
 import classnames from 'classnames/bind';
-import { ToastConfig } from '../lib';
 
+import { ToastConfig } from '../lib';
 import styles from './Toast.module.scss';
 const cx = classnames.bind(styles);
 
@@ -10,7 +10,7 @@ interface ToastProps extends ToastConfig {
   onClose: () => void;
 }
 
-export function Toast({ index, text, icon, position, onClose }: ToastProps) {
+export function Toast({ index, content, icon, position, onClose }: ToastProps) {
   const yShift = index * 86;
 
   return (
@@ -32,7 +32,7 @@ export function Toast({ index, text, icon, position, onClose }: ToastProps) {
         })}
       >
         {icon ? <div className={cx(['toast__icon'])}>{icon}</div> : null}
-        <div className={cx(['toast__text'])}>{text}</div>
+        <div className={cx(['toast__content'])}>{content}</div>
         <button className={cx(['toast__close-button'])} onClick={onClose}>
           <XMarkIcon />
         </button>

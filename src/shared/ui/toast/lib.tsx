@@ -1,10 +1,12 @@
-import { RelativePosition } from '@/shared/lib';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
+
+import { RelativePosition } from '@/shared/lib';
+
 import { Toast } from './Toast/Toast';
 
 export interface ToastConfig {
-  text: string;
+  content: JSX.Element | string;
   icon: JSX.Element | null;
   position: Extract<RelativePosition, 'top' | 'bottom'>;
   duration: number;
@@ -18,7 +20,7 @@ const TICK_DURATION = 100;
 const TOASTS_LIMIT = 2;
 
 const defaultToastConfig: ToastConfig = {
-  text: '',
+  content: '',
   icon: null,
   position: 'top',
   duration: 5000,
@@ -30,7 +32,9 @@ const generateToastId = () => {
   return toastId;
 };
 
-export let showToast: (configOrText: Partial<ToastConfig> | ToastConfig['text']) => void = () => {
+export let showToast: (
+  configOrText: Partial<ToastConfig> | ToastConfig['content'],
+) => void = () => {
   throw new Error('<ToastRoot /> must be mounted before use.');
 };
 
@@ -51,12 +55,12 @@ export const useToast = () => {
 
   showToast = addToast;
 
-  function addToast(configOrText: Partial<ToastConfig> | ToastConfig['text']) {
+  function addToast(configOrContent: Partial<ToastConfig> | ToastConfig['content']) {
     const id = generateToastId();
     const toast =
-      typeof configOrText === 'string'
-        ? { ...defaultToastConfig, text: configOrText, id }
-        : { ...defaultToastConfig, ...configOrText, id };
+      typeof configOrContent === 'string'
+        ? { ...defaultToastConfig, text: configOrContent, id }
+        : { ...defaultToastConfig, ...configOrContent, id };
 
     setToasts([...toasts, toast].slice(-TOASTS_LIMIT));
   }
