@@ -1,10 +1,7 @@
 import { decodeRLE, IPattern, PatternSource } from '@/entities/pattern';
 
 let patternId = 0;
-const generatePatternId = () => {
-  patternId++;
-  return patternId;
-};
+const generatePatternId = () => ++patternId;
 
 export const buildPatternGroups = (patternSources: PatternSource[]) =>
   patternSources.reduce(

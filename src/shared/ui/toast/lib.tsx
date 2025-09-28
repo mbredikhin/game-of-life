@@ -27,10 +27,7 @@ const defaultToastConfig: ToastConfig = {
 };
 
 let toastId = 0;
-const generateToastId = () => {
-  toastId++;
-  return toastId;
-};
+const generateToastId = () => ++toastId;
 
 export let showToast: (
   configOrText: Partial<ToastConfig> | ToastConfig['content'],
@@ -59,7 +56,7 @@ export const useToast = () => {
     const id = generateToastId();
     const toast =
       typeof configOrContent === 'string'
-        ? { ...defaultToastConfig, text: configOrContent, id }
+        ? { ...defaultToastConfig, content: configOrContent, id }
         : { ...defaultToastConfig, ...configOrContent, id };
 
     setToasts([...toasts, toast].slice(-TOASTS_LIMIT));

@@ -7,10 +7,13 @@ import {
   Cell,
   CellState,
   Coords,
+  GameStatus,
   GridState,
+  updateGameStatus,
   updateGridCell,
 } from '@/entities/grid';
 import { useAppDispatch, useAppSelector } from '@/shared/hooks';
+import { showToast } from '@/shared/ui';
 
 import { patternGridToCellGrid } from '../../lib';
 import styles from './Grid.module.scss';
@@ -25,6 +28,7 @@ export function Grid({ zoom }: GridProps) {
   const cursor = useRef<Coords>([0, 0]);
   const gridSettings = useAppSelector((state) => state.settings.grid);
   const selectedPattern = useAppSelector((state) => state.gridState.selectedPattern);
+  const gameStatus = useAppSelector((state) => state.gridState.gameStatus);
   const dispatch = useAppDispatch();
 
   function changeCell(coords: Coords, cellState: CellState) {
@@ -57,6 +61,10 @@ export function Grid({ zoom }: GridProps) {
   }
 
   function onCellMouseDown(coords: Coords, cellState: CellState) {
+    if (gameStatus === GameStatus.Play) {
+      dispatch(updateGameStatus(GameStatus.Pause));
+      showToast('Game paused');
+    }
     if (selectedPattern) {
       drawPattern(coords, selectedPattern, false);
       return;
