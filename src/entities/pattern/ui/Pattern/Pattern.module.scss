@@ -7,6 +7,9 @@
 .pattern-header__name {
   @apply font-display;
 }
+.pattern-header-toolbar {
+  @apply flex w-40 justify-between;
+}
 .pattern__grid {
   @apply mx-auto;
 }
