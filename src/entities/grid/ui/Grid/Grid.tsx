@@ -29,6 +29,7 @@ export function Grid({ zoom }: GridProps) {
   const gridSettings = useAppSelector((state) => state.settings.grid);
   const selectedPattern = useAppSelector((state) => state.gridState.selectedPattern);
   const gameStatus = useAppSelector((state) => state.gridState.gameStatus);
+  const pauseGameOnDraw = useAppSelector((state) => state.settings.pauseGameOnDraw);
   const dispatch = useAppDispatch();
 
   function changeCell(coords: Coords, cellState: CellState) {
@@ -61,7 +62,7 @@ export function Grid({ zoom }: GridProps) {
   }
 
   function onCellMouseDown(coords: Coords, cellState: CellState) {
-    if (gameStatus === GameStatus.Play) {
+    if (pauseGameOnDraw && gameStatus === GameStatus.Play) {
       dispatch(updateGameStatus(GameStatus.Pause));
       showToast('Game paused');
     }

@@ -12,6 +12,7 @@ const { get: getFromStorage } = bindStorage(window.localStorage);
 const defaultSettings: Settings = {
   isDarkMode: true,
   tick: 200,
+  pauseGameOnDraw: true,
   grid: {
     width: 75,
     height: 40,
@@ -22,6 +23,7 @@ const persistedSettings = omitBy(
   {
     isDarkMode: getFromStorage(SettingsStorageKey.DarkMode),
     tick: getFromStorage(SettingsStorageKey.Tick),
+    pauseGameOnDraw: getFromStorage(SettingsStorageKey.PauseGameOnDraw),
     grid: getFromStorage(SettingsStorageKey.Grid),
   },
   (_, value) => value === null,
@@ -42,6 +44,9 @@ export const SettingsSlice = createSlice({
     updateTick: (state, action: PayloadAction<Settings['tick']>) => {
       state.tick = action.payload;
     },
+    updatePauseGameOnDraw: (state, action: PayloadAction<Settings['pauseGameOnDraw']>) => {
+      state.pauseGameOnDraw = action.payload;
+    },
     updateGridSettings: (state, action: PayloadAction<Partial<Settings['grid']>>) => {
       const keys = Object.keys(action.payload) as (keyof typeof action.payload)[];
       const payload = keys.reduce(
@@ -61,4 +66,5 @@ export const SettingsSlice = createSlice({
 });
 
 export const { reducer: settingsReducer } = SettingsSlice;
-export const { updateTick, updateGridSettings, updateIsDarkMode } = SettingsSlice.actions;
+export const { updateTick, updateGridSettings, updateIsDarkMode, updatePauseGameOnDraw } =
+  SettingsSlice.actions;
