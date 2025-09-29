@@ -2,30 +2,45 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 import { createSlice } from '@reduxjs/toolkit';
 
 import { MAX_GRID_SIZE } from '@/entities/settings/model/constants';
+import { bindStorage, omitBy } from '@/shared/lib';
 
-import type { Settings } from './types';
 import { SettingsStorageKey } from '../lib';
-import { bindStorage } from '@/shared/lib';
+import type { Settings } from './types';
 
 const { get: getFromStorage } = bindStorage(window.localStorage);
 
+const defaultSettings: Settings = {
+  isDarkMode: true,
+  tick: 200,
+  grid: {
+    width: 75,
+    height: 40,
+  },
+};
+
+const persistedSettings = omitBy(
+  {
+    isDarkMode: getFromStorage(SettingsStorageKey.DarkMode),
+    tick: getFromStorage(SettingsStorageKey.Tick),
+    grid: getFromStorage(SettingsStorageKey.Grid),
+  },
+  (_, value) => value === null,
+) as Partial<Settings>;
+
+const initialState: Settings = {
+  ...defaultSettings,
+  ...persistedSettings,
+};
+
 export const SettingsSlice = createSlice({
   name: 'settings',
-  initialState: {
-    isDarkMode: getFromStorage(SettingsStorageKey.DarkMode) ?? true,
-    tick: getFromStorage(SettingsStorageKey.Tick) ?? 200,
-    grid: {
-      width: 75,
-      height: 40,
-      ...getFromStorage(SettingsStorageKey.Grid),
-    },
-  } as Settings,
+  initialState,
   reducers: {
+    updateIsDarkMode: (state, action: PayloadAction<Settings['isDarkMode']>) => {
+      state.isDarkMode = action.payload;
+    },
     updateTick: (state, action: PayloadAction<Settings['tick']>) => {
-      return {
-        ...state,
-        tick: action.payload,
-      };
+      state.tick = action.payload;
     },
     updateGridSettings: (state, action: PayloadAction<Partial<Settings['grid']>>) => {
       const keys = Object.keys(action.payload) as (keyof typeof action.payload)[];
@@ -37,18 +52,9 @@ export const SettingsSlice = createSlice({
         }),
         {} as Partial<Settings['grid']>,
       );
-      return {
-        ...state,
-        grid: {
-          ...state.grid,
-          ...payload,
-        },
-      };
-    },
-    updateIsDarkMode: (state, action: PayloadAction<Settings['isDarkMode']>) => {
-      return {
-        ...state,
-        isDarkMode: action.payload,
+      state.grid = {
+        ...state.grid,
+        ...payload,
       };
     },
   },
