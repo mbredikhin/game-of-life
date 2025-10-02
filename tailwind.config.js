@@ -26,6 +26,7 @@ module.exports = {
         'app-header': '100',
         popup: '100',
         drawer: '1000',
+        ['tooltip-arrow']: '900',
         tooltip: '1000',
         toast: '10000',
       },
