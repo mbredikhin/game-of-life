@@ -31,7 +31,11 @@ const generateToastId = () => ++toastId;
 
 export let showToast: (
   configOrText: Partial<ToastConfig> | ToastConfig['content'],
-) => void = () => {
+) => IToast['id'] = () => {
+  throw new Error('<ToastRoot /> must be mounted before use.');
+};
+
+export let hideToast: (id: IToast['id']) => void = () => {
   throw new Error('<ToastRoot /> must be mounted before use.');
 };
 
@@ -51,6 +55,7 @@ export const useToast = () => {
     : null;
 
   showToast = addToast;
+  hideToast = closeToast;
 
   function addToast(configOrContent: Partial<ToastConfig> | ToastConfig['content']) {
     const id = generateToastId();
@@ -60,6 +65,8 @@ export const useToast = () => {
         : { ...defaultToastConfig, ...configOrContent, id };
 
     setToasts([...toasts, toast].slice(-TOASTS_LIMIT));
+
+    return id;
   }
 
   function closeToast(id: IToast['id']) {

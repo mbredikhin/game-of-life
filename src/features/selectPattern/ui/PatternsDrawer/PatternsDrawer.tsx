@@ -7,7 +7,7 @@ import { IPattern, Pattern, patternSources } from '@/entities/pattern';
 import { TourPopup, TourStepID } from '@/features/tour';
 import { useAppDispatch, useAppSelector, useKeymap } from '@/shared/hooks';
 import { flipMatrix, MatrixTransformation, rotateMatrix } from '@/shared/lib';
-import { Drawer, showToast, Tooltip } from '@/shared/ui';
+import { Drawer, hideToast, showToast, Tooltip } from '@/shared/ui';
 
 import { buildPatternGroups } from '../../lib';
 import styles from './PatternsDrawer.module.scss';
@@ -42,13 +42,14 @@ export function PatternsDrawer() {
   function onSelectPattern(pattern: IPattern) {
     dispatch(selectPattern({ id: pattern.id, grid: pattern.grid }));
     setIsDrawerOpen(false);
-    showToast({
+    const toastId = showToast({
       content: (
         <span>
           Press <kbd>R</kbd> to rotate, <kbd>F</kbd> to flip
         </span>
       ),
     });
+    setTimeout(() => window.addEventListener('click', () => hideToast(toastId), { once: true }), 0);
   }
 
   function updatePattern(patternPayload: Partial<IPattern> & { id: number }) {

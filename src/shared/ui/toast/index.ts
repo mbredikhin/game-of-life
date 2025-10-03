@@ -1,2 +1,2 @@
-export * from './ToastRoot/ToastRoot';
 export * from './lib';
+export * from './ToastRoot/ToastRoot';
