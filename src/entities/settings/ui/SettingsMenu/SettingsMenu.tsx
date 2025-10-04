@@ -6,6 +6,7 @@ import { resetGrid } from '@/entities/grid';
 import {
   MAX_GRID_SIZE,
   Settings,
+  SettingsStorageKey,
   updateGridSettings,
   updatePauseGameOnDraw,
   updateTick,
@@ -14,7 +15,7 @@ import { TourPopup, TourStepID } from '@/features/tour';
 import { useAppDispatch, useAppSelector, useStorage } from '@/shared/hooks';
 import { Menu, Switch } from '@/shared/ui';
 
-import { SettingsStorageKey, useAppearance } from '../../lib';
+import { useAppearance } from '../../lib';
 import styles from './SettingsMenu.module.scss';
 const cx = classnames.bind(styles);
 

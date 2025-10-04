@@ -1,4 +1,5 @@
 import { useRef } from 'react';
+
 import { useToast } from '../lib';
 
 export function ToastRoot() {

@@ -1,10 +1,9 @@
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { createSlice } from '@reduxjs/toolkit';
 
-import { MAX_GRID_SIZE } from '@/entities/settings/model/constants';
 import { bindStorage, omitBy } from '@/shared/lib';
 
-import { SettingsStorageKey } from '../lib';
+import { MAX_GRID_SIZE, SettingsStorageKey } from './constants';
 import type { Settings } from './types';
 
 const { get: getFromStorage } = bindStorage(window.localStorage);

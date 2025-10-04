@@ -3,14 +3,7 @@ import { useCallback } from 'react';
 import { useAppDispatch, useAppSelector, useStorage } from '@/shared/hooks';
 import { setAppearance } from '@/shared/lib';
 
-import { updateIsDarkMode } from './model';
-
-export enum SettingsStorageKey {
-  DarkMode = 'darkMode',
-  Tick = 'tick',
-  Grid = 'grid',
-  PauseGameOnDraw = 'pauseGameOnDraw',
-}
+import { SettingsStorageKey, updateIsDarkMode } from './model';
 
 export function useAppearance() {
   const isDarkMode = useAppSelector((state) => state.settings.isDarkMode);

@@ -6,14 +6,27 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-and-publish:
+  lint:
     runs-on: ubuntu-24.04
     environment: production
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+
+      - uses: ./.github/actions/setup
+
+      - run: pnpm lint
+
+  build-and-publish:
+    runs-on: ubuntu-24.04
+    needs: [lint]
+    if: ${{ success() }}
+    environment: production
+    steps:
+      - uses: actions/checkout@v4
+
       - name: Build image
         run: docker build . -t ${{ secrets.DOCKER_HUB_USER }}/game-of-life:latest
+
       - name: Push image to docker hub
         run: |
           docker login -u ${{ secrets.DOCKER_HUB_USER }} -p ${{ secrets.DOCKER_HUB_TOKEN }}
@@ -21,8 +34,9 @@ jobs:
 
   pull-and-run:
     runs-on: ubuntu-24.04
+    needs: [build-and-publish]
+    if: ${{ success() }}
     environment: production
-    needs: build-and-publish
     steps:
       - name: Pull and run image on EC2
         run: |

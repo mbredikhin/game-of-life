@@ -1,13 +1,13 @@
 import classnames from 'classnames/bind';
 import { useContext } from 'react';
+import { useMatch } from 'react-router-dom';
 
 import { TourContext } from '@/app/providers';
+import { RouteName } from '@/shared/config';
 import { Popup } from '@/shared/ui';
 
 import { buttons, TourStepID } from '../../model';
 import styles from './TourPopup.module.scss';
-import { useMatch } from 'react-router-dom';
-import { RouteName } from '@/shared/config';
 const cx = classnames.bind(styles);
 
 interface TourPopupProps {

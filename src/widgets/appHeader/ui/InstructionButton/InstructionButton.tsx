@@ -16,7 +16,7 @@ export function InstructionButton() {
           </div>
         }
         activator={
-          <a className="button" href={RouteName.INSTRUCTION_PAGE} target="_blank">
+          <a className="button" href={RouteName.INSTRUCTION_PAGE} target="_blank" rel="noreferrer">
             <InformationCircleIcon className="button__icon" />
           </a>
         }

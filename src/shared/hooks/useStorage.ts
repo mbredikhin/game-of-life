@@ -1,4 +1,5 @@
 import { useCallback } from 'react';
+
 import { bindStorage } from '../lib';
 
 const { get, set, remove } = bindStorage(window.localStorage);
